@@ -1,6 +1,5 @@
 #include "TXLib.h"
 
-
 struct house
 {
  int x;
@@ -38,13 +37,42 @@ int main()
         txDeleteDC(baton);
 
       /*
-       drawButton(0,0, "ÄÎÌ");
-       drawButton(100,0, "ÑÎÁÀÊÀ");
-       drawButton(200,0, "ÊÎÇÀ");
-       drawButton(300,0, "ÑÎËÍÖÅ");
-       drawButton(400,0, "ÎÁËÀÊÀ");
-       drawButton(500,0, "ÄßÄß\nÏÅÒß");
+       drawButton(0,0, "Ã„ÃŽÃŒ");
+       drawButton(100,0, "Ã‘ÃŽÃÃ€ÃŠÃ€");
+       drawButton(200,0, "ÃŠÃŽÃ‡Ã€");
+       drawButton(300,0, "Ã‘ÃŽÃ‹ÃÃ–Ã…");
+       drawButton(400,0, "ÃŽÃÃ‹Ã€ÃŠÃ€");
+       drawButton(500,0, "Ã„ÃŸÃ„ÃŸ\nÃÃ…Ã’ÃŸ");
                       */
 
-    }
+ 
+    HDC pic = txLoadImage("C:\\Users\\user\\Pictures\\house5.bmp");
+    txSetColor(TX_BLACK);
 
+    while(true)
+    {
+        txClear();
+        txBitBlt(txDC(), 0,0,1700,1600,pic);
+        txRectangle(50,50,100,200);
+
+        if (txMouseButtons() == 1 &&
+            txMouseX() >  50 &&
+            txMouseX() < 100 &&
+            txMouseY() <  200)
+        {
+            txTextOut(100, 500, "dsfsdf");
+        }
+        if (txMouseX() >  50 &&
+            txMouseX() < 100 &&
+            txMouseY() <  200)
+        {
+            txTextOut(100, 500, "Ã¢Ã Ã°Ã¢Ã Ã°");
+        }
+
+        txSleep(10);
+    }
+    txDeleteDC(pic);
+
+
+    return 0;
+}
