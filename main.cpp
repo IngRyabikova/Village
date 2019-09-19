@@ -1,77 +1,85 @@
 #include "TXLib.h"
 
-struct house
+struct MapObject
 {
- int x;
- int y;
- int x2;
- int y2;
- const char* text;
- HDC baton;
- HDC  izba;
- };
+    int x;
+    int y;
+    int x2;
+    int y2;
+    HDC picture;
+    const char* text;
+};
 
 
-void drawButton(house b)
+void drawMapObject(MapObject b)
 {
-    txBitBlt(txDC(), b.x,  b.y, b.x2 - b.x, b.y2 - b.y, b.baton);
-    txDrawText(      b.x,  b.y,b.x2,b.y2,b.text);
+    txBitBlt(txDC(), b.x,  b.y, b.x2 - b.x, b.y2 - b.y, b.picture);
+    txDrawText(      b.x,  b.y, b.x2, b.y2, b.text);
+}
+
+void drawButton(int x, int y, const char* text)
+{
+    txSetColor(TX_BLACK);
+    txSetFillColor(TX_MAGENTA);
+    txRectangle(x,y, x + 100, y + 70);
+    txSelectFont("Comic Sans MS", 30);
+    txDrawText(x,y, x +100, y +70, text) ;
 }
 
 int main()
 {
     txCreateWindow(1000,800);
 
-    HDC  baton = txLoadImage ("house1.bmp");
-    HDC  izba  = txLoadImage ("house2.bmp");
-    HDC  dacha = txLoadImage ("house3.bmp");
-    house b = { 0,   210, 530, 650, "", baton};
-    drawButton(b);
+    MapObject a = { 0,   10, 530, 150, txLoadImage ("Album/House/house1.bmp"), ""};
+    drawMapObject(a);
 
-    house a = { 0,   10, 530, 150, "", izba};
-    drawButton(a);
+    MapObject b = { 0,   210, 530, 650, txLoadImage ("Album/House/house2.bmp"), ""};
+    drawMapObject(b);
 
-    house c = { 0,   450, 530, 800, "", dacha};
-    drawButton(c);
+    MapObject c = { 0,   450, 530, 800, txLoadImage ("Album/House/house3.bmp"), ""};
+    drawMapObject(c);
 
-        txDeleteDC(baton);
+    txDeleteDC(a.picture);
+    txDeleteDC(b.picture);
+    txDeleteDC(c.picture);
+        txSleep(1000);
 
-      /*
-       drawButton(0,0, "Ã„ÃŽÃŒ");
-       drawButton(100,0, "Ã‘ÃŽÃÃ€ÃŠÃ€");
-       drawButton(200,0, "ÃŠÃŽÃ‡Ã€");
-       drawButton(300,0, "Ã‘ÃŽÃ‹ÃÃ–Ã…");
-       drawButton(400,0, "ÃŽÃÃ‹Ã€ÃŠÃ€");
-       drawButton(500,0, "Ã„ÃŸÃ„ÃŸ\nÃÃ…Ã’ÃŸ");
-                      */
-
- 
-    HDC pic = txLoadImage("C:\\Users\\user\\Pictures\\house5.bmp");
-    txSetColor(TX_BLACK);
 
     while(true)
     {
+        txBegin();
+        txSetFillColor(TX_WHITE);
         txClear();
-        txBitBlt(txDC(), 0,0,1700,1600,pic);
-        txRectangle(50,50,100,200);
 
+        drawButton(0,0, "ÄÎÌ");
+        drawButton(100,0, "ÑÎÁÀÊÀ");
+        drawButton(200,0, "ÊÎÇÀ");
+        drawButton(300,0, "ÑÎËÍÖÅ");
+        drawButton(400,0, "ÎÁËÀÊÀ");
+        drawButton(500,0, "ÄßÄß\nÏÅÒß");
+
+        //click on 2 button
         if (txMouseButtons() == 1 &&
-            txMouseX() >  50 &&
-            txMouseX() < 100 &&
-            txMouseY() <  200)
+            txMouseX() > 100 &&
+            txMouseX() < 200 &&
+            txMouseY() >   0 &&
+            txMouseY() <  70)
         {
             txTextOut(100, 500, "dsfsdf");
         }
-        if (txMouseX() >  50 &&
-            txMouseX() < 100 &&
-            txMouseY() <  200)
+
+        //focus on 2 button
+        if (txMouseX() > 100 &&
+            txMouseX() < 200 &&
+            txMouseY() >   0 &&
+            txMouseY() <  70)
         {
-            txTextOut(100, 500, "Ã¢Ã Ã°Ã¢Ã Ã°");
+            txTextOut(100, 500, "lkhlh");
         }
 
         txSleep(10);
+        txEnd();
     }
-    txDeleteDC(pic);
 
 
     return 0;
