@@ -1,21 +1,32 @@
 #include "TXLib.h"
 
-void drawButton(int x, int y, const char* text)
-{
-    txSetFillColor(TX_MAGENTA);
-    txRectangle(x,y, x + 100, y + 70);
-    txSelectFont("Comic Sans MS", 30);
-    txDrawText(x,y, x +100, y +70, text) ;
-}
+
 
 int main()
 {
-    txCreateWindow(1000,800);
+    txCreateWindow (1000 , 800) ;
 
-    drawButton(0,0, "ÄÎÌ");
-    drawButton(100,0, "ÑÎÁÀÊÀ");
-    drawButton(200,0, "ÊÎÇÀ");
-    drawButton(300,0, "ÑÎËÍÖÅ");
-    drawButton(400,0, "ÎÁËÀÊÀ");
-    drawButton(500,0, "ÄßÄß\nÏÅÒß");
+    HDC pic = txLoadImage("C:\\Users\\user\\Pictures\\house5.bmp");
+    txSetColor(TX_BLACK);
+
+    while(true)
+    {
+        txClear();
+        txBitBlt(txDC(), 0,0,1700,1600,pic);
+        txRectangle(50,50,100,200);
+
+        if (txMouseButtons() == 1 &&
+            txMouseX() >  50 &&
+            txMouseX() < 100 &&
+            txMouseY() <  200)
+        {
+            txTextOut(100, 500, "dsfsdf");
+        }
+
+        txSleep(10);
+    }
+    txDeleteDC(pic);
+
+
+    return 0;
 }
