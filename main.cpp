@@ -7,18 +7,15 @@ int main()
 {
     txCreateWindow(1000,800);
 
-    MapObject a = { 0,   10, 530, 150, txLoadImage ("Album/House/house1.bmp"), ""};
+    MapObject a =  { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
     a.drawMapObject();
 
-    MapObject b1 = { 0,   210, 530, 650, txLoadImage ("Album/House/house2.bmp"), ""};
+    MapObject b1 = { 810, 300, 930, 500, txLoadImage ("Album/House/house2.bmp"), ""};
     b1.drawMapObject();
 
-    MapObject c = { 0,   450, 530, 800, txLoadImage ("Album/House/house3.bmp"), ""};
+    MapObject c =  { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
     c.drawMapObject();
 
-    txDeleteDC(a.picture);
-    txDeleteDC(b1.picture);
-    txDeleteDC(c.picture);
         txSleep(1000);
 
     Button b[7];
@@ -36,6 +33,11 @@ int main()
         txSetFillColor(TX_WHITE);
         txClear();
 
+        txRectangle(txGetExtentX() - 200, 0, txGetExtentX(), txGetExtentY());
+        a.drawMapObject();
+        b1.drawMapObject();
+        c.drawMapObject();
+
         for (int nomer = 0; nomer < 7; nomer++)
         {
             b[nomer].drawButton();
@@ -50,6 +52,10 @@ int main()
         txEnd();
     }
 
+
+    txDeleteDC(a.picture);
+    txDeleteDC(b1.picture);
+    txDeleteDC(c.picture);
 
     return 0;
 }
