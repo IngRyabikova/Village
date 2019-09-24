@@ -1,0 +1,18 @@
+#include "TXLib.h"
+
+
+
+
+int main()
+{
+    txCreateWindow(1000,800);
+    HDC  HOUSE =  txLoadImage ( "Дом.bmp")   ;
+
+    txBitBlt (txDC(), 200, 200, 800, 600, HOUSE, 0, 0);
+
+    HDC  DOG =  txLoadImage ( "Собака.bmp")   ;
+
+    txBitBlt (txDC(), 0, 0, 800, 600, DOG, 0, 0);
+
+
+}
