@@ -8,20 +8,14 @@ int main()
     txCreateWindow(1000,800);
 
 
-        txSleep(1000);
-
-  MapObject a[4];
-
-
-    a[0] =  { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
-
+    MapObject a[4];
+    a[0] = { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
     a[1] = { 810, 300, 930, 500, txLoadImage ("Album/House/house2.bmp"), ""};
+    a[2] = { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
+    a[3] = { 810, 200, 930, 300, txLoadImage ("Album/House/House4.bmp"), ""};
 
-    a[2] =  { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
-
-    a[3] =  { 810, 200, 930, 300, txLoadImage ("Album/House/House4.bmp"), ""};
-
-
+    MapObject b1 = { 100, 100, 600, 600, txLoadImage ("Album/House/house2.bmp"), ""};
+    MapObject d =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), ""};
 
     Button b[7];
     b[0] = {0,0, "ƒŒÃ"};
@@ -50,10 +44,16 @@ int main()
             b[nomer].drawButton();
             if (b[nomer].Click ())
             {
-                txTextOut(100, 500, "dsfsdf");
+                txTextOut(100, 500, "¬˚ Ì‡Ê‡ÎË Ì‡ ÍÌÓÔÍÛ");
             }
         }
 
+        b1.drawMapObject();
+        d.drawMapObject();
+
+        txSetColor(TX_BLACK);
+        txSelectFont("Comic Sans MS", 60);
+        txTextOut(200,700, " ŒÕ—“–” “Œ– ƒ≈–≈¬Õ»");
 
         txSleep(10);
         txEnd();
