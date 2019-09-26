@@ -1,5 +1,6 @@
 #include "TXLib.h"
 #include "button.cpp"
+
 #include "mapoject.cpp"
 
 int main()
@@ -7,27 +8,23 @@ int main()
     txCreateWindow(1000,800);
 
 
-    MapObject b1 = { 100 ,100, 600, 600, txLoadImage ("Album/House/house2.bmp"), ""};
-    b1.drawMapObject();
-  MapObject a[4];
-
-
-    a[0] =  { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
+    MapObject a[4];
+    a[0] = { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
     a[1] = { 810, 300, 930, 500, txLoadImage ("Album/House/house2.bmp"), ""};
-    a[2] =  { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
-    a[3] =  { 810, 200, 930, 300, txLoadImage ("Album/House/House4.bmp"), ""};
+    a[2] = { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
+    a[3] = { 810, 200, 930, 300, txLoadImage ("Album/House/House4.bmp"), ""};
 
-  MapObject d =  { 600, 550, 900,700, txLoadImage ("Album/Animals/DoG.bmp"), ""};
-    d.drawMapObject();
+    MapObject b1 = { 100, 100, 600, 600, txLoadImage ("Album/House/house2.bmp"), ""};
+    MapObject d =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), ""};
 
     Button b[7];
-    b[0] = {0,0, "√Ñ√é√å"};
-    b[1] = {100,0, "√ë√é√Å√Ä√ä√Ä"};
-    b[2] = {200,0, "√è√Ö√í√ì√ï"};
-    b[3] = {300,0, "√ï√ê√û√ò√ä√Ä"};
-    b[4] = {400,0, "√Ñ√ü√Ñ√ü\n√è√Ö√í√ü"};
-    b[5] = {500,0, "√ë√í√Ä√ë"};
-    b[6] = {600,0, "√å√Ä√ê√à√ç√Ä"};
+    b[0] = {0,0, "ƒŒÃ"};
+    b[1] = {100,0, "—Œ¡¿ ¿"};
+    b[2] = {200,0, "œ≈“”’"};
+    b[3] = {300,0, "’–ﬁÿ ¿"};
+    b[4] = {400,0, "ƒﬂƒﬂ\nœ≈“ﬂ"};
+    b[5] = {500,0, "—“¿—"};
+    b[6] = {600,0, "Ã¿–»Õ¿"};
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -36,40 +33,33 @@ int main()
         txClear();
         txRectangle(txGetExtentX() - 200, 0, txGetExtentX(), txGetExtentY());
 
-        b1.drawMapObject();
-        txSetColor(TX_BLACK);
-        txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "√ä√é√ç√ë√í√ê√ì√ä√í√é√ê √Ñ√Ö√ê√Ö√Ç√ç√à");
-
 
         for (int nomer_kartinki = 0; nomer_kartinki <= 3 ; nomer_kartinki ++)
         {
             a[nomer_kartinki].drawMapObject();
         }
 
-
-        d.drawMapObject();
         for (int nomer = 0; nomer < 7; nomer++)
         {
             b[nomer].drawButton();
             if (b[nomer].Click ())
             {
-                txTextOut(100, 500, "dsfsdf");
-                c.drawMapObject();
+                txTextOut(100, 500, "¬˚ Ì‡Ê‡ÎË Ì‡ ÍÌÓÔÍÛ");
             }
-
         }
-        txSelectFont("Comic Sans MS", 50);
-        txTextOut(700,900, "√ä√é√ç√ë√í√ê√ì√ä√í√é√ê √Ñ√Ö√ê√Ö√Ç√ç√à");
+
+        b1.drawMapObject();
+        d.drawMapObject();
+
+        txSetColor(TX_BLACK);
+        txSelectFont("Comic Sans MS", 60);
+        txTextOut(200,700, " ŒÕ—“–” “Œ– ƒ≈–≈¬Õ»");
+
         txSleep(10);
         txEnd();
     }
 
 
-    txDeleteDC(a.picture);
-    txDeleteDC(b1.picture);
-    txDeleteDC(c.picture);
-    txDeleteDC(d.picture);
     txDeleteDC(a[0].picture);
     txDeleteDC(a[1].picture);
     txDeleteDC(a[2].picture);
