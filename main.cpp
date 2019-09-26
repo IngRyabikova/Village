@@ -1,6 +1,5 @@
 #include "TXLib.h"
 #include "button.cpp"
-
 #include "mapoject.cpp"
 
 int main()
@@ -10,11 +9,14 @@ int main()
     MapObject a =  { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
     a.drawMapObject();
 
-    MapObject b1 = { 810, 300, 930, 500, txLoadImage ("Album/House/house2.bmp"), ""};
+    MapObject b1 = { 100 ,100, 600, 600, txLoadImage ("Album/House/house2.bmp"), ""};
     b1.drawMapObject();
 
     MapObject c =  { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
     c.drawMapObject();
+
+    MapObject d =  { 600, 550, 900,700, txLoadImage ("Album/Animals/DoG.bmp"), ""};
+    d.drawMapObject();
 
         txSleep(1000);
 
@@ -36,18 +38,24 @@ int main()
         txRectangle(txGetExtentX() - 200, 0, txGetExtentX(), txGetExtentY());
         a.drawMapObject();
         b1.drawMapObject();
-        c.drawMapObject();
+        txSetColor(TX_BLACK);
+        txSelectFont("Comic Sans MS", 60);
+        txTextOut(200,700, " ŒÕ—“–” “Œ– ƒ≈–≈¬Õ»");
 
+
+        d.drawMapObject();
         for (int nomer = 0; nomer < 7; nomer++)
         {
             b[nomer].drawButton();
             if (b[nomer].Click ())
             {
                 txTextOut(100, 500, "dsfsdf");
+                c.drawMapObject();
             }
+
         }
-
-
+        txSelectFont("Comic Sans MS", 50);
+        txTextOut(700,900, " ŒÕ—“–” “Œ– ƒ≈–≈¬Õ»");
         txSleep(10);
         txEnd();
     }
@@ -56,6 +64,6 @@ int main()
     txDeleteDC(a.picture);
     txDeleteDC(b1.picture);
     txDeleteDC(c.picture);
-
+    txDeleteDC(d.picture);
     return 0;
 }
