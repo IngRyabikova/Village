@@ -7,16 +7,21 @@ int main()
 {
     txCreateWindow(1000,800);
 
-    MapObject a =  { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
-    a.drawMapObject();
-
-    MapObject b1 = { 810, 300, 930, 500, txLoadImage ("Album/House/house2.bmp"), ""};
-    b1.drawMapObject();
-
-    MapObject c =  { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
-    c.drawMapObject();
 
         txSleep(1000);
+
+  MapObject a[4];
+
+
+    a[0] =  { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
+
+    a[1] = { 810, 300, 930, 500, txLoadImage ("Album/House/house2.bmp"), ""};
+
+    a[2] =  { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
+
+    a[3] =  { 810, 200, 930, 300, txLoadImage ("Album/House/House4.bmp"), ""};
+
+
 
     Button b[7];
     b[0] = {0,0, "ƒŒÃ"};
@@ -27,16 +32,18 @@ int main()
     b[5] = {500,0, "—“¿—"};
     b[6] = {600,0, "Ã¿–»Õ¿"};
 
-    while(true)
+    while(!GetAsyncKeyState(VK_ESCAPE))
     {
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
-
         txRectangle(txGetExtentX() - 200, 0, txGetExtentX(), txGetExtentY());
-        a.drawMapObject();
-        b1.drawMapObject();
-        c.drawMapObject();
+
+
+        for (int nomer_kartinki = 0; nomer_kartinki <= 3 ; nomer_kartinki ++)
+        {
+            a[nomer_kartinki].drawMapObject();
+        }
 
         for (int nomer = 0; nomer < 7; nomer++)
         {
@@ -53,9 +60,9 @@ int main()
     }
 
 
-    txDeleteDC(a.picture);
-    txDeleteDC(b1.picture);
-    txDeleteDC(c.picture);
+    txDeleteDC(a[0].picture);
+    txDeleteDC(a[1].picture);
+    txDeleteDC(a[2].picture);
 
     return 0;
 }
