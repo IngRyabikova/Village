@@ -4,21 +4,23 @@
 
 int main()
 {
-    txCreateWindow(1000,800);
+    txCreateWindow(1200,800);
+
+    HDC background = txLoadImage("Album/background.bmp");
 
 
     MapObject houseVariants[4];
-    houseVariants[0] = { 810,   0, 930, 200, txLoadImage ("Album/House/house1.bmp"), ""};
-    houseVariants[1] = { 810, 300, 930, 500, txLoadImage ("Album/House/house2.bmp"), ""};
-    houseVariants[2] = { 810, 600, 930, 800, txLoadImage ("Album/House/house3.bmp"), ""};
-    houseVariants[3] = { 810, 200, 930, 300, txLoadImage ("Album/House/House4.bmp"), ""};
+    houseVariants[0] = { 1010,   0, 1130, 200, txLoadImage ("Album/House/house1.bmp"), ""};
+    houseVariants[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/House/house2.bmp"), ""};
+    houseVariants[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/House/house3.bmp"), ""};
+    houseVariants[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/House/House4.bmp"), ""};
     MapObject2 animals[3];
-    animals[0] = { 810,   0, 930, 200, txLoadImage ("Album/Animals/DoG.bmp"), ""};
-    animals[1] = { 810,   0, 930, 200, txLoadImage ("Album/Animals/DoG.bmp"), ""};
-    animals[2] = { 810,   0, 930, 200, txLoadImage ("Album/Animals/DoG.bmp"), ""};
-    animals[3] = { 810,   0, 930, 200, txLoadImage ("Album/Animals/DoG.bmp"), ""};
+    animals[0] = { 1010,   0, 1130, 200, txLoadImage ("Album/Animals/DoG.bmp"), ""};
+    animals[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), ""};
+    animals[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), ""};
+    animals[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), ""};
 
-    MapObject2 b1 = { 100, 100, 600, 600, txLoadImage ("Album/House/house2.bmp"), ""};
+    MapObject2 b1 = { 100, 100, 800, 700, txLoadImage ("Album/House/house2.bmp"), ""};
     MapObject2 d =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), ""};
     MapObject2 F =  { 400, 600, 900, 700, txLoadImage ("Album/Animals/PetuX.bmp"), ""};
     MapObject2 G =  { 200, 600, 900, 700, txLoadImage ("Album/Animals/piG.bmp"), ""};
@@ -30,13 +32,13 @@ int main()
     bool visible3 = false;
 
     Button buttons[7];
-    buttons[0] = {0,0, "√Ñ√é√å", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[1] = {100,0, "√ë√é√Å√Ä√ä√Ä", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[2] = {200,0, "√è√Ö√í√ì√ï", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[3] = {300,0, "√ï√ê√û√ò√ä√Ä", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[4] = {400,0, "√Ñ√ü√Ñ√ü\n√è√Ö√í√ü", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[5] = {500,0, "√ë√í√Ä√ë", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[6] = {600,0, "√å√Ä√ê√à√ç√Ä", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[0] = {  0,0, "ƒŒÃ", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[1] = {120,0, "—Œ¡¿ ¿", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[2] = {240,0, "œ≈“”’", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[3] = {360,0, "’–ﬁÿ ¿", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[4] = {480,0, "ƒﬂƒﬂ\nœ≈“ﬂ", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[5] = {600,0, "—“¿—", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[6] = {720,0, "Ã¿–»Õ¿", txLoadImage("Album/button/fon_b.bmp")};
 
     bool vid = false;
     bool vid2 = false;
@@ -46,6 +48,9 @@ int main()
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
+        txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
+
+        txSetFillColor(TX_TRANSPARENT);
         txRectangle(txGetExtentX() - 200, 0, txGetExtentX(), txGetExtentY());
 
 
@@ -69,7 +74,7 @@ int main()
             buttons[nomer_knopki].drawButton();
             if (buttons[nomer_knopki].Click ())
             {   txSetColor(TX_BLACK);
-                txTextOut(100, 500, "√Ç√ª √≠√†√¶√†√´√® √≠√† √™√≠√Æ√Ø√™√≥");
+                txTextOut(100, 500, "¬˚ Ì‡Ê‡ÎË Ì‡ ÍÌÓÔÍÛ");
             }
         }
 
@@ -118,7 +123,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "√ä√é√ç√ë√í√ê√ì√ä√í√é√ê √Ñ√Ö√ê√Ö√Ç√ç√à");
+        txTextOut(200,700, " ŒÕ—“–” “Œ– ƒ≈–≈¬Õ»");
 
         txSleep(10);
         txEnd();
@@ -128,6 +133,7 @@ int main()
     txDeleteDC(houseVariants[0].picture);
     txDeleteDC(houseVariants[1].picture);
     txDeleteDC(houseVariants[2].picture);
+    txDeleteDC(background);
 
     return 0;
 }

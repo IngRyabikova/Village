@@ -11,10 +11,8 @@ struct Button
 
     void drawButton()
     {
-        txSetColor(TX_WHITE);
-        Win32 :: TransparentBlt(txDC(),x,y, (txGetExtentX() - 300) / KOLICH_KNOPOK, 70, f_button, 0, 0 , 300, 168, TX_WHITE);
+        txSetColor(TX_BLACK, 3);
         txSelectFont("Comic Sans MS", 25);
-        txSetColor(TX_WHITE);
         txDrawText(x,y, x + (txGetExtentX() - 300) / KOLICH_KNOPOK, y + 70, text) ;
     }
 
