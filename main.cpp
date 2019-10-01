@@ -1,6 +1,5 @@
 #include "TXLib.h"
 #include "button.cpp"
-
 #include "mapoject.cpp"
 
 int main()
@@ -21,15 +20,23 @@ int main()
 
     MapObject2 b1 = { 100, 100, 600, 600, txLoadImage ("Album/House/house2.bmp"), ""};
     MapObject2 d =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), ""};
+    MapObject2 F =  { 400, 600, 900, 700, txLoadImage ("Album/Animals/PetuX.bmp"), ""};
+    MapObject2 G =  { 200, 600, 900, 700, txLoadImage ("Album/Animals/piG.bmp"), ""};
+
+
+
+    bool visible = false;
+    bool visible2 = false;
+    bool visible3 = false;
 
     Button buttons[7];
-    buttons[0] = {0,0, "ƒŒÃ", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[1] = {100,0, "—Œ¡¿ ¿", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[2] = {200,0, "œ≈“”’", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[3] = {300,0, "’–ﬁÿ ¿", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[4] = {400,0, "ƒﬂƒﬂ\nœ≈“ﬂ", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[5] = {500,0, "—“¿—", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[6] = {600,0, "Ã¿–»Õ¿", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[0] = {0,0, "√Ñ√é√å", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[1] = {100,0, "√ë√é√Å√Ä√ä√Ä", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[2] = {200,0, "√è√Ö√í√ì√ï", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[3] = {300,0, "√ï√ê√û√ò√ä√Ä", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[4] = {400,0, "√Ñ√ü√Ñ√ü\n√è√Ö√í√ü", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[5] = {500,0, "√ë√í√Ä√ë", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[6] = {600,0, "√å√Ä√ê√à√ç√Ä", txLoadImage("Album/button/fon_b.bmp")};
 
     bool vid = false;
     bool vid2 = false;
@@ -62,7 +69,7 @@ int main()
             buttons[nomer_knopki].drawButton();
             if (buttons[nomer_knopki].Click ())
             {   txSetColor(TX_BLACK);
-                txTextOut(100, 500, "¬˚ Ì‡Ê‡ÎË Ì‡ ÍÌÓÔÍÛ");
+                txTextOut(100, 500, "√Ç√ª √≠√†√¶√†√´√® √≠√† √™√≠√Æ√Ø√™√≥");
             }
         }
 
@@ -77,9 +84,41 @@ int main()
               txSleep(200);
             }
 
+      if (buttons[1].Click ())
+        {
+            visible = true;
+        }
+        if (buttons[2].Click ())
+        {
+            visible2 = true;
+        }
+        if (buttons[3].Click ())
+        {
+            visible3 = true;
+        }
+
+
+        b1.drawMapObject();
+
+        if (visible)
+        {
+           d.drawMapObject();
+        }
+        if (visible2)
+        {
+           F.drawMapObject();
+
+        }
+        if (visible3)
+        {
+           G.drawMapObject();
+
+        }
+
+
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, " ŒÕ—“–” “Œ– ƒ≈–≈¬Õ»");
+        txTextOut(200,700, "√ä√é√ç√ë√í√ê√ì√ä√í√é√ê √Ñ√Ö√ê√Ö√Ç√ç√à");
 
         txSleep(10);
         txEnd();
