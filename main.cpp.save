@@ -15,14 +15,9 @@ int main()
 
     MapObject2 b1 = { 100, 100, 600, 600, txLoadImage ("Album/House/house2.bmp"), ""};
     MapObject2 d =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), ""};
-    MapObject2 F =  { 400, 600, 900, 700, txLoadImage ("Album/Animals/PetuX.bmp"), ""};
-    MapObject2 G =  { 200, 600, 900, 700, txLoadImage ("Album/Animals/piG.bmp"), ""};
-
-
 
     bool visible = false;
-    bool visible2 = false;
-    bool visible3 = false;
+
 
     Button buttons[7];
     buttons[0] = {0,0, "ƒŒÃ"};
@@ -55,38 +50,16 @@ int main()
             }
         }
 
-        if (buttons[1].Click ())
-        {
-            visible = true;
-        }
-        if (buttons[2].Click ())
-        {
-            visible2 = true;
-        }
-        if (buttons[3].Click ())
-        {
-            visible3 = true;
-        }
-
-
         b1.drawMapObject();
+
 
         if (visible)
         {
+        
            d.drawMapObject();
+        
         }
-        if (visible2)
-        {
-           F.drawMapObject();
-
-        }
-        if (visible3)
-        {
-           G.drawMapObject();
-
-        }
-
-
+        
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
         txTextOut(200,700, " ŒÕ—“–” “Œ– ƒ≈–≈¬Õ»");
