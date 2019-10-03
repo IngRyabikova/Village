@@ -15,10 +15,10 @@ int main()
     houseVariants[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/House/house3.bmp"), ""};
     houseVariants[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/House/House4.bmp"), ""};
     MapObject2 animals[3];
-    animals[0] = { 1010,   0, 1130, 200, txLoadImage ("Album/Animals/DoG.bmp"), ""};
-    animals[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), ""};
-    animals[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), ""};
-    animals[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), ""};
+    animals[0] = { 1050,   0, 1150, 200, txLoadImage ("Album/Animals/DoG.bmp"), ""};
+    animals[1] = { 1030, 200, 1180, 400, txLoadImage ("Album/Animals/pig.bmp"), ""};
+    animals[2] = { 1060, 400, 1140, 600, txLoadImage ("Album/Animals/PetuX.bmp"), ""};
+    animals[3] = { 1050, 600, 1150, 800, txLoadImage ("Album/Animals/DoG.bmp"), ""};
 
     MapObject2 b1 = { 100, 100, 800, 700, txLoadImage ("Album/House/house2.bmp"), ""};
     MapObject2 d =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), ""};
