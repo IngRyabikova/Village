@@ -10,10 +10,10 @@ int main()
 
 
     MapObject houseVariants[4];
-    houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house1.bmp"), "", 500, 366};
-    houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house2.bmp"), "", 799, 491};
-    houseVariants[2] = { 1010, 400, 1200, 600, txLoadImage ("Album/House/house3.bmp"), "", 800, 518};
-    houseVariants[3] = { 1010, 600, 1150, 800, txLoadImage ("Album/House/House4.bmp"), "", 500, 561};
+    houseVariants[0] = { 1010,   0, 1130, 200, txLoadImage ("Album/House/house1.bmp"), "", 500};
+    houseVariants[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/House/house2.bmp"), "", 300};
+    houseVariants[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/House/house3.bmp"), "", 300};
+    houseVariants[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/House/House4.bmp"), "", 300};
     MapObject2 animals[3];
     animals[0] = { 1010,   0, 1130, 200, txLoadImage ("Album/Animals/DoG.bmp"), ""};
     animals[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), ""};
@@ -51,7 +51,7 @@ int main()
         txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
 
         txSetFillColor(TX_TRANSPARENT);
-        txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
+        txRectangle(txGetExtentX() - 400, 0, txGetExtentX(), txGetExtentY());
 
 
 
