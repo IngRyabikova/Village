@@ -20,15 +20,15 @@ int main()
     //животные
 
     MapObject animals[3];
-    animals[0] = { 1010,   0, 1170, 120, txLoadImage ("Album/Animals/DoG.bmp"), "",160 , 120};
-    animals[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), "",160 , 120};
-    animals[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), "",160 , 120};
-    animals[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), "",160 , 120};
+    animals[0] = { 1010,   0, 1130, 200, txLoadImage ("Album/Animals/DoG.bmp"), "", ,};
+    animals[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), "", ,};
+    animals[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), "", ,};
+    animals[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), "", ,};
 
-    MapObject b1 = { 100, 100, 800, 700, txLoadImage ("Album/House/house2.bmp"), "",  799 ,491};
-    MapObject d =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), "",   160 ,120};
-    MapObject F =  { 400, 600, 550, 700, txLoadImage ("Album/Animals/PetuX.bmp"), "", 50  ,67};
-    MapObject G =  { 200, 600, 300, 700, txLoadImage ("Album/Animals/piG.bmp"), "",   119 ,95};
+    MapObject b1 = { 100, 100, 800, 700, txLoadImage ("Album/House/house2.bmp"), "",799 ,491};
+    MapObject d =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), "",160 , 120};
+    MapObject F =  { 400, 600, 900, 700, txLoadImage ("Album/Animals/PetuX.bmp"), "", 50 , 67};
+    MapObject G =  { 200, 600, 900, 700, txLoadImage ("Album/Animals/piG.bmp"), "", , };
 
 
 
