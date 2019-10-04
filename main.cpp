@@ -8,17 +8,12 @@ int main()
 
     HDC background = txLoadImage("Album/background.bmp");
 
-    //‚‡Ë‡ÌÚ˚ ‰ÓÏÓ‚
-
     MapObject houseVariants[4];
-    houseVariants[0] = { 1010,   0, 1130, 200, txLoadImage ("Album/House/house1.bmp"), "", 500 ,366 };
-    houseVariants[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/House/house2.bmp"), "", 500 ,200 };
-    houseVariants[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/House/house3.bmp"), "", 500 ,200 };
-    houseVariants[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/House/House4.bmp"), "", 500 ,200 };
-
-
-    //ÊË‚ÓÚÌ˚Â
-
+    houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house1.bmp"), "", 500, 366};
+    houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house2.bmp"), "", 799, 491};
+    houseVariants[2] = { 1010, 400, 1200, 600, txLoadImage ("Album/House/house3.bmp"), "", 800, 518};
+    houseVariants[3] = { 1010, 600, 1150, 800, txLoadImage ("Album/House/House4.bmp"), "", 500, 561};
+  
     MapObject animals[3];
     animals[0] = { 1010,   0, 1170, 120, txLoadImage ("Album/Animals/DoG.bmp"), "",160 , 120};
     animals[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), "",160 , 120};
@@ -37,13 +32,13 @@ int main()
     bool visible3 = false;
 
     Button buttons[7];
-    buttons[0] = {  0,0, "ƒŒÃ", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[1] = {120,0, "—Œ¡¿ ¿", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[2] = {240,0, "œ≈“”’", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[3] = {360,0, "’–ﬁÿ ¿", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[4] = {480,0, "ƒﬂƒﬂ\nœ≈“ﬂ", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[5] = {600,0, "—“¿—", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[6] = {720,0, "Ã¿–»Õ¿", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[0] = {  0,0, "√Ñ√é√å", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[1] = {120,0, "√ë√é√Å√Ä√ä√Ä", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[2] = {240,0, "√è√Ö√í√ì√ï", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[3] = {360,0, "√ï√ê√û√ò√ä√Ä", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[4] = {480,0, "√Ñ√ü√Ñ√ü\n√è√Ö√í√ü", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[5] = {600,0, "√ë√í√Ä√ë", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[6] = {720,0, "√å√Ä√ê√à√ç√Ä", txLoadImage("Album/button/fon_b.bmp")};
 
     bool vid = false;
     bool vid2 = false;
@@ -56,9 +51,8 @@ int main()
         txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
 
         txSetFillColor(TX_TRANSPARENT);
-        txRectangle(txGetExtentX() - 200, 0, txGetExtentX(), txGetExtentY());
 
-
+        txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
         b1.drawMapObject();
         d.drawMapObject();
@@ -79,7 +73,7 @@ int main()
             buttons[nomer_knopki].drawButton();
             if (buttons[nomer_knopki].Click ())
             {   txSetColor(TX_BLACK);
-                txTextOut(100, 500, "¬˚ Ì‡Ê‡ÎË Ì‡ ÍÌÓÔÍÛ");
+                txTextOut(100, 500, "√Ç√ª √≠√†√¶√†√´√® √≠√† √™√≠√Æ√Ø√™√≥");
             }
         }
 
@@ -128,7 +122,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, " ŒÕ—“–” “Œ– ƒ≈–≈¬Õ»");
+        txTextOut(200,700, "√ä√é√ç√ë√í√ê√ì√ä√í√é√ê √Ñ√Ö√ê√Ö√Ç√ç√à");
 
         txSleep(10);
         txEnd();
