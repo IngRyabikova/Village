@@ -8,17 +8,18 @@ struct MapObject
     int y2;
     HDC picture;
     const char* text;
+    int width;
+    int hight;
     bool visible;
 
     void drawMapObject()
     {
         if (visible)
         {
-            txBitBlt(txDC(), x,  y, x2 - x, y2 - y, picture);
+            Win32::TransparentBlt(txDC(), x,  y, x2 - x, y2 - y, picture, 0, 0, width, hight, TX_WHITE);
             txDrawText(      x,  y, x2, y2, text);
         }
     }
-
 };
 
 struct MapObject2
