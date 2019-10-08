@@ -20,9 +20,9 @@ int main()
     animals[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/PetuX.bmp"), "",50 , 67, true};
 
     MapObject people[4];
-    people[0] = { 1010, 50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",270 , 712, true};
-    people[1] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",212 , 613, true};
-    people[2] = { 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",309 , 748, true};
+    people[0] = { 1010,   0, 1170, 120, txLoadImage ("Album/people/man1.bmp"), "",270 , 720, true};
+    people[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/people/man2.bmp"), "",212 , 613, true};
+    people[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/people/women.bmp"), "",309 , 748, true};
 
     MapObject obj[4];
     obj[0] = { 100, 100, 800, 700, txLoadImage ("Album/House/house2.bmp"), "",  799 ,485, false};
@@ -37,8 +37,6 @@ int main()
     Button buttons[7];
     buttons[0] = {  0,0, "Дома", txLoadImage("Album/button/fon_b.bmp")};
     buttons[1] = {120,0, "Собака", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[2] = {240,0, "Петух", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[3] = {360,0, "Хрюшка", txLoadImage("Album/button/fon_b.bmp")};
     buttons[4] = {480,0, "Животные", txLoadImage("Album/button/fon_b.bmp")};
     buttons[5] = {640,0, "Человеки", txLoadImage("Album/button/fon_b.bmp")};
 
