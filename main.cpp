@@ -6,24 +6,22 @@ int main()
 {
     txCreateWindow(1200,800);
 
-    HDC background = txLoadImage("Album/background.bmp");
+    HDC background = txLoadImage("Album/Background.bmp");
 
-    MapObject houseVariants[4];
-    houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house1.bmp"), "", 500, 366, true};
-    houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house2.bmp"), "", 799, 485, true};
-    houseVariants[2] = { 1010, 400, 1200, 600, txLoadImage ("Album/House/house3.bmp"), "", 796, 515, true};
-    houseVariants[3] = { 1010, 600, 1150, 800, txLoadImage ("Album/House/House4.bmp"), "", 497, 553, true};
+    MapObject houseVariants[8];
+    houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house2.bmp"), "", 799, 485, true, "House"};
+    houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house1.bmp"), "", 500, 366, true, "House"};
+    houseVariants[2] = { 1010, 400, 1200, 600, txLoadImage ("Album/House/house3.bmp"), "", 796, 515, true, "House"};
+    houseVariants[3] = { 1010, 600, 1150, 800, txLoadImage ("Album/House/House4.bmp"), "", 497, 553, true, "House"};;
+    houseVariants[4] = { 1010,   0, 1170, 120, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
+    houseVariants[5] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
+    houseVariants[6] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
+    houseVariants[7] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
 
-    MapObject animals[3];
-    animals[0] = { 1010,   0, 1170, 120, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true};
-    animals[1] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true};
-    animals[2] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true};
-    animals[3] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true};
-
-    MapObject obj[3];
-    obj[0] = { 100, 100, 800, 700, txLoadImage ("Album/House/house2.bmp"), "",  799 ,485, false};
+    MapObject obj[4];
+    obj[0] = { 100, 100, 500, 400, txLoadImage ("Album/House/house2.bmp"), "",  799 ,485, false};
     obj[1] =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), "",   90 ,70, false};
-    obj[2] =  { 400, 600, 900, 700, txLoadImage ("Album/Animals/PetuX.bmp"), "", 50  ,67, false};
+    obj[2] =  { 400, 600, 900, 800, txLoadImage ("Album/Animals/PetuX.bmp"), "", 50  ,67, false};
     obj[3] =  { 200, 600, 900, 700, txLoadImage ("Album/Animals/piG.bmp"), "",   119 ,95, false};
 
     bool visible = false;
@@ -38,9 +36,7 @@ int main()
     buttons[4] = {480,0, "Животные", txLoadImage("Album/button/fon_b.bmp")};
     buttons[5] = {600,0, "Стас", txLoadImage("Album/button/fon_b.bmp")};
     buttons[6] = {720,0, "Марина", txLoadImage("Album/button/fon_b.bmp")};
-
-    bool vid = false;
-    bool vid2 = false;
+    char *catalog;
 
 
     while(!GetAsyncKeyState(VK_ESCAPE))
@@ -54,16 +50,13 @@ int main()
 
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
-        for (int nomer_kartinki = 0; nomer_kartinki <= 3 ; nomer_kartinki ++)
+        for (int nomer_kartinki = 0; nomer_kartinki <= 7 ; nomer_kartinki ++)
         {
-            if (vid)
+            if (catalog == houseVariants[nomer_kartinki].catalog)
             {
                 houseVariants[nomer_kartinki].drawMapObject();
             }
-            if (vid2)
-            {
-                animals[nomer_kartinki].drawMapObject();
-            }
+
         }
 
 
@@ -85,19 +78,25 @@ int main()
 
         if (buttons[0].Click ())
         {
-            vid = !vid;
+            catalog = "House";
             txSleep(200);
         }
         if (buttons[4].Click())
         {
-            vid2 = !vid2;
+            catalog = "Animals";
             txSleep(200);
         }
 
 
-        if (buttons[1].Click ())
+        if (houseVariants[4].Click () &&
+            catalog == houseVariants[4].catalog)
         {
             obj[1].visible = !obj[1].visible;
+            txSleep(200);
+        }
+        if(houseVariants[0].Click())
+        {
+            obj[0].visible = !obj[0].visible;
             txSleep(200);
         }
         if (buttons[2].Click ())

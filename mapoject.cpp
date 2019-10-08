@@ -11,6 +11,7 @@ struct MapObject
     int width;
     int hight;
     bool visible;
+    const char* catalog;
 
     void drawMapObject()
     {
@@ -18,6 +19,22 @@ struct MapObject
         {
             Win32::TransparentBlt(txDC(), x,  y, x2 - x, y2 - y, picture, 0, 0, width, hight, TX_WHITE);
             txDrawText(      x,  y, x2, y2, text);
+        }
+    }
+
+    bool Click()
+    {
+        if (txMouseButtons() == 1 &&
+                txMouseX() > x &&   //должна быть сотка
+                txMouseX() < x2 &&   //должна быть сотка
+                txMouseY() > y    &&   //должен быть ноль
+                txMouseY() < y2 )         //должно быть 70
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 };
