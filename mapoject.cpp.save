@@ -11,7 +11,6 @@ struct MapObject
     int width;
     int hight;
     bool visible;
-    const char* catalog;
 
     void drawMapObject()
     {
@@ -21,14 +20,14 @@ struct MapObject
             txDrawText(      x,  y, x2, y2, text);
         }
     }
-
+};
     bool Click()
     {
         if (txMouseButtons() == 1 &&
-                txMouseX() > x &&   //Г¤Г®Г«Г¦Г­Г  ГЎГ»ГІГј Г±Г®ГІГЄГ 
-                txMouseX() < x2 &&   //Г¤Г®Г«Г¦Г­Г  ГЎГ»ГІГј Г±Г®ГІГЄГ 
-                txMouseY() > y    &&   //Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Г­Г®Г«Гј
-                txMouseY() < y2 )         //Г¤Г®Г«Г¦Г­Г® ГЎГ»ГІГј 70
+                txMouseX() > x &&   //должна быть сотка
+                txMouseX() < x2  &&   //должна быть сотка
+                txMouseY() > y    &&   //должен быть ноль
+                txMouseY() < y2 )         //должно быть 70
         {
             return true;
         }
@@ -37,8 +36,7 @@ struct MapObject
             return false;
         }
     }
-};
-
+    
 struct MapObject2
 {
     int x;

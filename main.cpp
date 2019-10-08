@@ -8,7 +8,7 @@ int main()
 
     HDC background = txLoadImage("Album/Background.bmp");
 
-    MapObject houseVariants[8];
+    MapObject houseVariants[100];
     houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house2.bmp"), "", 799, 485, true, "House"};
     houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house1.bmp"), "", 500, 366, true, "House"};
     houseVariants[2] = { 1010, 400, 1200, 600, txLoadImage ("Album/House/house3.bmp"), "", 796, 515, true, "House"};
@@ -17,7 +17,10 @@ int main()
     houseVariants[5] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
     houseVariants[6] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
     houseVariants[7] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
-
+    houseVariants[8] = { 1010, 50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",270 , 712, true, "People"};
+    houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",212 , 613, true, "People"};
+    houseVariants[10] = { 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",309 , 748, true, "People"};
+  
     MapObject obj[4];
     obj[0] = { 100, 100, 500, 400, txLoadImage ("Album/House/house2.bmp"), "",  799 ,485, false};
     obj[1] =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), "",   90 ,70, false};
@@ -29,13 +32,13 @@ int main()
     bool visible3 = false;
 
     Button buttons[7];
-    buttons[0] = {  0,0, "Дома", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[1] = {120,0, "Собака", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[2] = {240,0, "Петух", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[3] = {360,0, "Хрюшка", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[4] = {480,0, "Животные", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[5] = {600,0, "Стас", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[6] = {720,0, "Марина", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[0] = {  0,0, "Г„Г®Г¬Г ", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[1] = {120,0, "Г‘Г®ГЎГ ГЄГ ", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[2] = {240,0, "ГЏГҐГІГіГµ", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[3] = {360,0, "Г•Г°ГѕГёГЄГ ", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[4] = {480,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[5] = {600,0, "Г‘ГІГ Г±", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[6] = {720,0, "ГЊГ Г°ГЁГ­Г ", txLoadImage("Album/button/fon_b.bmp")};
     char *catalog;
 
 
@@ -56,7 +59,6 @@ int main()
             {
                 houseVariants[nomer_kartinki].drawMapObject();
             }
-
         }
 
 
@@ -66,7 +68,7 @@ int main()
             if (buttons[nomer_knopki].Click ())
             {
                 txSetColor(TX_BLACK);
-                txTextOut(100, 500, "Вы нажали на кнопку");
+                txTextOut(100, 500, "Г‚Г» Г­Г Г¦Г Г«ГЁ Г­Г  ГЄГ­Г®ГЇГЄГі");
             }
         }
 
@@ -86,6 +88,12 @@ int main()
             catalog = "Animals";
             txSleep(200);
         }
+        if (buttons[5].Click())
+        {
+            catalog = "People";
+            txSleep(200);
+        }
+
 
 
         if (houseVariants[4].Click () &&
@@ -115,7 +123,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Конструктор деревни");
+        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
 
         txSleep(10);
         txEnd();
