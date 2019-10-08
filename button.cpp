@@ -7,7 +7,6 @@ struct Button
     int x;
     int y;
     const char* text;
-    HDC f_button;
     bool visible;
 
     void drawButton()

@@ -14,31 +14,28 @@ int main()
     houseVariants[2] = { 1010, 400, 1200, 600, txLoadImage ("Album/House/house3.bmp"), "", 796, 515, true, "House"};
     houseVariants[3] = { 1010, 600, 1150, 800, txLoadImage ("Album/House/House4.bmp"), "", 497, 553, true, "House"};;
     houseVariants[4] = { 1010,   0, 1170, 120, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
-    houseVariants[5] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
+    houseVariants[5] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/PetuX.bmp"), "",50 , 67, true, "Animals"};
     houseVariants[6] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
     houseVariants[7] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
-    houseVariants[8] = { 1010, 50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",270 , 712, true, "People"};
+    houseVariants[8] = { 1010,  50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",270 , 696, true, "People"};
     houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",212 , 613, true, "People"};
-    houseVariants[10] = { 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",309 , 748, true, "People"};
-  
+    houseVariants[10] ={ 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",299 , 732, true, "People"};
+
     MapObject obj[4];
     obj[0] = { 100, 100, 500, 400, txLoadImage ("Album/House/house2.bmp"), "",  799 ,485, false};
     obj[1] =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), "",   90 ,70, false};
     obj[2] =  { 400, 600, 900, 800, txLoadImage ("Album/Animals/PetuX.bmp"), "", 50  ,67, false};
     obj[3] =  { 200, 600, 900, 700, txLoadImage ("Album/Animals/piG.bmp"), "",   119 ,95, false};
 
-    bool visible = false;
-    bool visible2 = false;
-    bool visible3 = false;
 
     Button buttons[7];
-    buttons[0] = {  0,0, "√Ñ√Æ√¨√†", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[1] = {120,0, "√ë√Æ√°√†√™√†", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[2] = {240,0, "√è√•√≤√≥√µ", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[3] = {360,0, "√ï√∞√æ√∏√™√†", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[4] = {480,0, "√Ü√®√¢√Æ√≤√≠√ª√•", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[5] = {600,0, "√ë√≤√†√±", txLoadImage("Album/button/fon_b.bmp")};
-    buttons[6] = {720,0, "√å√†√∞√®√≠√†", txLoadImage("Album/button/fon_b.bmp")};
+    buttons[0] = {  0,0, "ƒÓÏ‡"};
+    buttons[1] = {120,0, "—Ó·‡Í‡"};
+    buttons[2] = {240,0, "œÂÚÛı"};
+    buttons[3] = {360,0, "’˛¯Í‡"};
+    buttons[4] = {480,0, "∆Ë‚ÓÚÌ˚Â"};
+    buttons[5] = {600,0, "—Ú‡Ò"};
+    buttons[6] = {720,0, "Ã‡ËÌ‡"};
     char *catalog;
 
 
@@ -53,7 +50,7 @@ int main()
 
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
-        for (int nomer_kartinki = 0; nomer_kartinki <= 7 ; nomer_kartinki ++)
+        for (int nomer_kartinki = 0; nomer_kartinki < 11 ; nomer_kartinki ++)
         {
             if (catalog == houseVariants[nomer_kartinki].catalog)
             {
@@ -65,11 +62,6 @@ int main()
         for (int nomer_knopki = 0; nomer_knopki < 7; nomer_knopki++)
         {
             buttons[nomer_knopki].drawButton();
-            if (buttons[nomer_knopki].Click ())
-            {
-                txSetColor(TX_BLACK);
-                txTextOut(100, 500, "√Ç√ª √≠√†√¶√†√´√® √≠√† √™√≠√Æ√Ø√™√≥");
-            }
         }
 
         for (int nomer_picture = 0; nomer_picture <= 2;nomer_picture++)
@@ -78,7 +70,7 @@ int main()
         }
 
 
-        if (buttons[0].Click ())
+        if (buttons[0].Click())
         {
             catalog = "House";
             txSleep(200);
@@ -96,25 +88,29 @@ int main()
 
 
 
-        if (houseVariants[4].Click () &&
-            catalog == houseVariants[4].catalog)
-        {
-            obj[1].visible = !obj[1].visible;
-            txSleep(200);
-        }
-        if(houseVariants[0].Click())
+        if(houseVariants[0].Click() &&
+            catalog == houseVariants[0].catalog)
         {
             obj[0].visible = !obj[0].visible;
             txSleep(200);
         }
-        if (buttons[2].Click ())
+
+        if (houseVariants[2].Click () &&
+            catalog == houseVariants[2].catalog)
         {
             obj[2].visible = !obj[2].visible;
             txSleep(200);
         }
-        if (buttons[3].Click ())
+        if (houseVariants[3].Click () &&
+            catalog == houseVariants[3].catalog)
         {
             obj[3].visible = !obj[3].visible;
+            txSleep(200);
+        }
+        if (houseVariants[4].Click () &&
+            catalog == houseVariants[4].catalog)
+        {
+            obj[1].visible = !obj[1].visible;
             txSleep(200);
         }
 
@@ -123,7 +119,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "√ä√Æ√≠√±√≤√∞√≥√™√≤√Æ√∞ √§√•√∞√•√¢√≠√®");
+        txTextOut(200,700, " ÓÌÒÚÛÍÚÓ ‰ÂÂ‚ÌË");
 
         txSleep(10);
         txEnd();
@@ -133,6 +129,9 @@ int main()
     txDeleteDC(houseVariants[0].picture);
     txDeleteDC(houseVariants[1].picture);
     txDeleteDC(houseVariants[2].picture);
+    txDeleteDC(houseVariants[3].picture);
+    txDeleteDC(houseVariants[4].picture);
+    txDeleteDC(houseVariants[5].picture);
     txDeleteDC(background);
 
     return 0;
