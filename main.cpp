@@ -1,3 +1,4 @@
+#include <cstdlib> //Для функции rand()
 #include "TXLib.h"
 #include "button.cpp"
 #include "mapoject.cpp"
@@ -5,10 +6,12 @@
 int main()
 {
     txCreateWindow(1200,800);
+    txDisableAutoPause();
 
     HDC background = txLoadImage("Album/Background.bmp");
 
-    MapObject houseVariants[100];
+    const int COUNT_HOUSE_VARIANTS = 11;
+    MapObject houseVariants[COUNT_HOUSE_VARIANTS];
     houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house2.bmp"), "", 799, 485, true, "House"};
     houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house1.bmp"), "", 500, 366, true, "House"};
     houseVariants[2] = { 1010, 400, 1200, 600, txLoadImage ("Album/House/house3.bmp"), "", 796, 515, true, "House"};
@@ -21,12 +24,8 @@ int main()
     houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",212 , 613, true, "People"};
     houseVariants[10] ={ 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",299 , 732, true, "People"};
 
-    MapObject obj[4];
-    obj[0] = { 100, 100, 500, 400, txLoadImage ("Album/House/house2.bmp"), "",  799 ,485, false};
-    obj[1] =  { 600, 550, 900, 700, txLoadImage ("Album/Animals/DoG.bmp"), "",   90 ,70, false};
-    obj[2] =  { 400, 600, 900, 800, txLoadImage ("Album/Animals/PetuX.bmp"), "", 50  ,67, false};
-    obj[3] =  { 200, 600, 900, 700, txLoadImage ("Album/Animals/piG.bmp"), "",   119 ,95, false};
-
+    int last_num_obj = 0;
+    MapObject obj[100];
 
     Button buttons[7];
     buttons[0] = {  0,0, "Дома"};
@@ -64,7 +63,7 @@ int main()
             buttons[nomer_knopki].drawButton();
         }
 
-        for (int nomer_picture = 0; nomer_picture <= 2;nomer_picture++)
+        for (int nomer_picture = 0; nomer_picture < last_num_obj; nomer_picture++)
         {
             obj[nomer_picture].drawMapObject();
         }
@@ -91,7 +90,23 @@ int main()
         if(houseVariants[0].Click() &&
             catalog == houseVariants[0].catalog)
         {
-            obj[0].visible = !obj[0].visible;
+            // для остальных сделайте сами)))
+            int rand_x = rand() % 844;
+            int rand_y = 63 + rand() % 732;
+            MapObject tmp = {
+                rand_x,
+                rand_y,
+                rand_x + 100, //подберите нужную высоту и ширину
+                rand_y + 100,
+                houseVariants[0].picture,
+                "",
+                houseVariants[0].width,
+                houseVariants[0].hight,
+                true,
+                ""
+            };
+            obj[last_num_obj] = tmp;
+            last_num_obj++;
             txSleep(200);
         }
 
@@ -114,9 +129,6 @@ int main()
             txSleep(200);
         }
 
-
-
-
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
         txTextOut(200,700, "Конструктор деревни");
@@ -125,13 +137,9 @@ int main()
         txEnd();
     }
 
-
-    txDeleteDC(houseVariants[0].picture);
-    txDeleteDC(houseVariants[1].picture);
-    txDeleteDC(houseVariants[2].picture);
-    txDeleteDC(houseVariants[3].picture);
-    txDeleteDC(houseVariants[4].picture);
-    txDeleteDC(houseVariants[5].picture);
+    for (int i = 0; i < COUNT_HOUSE_VARIANTS; i++) {
+        txDeleteDC(houseVariants[i].picture);
+    }
     txDeleteDC(background);
 
     return 0;
