@@ -1,7 +1,27 @@
-#include <cstdlib> //Для функции rand()
+#include <cstdlib> //Г„Г«Гї ГґГіГ­ГЄГ¶ГЁГЁ rand()
 #include "TXLib.h"
 #include "button.cpp"
 #include "mapoject.cpp"
+
+void drawStas (Button buttons[], int count)
+{
+      for (int nomer_knopki = 0; nomer_knopki < count; nomer_knopki++)
+        {
+            buttons[nomer_knopki].drawButton();
+        }
+
+}
+ 
+void drawPigs (int count, MapObject houseVariants[], char * catalog )
+{
+        for (int nomer_kartinki = 0; nomer_kartinki < count ; nomer_kartinki ++)
+        {
+            if (catalog == houseVariants[nomer_kartinki].catalog)
+            {
+                houseVariants[nomer_kartinki].drawMapObject();
+            }
+        }
+}
 
 int main()
 {
@@ -10,7 +30,7 @@ int main()
 
     HDC background = txLoadImage("Album/Background.bmp");
 
-    const int COUNT_HOUSE_VARIANTS = 11;
+    const int COUNT_HOUSE_VARIANTS = 12;
     MapObject houseVariants[COUNT_HOUSE_VARIANTS];
     houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house2.bmp"), "", 799, 485, true, "House"};
     houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house1.bmp"), "", 500, 366, true, "House"};
@@ -23,18 +43,19 @@ int main()
     houseVariants[8] = { 1010,  50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",205 , 285, true, "People"};
     houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",174 , 269, true, "People"};
     houseVariants[10] ={ 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",299 , 732, true, "People"};
+    houseVariants[11] ={ 1010, 100, 1130, 300, txLoadImage ("Album/Pamatnik/Stalin.bmp"), "",299 , 732, true, "Pamatnik"};
 
     int last_num_obj = 0;
     MapObject obj[100];
 
     Button buttons[7];
-    buttons[0] = {  0,0, "Дома"};
-    buttons[1] = {120,0, "Собака"};
-    buttons[2] = {240,0, "Петух"};
-    buttons[3] = {360,0, "Хрюшка"};
-    buttons[4] = {480,0, "Животные"};
-    buttons[5] = {600,0, "Стас"};
-    buttons[6] = {720,0, "Марина"};
+    buttons[0] = {  0,0, "Г„Г®Г¬Г "};
+    buttons[1] = {120,0, "Г‘Г®ГЎГ ГЄГ "};
+    buttons[2] = {240,0, "ГЏГҐГІГіГµ"};
+    buttons[3] = {360,0, "Г•Г°ГѕГёГЄГ "};
+    buttons[4] = {480,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ"};
+    buttons[5] = {600,0, "Г‘ГІГ Г±"};
+    buttons[6] = {720,0, "ГЊГ Г°ГЁГ­Г "};
     char *catalog;
 
 
@@ -50,18 +71,8 @@ int main()
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
         for (int nomer_kartinki = 0; nomer_kartinki < COUNT_HOUSE_VARIANTS ; nomer_kartinki ++)
-        {
-            if (catalog == houseVariants[nomer_kartinki].catalog)
-            {
-                houseVariants[nomer_kartinki].drawMapObject();
-            }
-        }
-
-
-        for (int nomer_knopki = 0; nomer_knopki < 7; nomer_knopki++)
-        {
-            buttons[nomer_knopki].drawButton();
-        }
+        drawPigs (COUNT_HOUSE_VARIANTS, houseVariants, catalog );
+        drawStas (buttons, 7);
 
         for (int nomer_picture = 0; nomer_picture < last_num_obj; nomer_picture++)
         {
@@ -91,13 +102,13 @@ int main()
             if(houseVariants[i].Click() &&
                 catalog == houseVariants[i].catalog)
             {
-                // для остальных сделайте сами)))
+                // Г¤Г«Гї Г®Г±ГІГ Г«ГјГ­Г»Гµ Г±Г¤ГҐГ«Г Г©ГІГҐ Г±Г Г¬ГЁ)))
                 int rand_x = rand() % 844;
                 int rand_y = 63 + rand() % 732;
                 MapObject tmp = {
                     rand_x,
                     rand_y,
-                    rand_x + houseVariants[i].width/3, //подберите нужную высоту и ширину
+                    rand_x + houseVariants[i].width/3, //ГЇГ®Г¤ГЎГҐГ°ГЁГІГҐ Г­ГіГ¦Г­ГіГѕ ГўГ»Г±Г®ГІГі ГЁ ГёГЁГ°ГЁГ­Гі
                     rand_y + houseVariants[i].hight/3,
                     houseVariants[i].picture,
                     "",
@@ -114,7 +125,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Конструктор деревни");
+        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
 
         txSleep(10);
         txEnd();
