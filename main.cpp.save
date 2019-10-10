@@ -3,7 +3,7 @@
 #include "button.cpp"
 #include "mapoject.cpp"
 
-/*void drawStas (int buttons[])
+void drawStas (int buttons[])
 {
       for (int nomer_knopki = 0; nomer_knopki < 7; nomer_knopki++)
         {
@@ -11,7 +11,7 @@
         }
 
 }
- */
+
 void drawPigs (MapObject houseVariants[], char * catalog )
 {
         for (int nomer_kartinki = 0; nomer_kartinki < 11 ; nomer_kartinki ++)
@@ -70,7 +70,7 @@ int main()
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
         drawPigs (houseVariants, catalog );
-      //  drawStas (buttons);
+        drawStas (buttons);
 
 
 
