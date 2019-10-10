@@ -10,7 +10,7 @@ int main()
 
     HDC background = txLoadImage("Album/Background.bmp");
 
-    const int COUNT_HOUSE_VARIANTS = 11;
+    const int COUNT_HOUSE_VARIANTS = 12;
     MapObject houseVariants[COUNT_HOUSE_VARIANTS];
     houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house2.bmp"), "", 799, 485, true, "House"};
     houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house1.bmp"), "", 500, 366, true, "House"};
@@ -23,6 +23,7 @@ int main()
     houseVariants[8] = { 1010,  50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",270 , 696, true, "People"};
     houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",212 , 613, true, "People"};
     houseVariants[10] ={ 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",299 , 732, true, "People"};
+    houseVariants[11] ={ 1010, 100, 1130, 300, txLoadImage ("Album/Pamatnik/Stalin.bmp"), "",299 , 732, true, "Pamatnik"};
 
     int last_num_obj = 0;
     MapObject obj[100];
