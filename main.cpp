@@ -3,7 +3,7 @@
 #include "button.cpp"
 #include "mapoject.cpp"
 
-void drawStas (Button buttons[], int count)
+void drawButtons (Button buttons[], int count)
 {
       for (int nomer_knopki = 0; nomer_knopki < count; nomer_knopki++)
         {
@@ -11,8 +11,8 @@ void drawStas (Button buttons[], int count)
         }
 
 }
- 
-void drawPigs (int count, MapObject houseVariants[], char * catalog )
+
+void drawVariants (int count, MapObject houseVariants[], char * catalog )
 {
         for (int nomer_kartinki = 0; nomer_kartinki < count ; nomer_kartinki ++)
         {
@@ -43,19 +43,16 @@ int main()
     houseVariants[8] = { 1010,  50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",205 , 285, true, "People"};
     houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",174 , 269, true, "People"};
     houseVariants[10] ={ 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",299 , 732, true, "People"};
-    houseVariants[11] ={ 1010, 100, 1130, 300, txLoadImage ("Album/Pamatnik/Stalin.bmp"), "",299 , 732, true, "Pamatnik"};
+    houseVariants[11] ={ 1010, 100, 1130, 300, txLoadImage ("Album/Pamatnik/Stalin.bmp"), "",90 , 200, true, "Pamatnik"};
 
     int last_num_obj = 0;
     MapObject obj[100];
 
-    Button buttons[7];
-    buttons[0] = {  0,0, "Äîìà"};
-    buttons[1] = {120,0, "Ñîáàêà"};
-    buttons[2] = {240,0, "Ïåòóõ"};
-    buttons[3] = {360,0, "Õðþøêà"};
-    buttons[4] = {480,0, "Æèâîòíûå"};
-    buttons[5] = {600,0, "Ñòàñ"};
-    buttons[6] = {720,0, "Ìàðèíà"};
+    Button buttons[4];
+    buttons[0] = {  0,0, "����"};
+    buttons[1] = {160,0, "����"};
+    buttons[2] = {320,0, "��������"};
+    buttons[3] = {480,0, "���������"};
     char *catalog;
 
 
@@ -67,12 +64,10 @@ int main()
         txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
 
         txSetFillColor(TX_TRANSPARENT);
-
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
-        for (int nomer_kartinki = 0; nomer_kartinki < COUNT_HOUSE_VARIANTS ; nomer_kartinki ++)
-        drawPigs (COUNT_HOUSE_VARIANTS, houseVariants, catalog );
-        drawStas (buttons, 7);
+        drawVariants (COUNT_HOUSE_VARIANTS, houseVariants, catalog );
+        drawButtons (buttons, 4);
 
         for (int nomer_picture = 0; nomer_picture < last_num_obj; nomer_picture++)
         {
@@ -85,14 +80,19 @@ int main()
             catalog = "House";
             txSleep(200);
         }
-        if (buttons[4].Click())
+        if (buttons[1].Click())
+        {
+            catalog = "People";
+            txSleep(200);
+        }
+        if (buttons[2].Click())
         {
             catalog = "Animals";
             txSleep(200);
         }
-        if (buttons[5].Click())
+        if (buttons[3].Click())
         {
-            catalog = "People";
+            catalog = "Pamatnik";
             txSleep(200);
         }
 
@@ -102,13 +102,12 @@ int main()
             if(houseVariants[i].Click() &&
                 catalog == houseVariants[i].catalog)
             {
-                // äëÿ îñòàëüíûõ ñäåëàéòå ñàìè)))
                 int rand_x = rand() % 844;
                 int rand_y = 63 + rand() % 732;
                 MapObject tmp = {
                     rand_x,
                     rand_y,
-                    rand_x + houseVariants[i].width/3, //ïîäáåðèòå íóæíóþ âûñîòó è øèðèíó
+                    rand_x + houseVariants[i].width/3,
                     rand_y + houseVariants[i].hight/3,
                     houseVariants[i].picture,
                     "",
@@ -125,7 +124,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Êîíñòðóêòîð äåðåâíè");
+        txTextOut(200,700, "����������� �������");
 
         txSleep(10);
         txEnd();
