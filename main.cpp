@@ -20,8 +20,8 @@ int main()
     houseVariants[5] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/PetuX.bmp"), "",50 , 67, true, "Animals"};
     houseVariants[6] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
     houseVariants[7] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/DoG.bmp"), "",90 , 70, true, "Animals"};
-    houseVariants[8] = { 1010,  50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",270 , 696, true, "People"};
-    houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",212 , 613, true, "People"};
+    houseVariants[8] = { 1010,  50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",205 , 285, true, "People"};
+    houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",174 , 269, true, "People"};
     houseVariants[10] ={ 1010, 500, 1130, 700, txLoadImage ("Album/people/women.bmp"), "",299 , 732, true, "People"};
 
     int last_num_obj = 0;
@@ -49,7 +49,7 @@ int main()
 
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
-        for (int nomer_kartinki = 0; nomer_kartinki < 11 ; nomer_kartinki ++)
+        for (int nomer_kartinki = 0; nomer_kartinki < COUNT_HOUSE_VARIANTS ; nomer_kartinki ++)
         {
             if (catalog == houseVariants[nomer_kartinki].catalog)
             {
@@ -86,47 +86,30 @@ int main()
         }
 
 
-
-        if(houseVariants[0].Click() &&
-            catalog == houseVariants[0].catalog)
+        for(int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
         {
-            // для остальных сделайте сами)))
-            int rand_x = rand() % 844;
-            int rand_y = 63 + rand() % 732;
-            MapObject tmp = {
-                rand_x,
-                rand_y,
-                rand_x + 100, //подберите нужную высоту и ширину
-                rand_y + 100,
-                houseVariants[0].picture,
-                "",
-                houseVariants[0].width,
-                houseVariants[0].hight,
-                true,
-                ""
-            };
-            obj[last_num_obj] = tmp;
-            last_num_obj++;
-            txSleep(200);
-        }
-
-        if (houseVariants[2].Click () &&
-            catalog == houseVariants[2].catalog)
-        {
-            obj[2].visible = !obj[2].visible;
-            txSleep(200);
-        }
-        if (houseVariants[3].Click () &&
-            catalog == houseVariants[3].catalog)
-        {
-            obj[3].visible = !obj[3].visible;
-            txSleep(200);
-        }
-        if (houseVariants[4].Click () &&
-            catalog == houseVariants[4].catalog)
-        {
-            obj[1].visible = !obj[1].visible;
-            txSleep(200);
+            if(houseVariants[i].Click() &&
+                catalog == houseVariants[i].catalog)
+            {
+                // для остальных сделайте сами)))
+                int rand_x = rand() % 844;
+                int rand_y = 63 + rand() % 732;
+                MapObject tmp = {
+                    rand_x,
+                    rand_y,
+                    rand_x + houseVariants[i].width/3, //подберите нужную высоту и ширину
+                    rand_y + houseVariants[i].hight/3,
+                    houseVariants[i].picture,
+                    "",
+                    houseVariants[i].width,
+                    houseVariants[i].hight,
+                    true,
+                    ""
+                };
+                obj[last_num_obj] = tmp;
+                last_num_obj++;
+                txSleep(200);
+            }
         }
 
         txSetColor(TX_BLACK);
