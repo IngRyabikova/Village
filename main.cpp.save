@@ -27,14 +27,13 @@ int main()
     int last_num_obj = 0;
     MapObject obj[100];
 
-    Button buttons[7];
+    Button buttons[6];
     buttons[0] = {  0,0, "Дома"};
-    buttons[1] = {120,0, "памятники"};
-    buttons[2] = {240,0, ""};
-    buttons[3] = {360,0, ""};
-    buttons[4] = {280,0, "Животные"};
-    buttons[5] = {440,0, "Человеки"};
-    buttons[6] = {560,0, "Флаг"};
+    buttons[1] = {120,0, "Собака"};
+    buttons[2] = {240,0, "П"};
+    buttons[3] = {360,0, "Хрюшка"};
+    buttons[4] = {480,0, "Животные"};
+    buttons[5] = {640,0, "Человеки"};
     char *catalog;
 
 
