@@ -29,7 +29,7 @@ int main()
     txDisableAutoPause();
 
     HDC background = txLoadImage("Album/Background.bmp");
-
+     Picture 
     const int COUNT_HOUSE_VARIANTS = 13;
     MapObject houseVariants[COUNT_HOUSE_VARIANTS];
     houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house2.bmp"), "", 799, 485, true, "House"};
@@ -55,7 +55,7 @@ int main()
     buttons[2] = {320,0, "Животные"};
     buttons[3] = {480,0, "Памятники"};
     char *catalog;
-    int nomer_kartinki = -100;
+
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -74,34 +74,15 @@ int main()
         {
             obj[nomer_picture].drawMapObject();
         }
-        for (int i = 0 ; i < last_num_obj;i++)
+    for (int i = 0 ; i < last_num_obj;i++)
         {
-              if (obj[i].Click())
-             {
-              nomer_kartinki = i;
-             }
-
+          if (kartinravcentereEkrana[i].knopka())
+         {
+          nomer_kartinki = i;
          }
-
          if(GetAsyncKeyState(VK_LEFT)&& nomer_kartinki>=0)
          {
-          obj[nomer_kartinki].x-=5;
-          obj[nomer_kartinki].x2-=5;
-          }
-        if(GetAsyncKeyState(VK_RIGHT)&& nomer_kartinki>=0)
-        {
-          obj[nomer_kartinki].x+=5;
-          obj[nomer_kartinki].x2+=5;
-          }
-         if(GetAsyncKeyState(VK_UP)&& nomer_kartinki>=0)
-        {
-          obj[nomer_kartinki].y-=5;
-            obj[nomer_kartinki].y2-=5;
-          }
-        if(GetAsyncKeyState(VK_DOWN)&& nomer_kartinki>=0)
-        {
-          obj[nomer_kartinki].y+=5;
-          obj[nomer_kartinki].y2+=5;
+          kartinraVCentereEkrana[nomer_kartinki].x-=3;
           }
         if (buttons[0].Click())
         {
