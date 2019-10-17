@@ -116,23 +116,25 @@ int main()
        obj[nomer_kartinki].x2 += 3;
        }
 
-             if (GetAsyncKeyState(VK_DOWN) && nomer_kartinki >= 0)
-       {
-       obj[nomer_kartinki].y += 3;
-       obj[nomer_kartinki].y2 += 3;
-       }
-
-
-
-
-                    if (GetAsyncKeyState(VK_UP) && nomer_kartinki >= 0)
+        if (GetAsyncKeyState(VK_LEFT) && nomer_kartinki >= 0)
        {
        obj[nomer_kartinki].y -= 3;
        obj[nomer_kartinki].y2 -= 3;
        }
 
-
-
+      if (GetAsyncKeyState(VK_LEFT) && nomer_kartinki >= 0)
+       {
+       obj[nomer_kartinki].y += 3;
+       obj[nomer_kartinki].y2 += 3;
+       }
+       
+        if (GetAsyncKeyState(VK_LEFT) && nomer_kartinki >= 0)
+       {
+       obj[nomer_kartinki].y += 3;
+       obj[nomer_kartinki].y2 += 3;
+       }
+       
+       
 
 
         for(int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
