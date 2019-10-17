@@ -11,7 +11,7 @@ struct MapObject
     int width;
     int hight;
     bool visible;
-    const char* catalog;
+    const char* category;
 
     void drawMapObject()
     {
