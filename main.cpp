@@ -1,4 +1,4 @@
-#include <cstdlib> //Г„Г«Гї ГґГіГ­ГЄГ¶ГЁГЁ rand()
+#include <cstdlib> //ГѓвЂћГѓВ«ГѓВї ГѓВґГѓВіГѓВ­ГѓВЄГѓВ¶ГѓВЁГѓВЁ rand()
 #include "TXLib.h"
 #include "button.cpp"
 #include "mapoject.cpp"
@@ -12,11 +12,11 @@ void drawButtons (Button buttons[], int count)
 
 }
 
-void drawVariants (int count, MapObject houseVariants[], char * catalog )
+void drawVariants (int count, MapObject houseVariants[], char * category )
 {
         for (int nomer_kartinki = 0; nomer_kartinki < count ; nomer_kartinki ++)
         {
-            if (catalog == houseVariants[nomer_kartinki].catalog)
+            if (category == houseVariants[nomer_kartinki].category)
             {
                 houseVariants[nomer_kartinki].drawMapObject();
             }
@@ -50,12 +50,14 @@ int main()
     MapObject obj[100];
 
     Button buttons[4];
-    buttons[0] = {  0,0, "Дома"};
-    buttons[1] = {160,0, "Люди"};
-    buttons[2] = {320,0, "Животные"};
-    buttons[3] = {480,0, "Памятники"};
-    char *catalog;
+    buttons[0] = {  0,0, "Г„Г®Г¬Г ", "House"};
+    buttons[1] = {160,0, "Г‹ГѕГ¤ГЁ","People" };
+    buttons[2] = {320,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ","Animals"};
+    buttons[3] = {480,0, "ГЏГ Г¬ГїГІГ­ГЁГЄГЁ", "Pamatnik"};
+    char *category = "";
+    bool clicked = false;
     int nomer_kartinki = -100;
+    int nomer_varianta = -100;
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -67,20 +69,20 @@ int main()
         txSetFillColor(TX_TRANSPARENT);
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
-        drawVariants (COUNT_HOUSE_VARIANTS, houseVariants, catalog );
+        drawVariants (COUNT_HOUSE_VARIANTS, houseVariants, category );
         drawButtons (buttons, 4);
 
         for (int nomer_picture = 0; nomer_picture < last_num_obj; nomer_picture++)
         {
             obj[nomer_picture].drawMapObject();
         }
+
         for (int i = 0 ; i < last_num_obj;i++)
         {
               if (obj[i].Click())
              {
               nomer_kartinki = i;
              }
-
          }
 
          if(GetAsyncKeyState(VK_LEFT)&& nomer_kartinki>=0)
@@ -103,33 +105,31 @@ int main()
           obj[nomer_kartinki].y+=5;
           obj[nomer_kartinki].y2+=5;
           }
-        if (buttons[0].Click())
+        
+
+        for(int j =0; j <= 3;j++)
         {
-            catalog = "House";
-            txSleep(200);
-        }
-        if (buttons[1].Click())
-        {
-            catalog = "People";
-            txSleep(200);
-        }
-        if (buttons[2].Click())
-        {
-            catalog = "Animals";
-            txSleep(200);
-        }
-        if (buttons[3].Click())
-        {
-            catalog = "Pamatnik";
-            txSleep(200);
+            if (buttons[j].Click())
+            {
+                category = buttons[j].category;
+                txSleep(200);
+            }
         }
 
 
         for(int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
         {
             if(houseVariants[i].Click() &&
-                catalog == houseVariants[i].catalog)
+                category == houseVariants[i].category)
             {
+                nomer_varianta = i;
+                clicked = true;
+            }
+        }
+
+
+        for(int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
+        {  /*
                 int rand_x = rand() % 844;
                 int rand_y = 63 + rand() % 732;
                 MapObject tmp = {
@@ -143,16 +143,20 @@ int main()
                     houseVariants[i].hight,
                     true,
                     ""
-                };
-                obj[last_num_obj] = tmp;
-                last_num_obj++;
-                txSleep(200);
-            }
-        }
+                };  */
+               if (!(txMouseButtons() & 1) && clicked) {
 
+                {
+                    txMouseX() - 30, txMouseY() - 30, txMouseX() + 30, txMouseY() + 30 ;
+                }
+    } }
+        if (txMouseButtons() & 1 && nomer_varianta <=6)
+        {
+            txTransparent(txDC(), txMouseX() - 30, txMouseY() - 30, 60, 60, obj[momer_varianta].picture);
+        }
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Конструктор деревни");
+        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
 
         txSleep(10);
         txEnd();
