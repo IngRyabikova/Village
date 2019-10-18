@@ -1,4 +1,4 @@
-#include <cstdlib> //ГѓвЂћГѓВ«ГѓВї ГѓВґГѓВіГѓВ­ГѓВЄГѓВ¶ГѓВЁГѓВЁ rand()
+#include <cstdlib>
 #include "TXLib.h"
 #include "button.cpp"
 #include "mapoject.cpp"
@@ -50,16 +50,17 @@ int main()
     MapObject obj[100];
 
     Button buttons[4];
-    buttons[0] = {  0,0, "Г„Г®Г¬Г ", "House"};
-    buttons[1] = {160,0, "Г‹ГѕГ¤ГЁ","People" };
-    buttons[2] = {320,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ","Animals"};
-    buttons[3] = {480,0, "ГЏГ Г¬ГїГІГ­ГЁГЄГЁ", "Pamatnik"};
+    buttons[0] = {  0,0, "Дома", "House"};
+    buttons[1] = {160,0, "Люди","People" };
+    buttons[2] = {320,0, "Животные","Animals"};
+    buttons[3] = {480,0, "Памятники", "Pamatnik"};
+
     char *category = "";
     bool clicked = false;
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
 
-    while(!GetAsyncKeyState(VK_ESCAPE))
+    while (!GetAsyncKeyState(VK_ESCAPE))
     {
         txBegin();
         txSetFillColor(TX_WHITE);
@@ -79,33 +80,33 @@ int main()
 
         for (int i = 0 ; i < last_num_obj;i++)
         {
-              if (obj[i].Click())
-             {
-              nomer_kartinki = i;
-             }
+            if (obj[i].Click())
+            {
+                nomer_kartinki = i;
+            }
          }
 
-         if(GetAsyncKeyState(VK_LEFT)&& nomer_kartinki>=0)
-         {
-          obj[nomer_kartinki].x-=5;
-          obj[nomer_kartinki].x2-=5;
-          }
+        if(GetAsyncKeyState(VK_LEFT)&& nomer_kartinki>=0)
+        {
+            obj[nomer_kartinki].x-=5;
+            obj[nomer_kartinki].x2-=5;
+        }
         if(GetAsyncKeyState(VK_RIGHT)&& nomer_kartinki>=0)
         {
-          obj[nomer_kartinki].x+=5;
-          obj[nomer_kartinki].x2+=5;
-          }
-         if(GetAsyncKeyState(VK_UP)&& nomer_kartinki>=0)
+            obj[nomer_kartinki].x+=5;
+            obj[nomer_kartinki].x2+=5;
+        }
+        if(GetAsyncKeyState(VK_UP)&& nomer_kartinki>=0)
         {
-          obj[nomer_kartinki].y-=5;
+            obj[nomer_kartinki].y-=5;
             obj[nomer_kartinki].y2-=5;
-          }
+        }
         if(GetAsyncKeyState(VK_DOWN)&& nomer_kartinki>=0)
         {
-          obj[nomer_kartinki].y+=5;
-          obj[nomer_kartinki].y2+=5;
-          }
-        
+            obj[nomer_kartinki].y+=5;
+            obj[nomer_kartinki].y2+=5;
+        }
+
 
         for(int j =0; j <= 3;j++)
         {
@@ -117,7 +118,7 @@ int main()
         }
 
 
-        for(int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
+        /*for(int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
         {
             if(houseVariants[i].Click() &&
                 category == houseVariants[i].category)
@@ -125,11 +126,13 @@ int main()
                 nomer_varianta = i;
                 clicked = true;
             }
-        }
+        } */
 
-
-        for(int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
-        {  /*
+        for (int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
+        {
+            if (houseVariants[i].Click() &&
+                category == houseVariants[i].category)
+            {
                 int rand_x = rand() % 844;
                 int rand_y = 63 + rand() % 732;
                 MapObject tmp = {
@@ -143,20 +146,25 @@ int main()
                     houseVariants[i].hight,
                     true,
                     ""
-                };  */
-               if (!(txMouseButtons() & 1) && clicked) {
-
-                {
-                    txMouseX() - 30, txMouseY() - 30, txMouseX() + 30, txMouseY() + 30 ;
-                }
-    } }
-        if (txMouseButtons() & 1 && nomer_varianta <=6)
-        {
-            txTransparent(txDC(), txMouseX() - 30, txMouseY() - 30, 60, 60, obj[momer_varianta].picture);
+                };
+                obj[last_num_obj] = tmp;
+                last_num_obj++;
+                txSleep(200);
+            }
         }
+            /*if (!(txMouseButtons() & 1) && clicked)
+            {
+                txMouseX() - 30, txMouseY() - 30, txMouseX() + 30, txMouseY() + 30 ;
+            }*/
+
+
+        /*if (txMouseButtons() & 1 && nomer_varianta <=6)
+        {
+            txTransparentBlt(txDC(), txMouseX() - 30, txMouseY() - 30, 60, 60, obj[nomer_varianta].picture);
+        } */
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
+        txTextOut(200,700, "Конструктор деревни");
 
         txSleep(10);
         txEnd();
