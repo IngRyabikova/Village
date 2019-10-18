@@ -1,4 +1,4 @@
-#include <cstdlib> //Г„Г«Гї ГґГіГ­ГЄГ¶ГЁГЁ rand()
+#include <cstdlib> //ГѓвЂћГѓВ«ГѓВї ГѓВґГѓВіГѓВ­ГѓВЄГѓВ¶ГѓВЁГѓВЁ rand()
 #include "TXLib.h"
 #include "button.cpp"
 #include "mapoject.cpp"
@@ -50,10 +50,10 @@ int main()
     MapObject obj[100];
 
     Button buttons[4];
-    buttons[0] = {  0,0, "Дома", "House"};
-    buttons[1] = {160,0, "Люди","People" };
-    buttons[2] = {320,0, "Животные","Animals"};
-    buttons[3] = {480,0, "Памятники", "Pamatnik"};
+    buttons[0] = {  0,0, "Г„Г®Г¬Г ", "House"};
+    buttons[1] = {160,0, "Г‹ГѕГ¤ГЁ","People" };
+    buttons[2] = {320,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ","Animals"};
+    buttons[3] = {480,0, "ГЏГ Г¬ГїГІГ­ГЁГЄГЁ", "Pamatnik"};
     char *category = "";
     bool clicked = false;
     int nomer_kartinki = -100;
@@ -77,13 +77,35 @@ int main()
             obj[nomer_picture].drawMapObject();
         }
 
-        for (int i = 0; i < last_num_obj;i++)
+        for (int i = 0 ; i < last_num_obj;i++)
         {
-            if (obj[i].Click())
-            {
-                nomer_kartinki = i;
-            }
-        }
+              if (obj[i].Click())
+             {
+              nomer_kartinki = i;
+             }
+         }
+
+         if(GetAsyncKeyState(VK_LEFT)&& nomer_kartinki>=0)
+         {
+          obj[nomer_kartinki].x-=5;
+          obj[nomer_kartinki].x2-=5;
+          }
+        if(GetAsyncKeyState(VK_RIGHT)&& nomer_kartinki>=0)
+        {
+          obj[nomer_kartinki].x+=5;
+          obj[nomer_kartinki].x2+=5;
+          }
+         if(GetAsyncKeyState(VK_UP)&& nomer_kartinki>=0)
+        {
+          obj[nomer_kartinki].y-=5;
+            obj[nomer_kartinki].y2-=5;
+          }
+        if(GetAsyncKeyState(VK_DOWN)&& nomer_kartinki>=0)
+        {
+          obj[nomer_kartinki].y+=5;
+          obj[nomer_kartinki].y2+=5;
+          }
+        
 
         for(int j =0; j <= 3;j++)
         {
@@ -134,7 +156,7 @@ int main()
         }
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Конструктор деревни");
+        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
 
         txSleep(10);
         txEnd();
