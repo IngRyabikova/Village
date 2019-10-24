@@ -2,7 +2,6 @@
 #include "TXLib.h"
 #include "button.cpp"
 #include "mapoject.cpp"
-
 void drawButtons (Button buttons[], int count)
 {
       for (int nomer_knopki = 0; nomer_knopki < count; nomer_knopki++)
@@ -18,7 +17,7 @@ void drawVariants (int count, MapObject houseVariants[], char * category )
         {
             if (category == houseVariants[nomer_kartinki].category)
             {
-                houseVariants[nomer_kartinki].drawMapObject();
+                houseVariants[nomer_kartinki].drawMapObject(0);
             }
         }
 }
@@ -27,8 +26,12 @@ int main()
 {
     txCreateWindow(1200,800);
     txDisableAutoPause();
+    txPlaySound("Music\\somebody.wav",SND_LOOP);
 
     HDC background = txLoadImage("Album/Background.bmp");
+
+    int CURRENT_X = 0;
+
 
     const int COUNT_HOUSE_VARIANTS = 13;
     MapObject houseVariants[COUNT_HOUSE_VARIANTS];
@@ -56,7 +59,6 @@ int main()
     buttons[3] = {480,0, "Памятники", "Pamatnik"};
 
     char *category = "";
-    bool clicked = false;
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
 
@@ -75,7 +77,7 @@ int main()
 
         for (int nomer_picture = 0; nomer_picture < last_num_obj; nomer_picture++)
         {
-            obj[nomer_picture].drawMapObject();
+            obj[nomer_picture].drawMapObject(CURRENT_X);
         }
 
         for (int i = 0 ; i < last_num_obj;i++)
@@ -152,16 +154,42 @@ int main()
                 txSleep(200);
             }
         }
-            /*if (!(txMouseButtons() & 1) && clicked)
-            {
-                txMouseX() - 30, txMouseY() - 30, txMouseX() + 30, txMouseY() + 30 ;
-            }*/
 
 
-        /*if (txMouseButtons() & 1 && nomer_varianta <=6)
+        for (int i = 0; i < last_num_obj; i++)
         {
-            txTransparentBlt(txDC(), txMouseX() - 30, txMouseY() - 30, 60, 60, obj[nomer_varianta].picture);
-        } */
+            if (obj[i].Click())
+            {
+                for (int k = 0; k < last_num_obj; k++)
+                {
+                    obj[k].clicked = false;
+                }
+                obj[i].clicked = true;
+            }
+
+            if ((txMouseButtons() & 1) && obj[i].clicked)
+            {
+                int width = obj[i].x2 - obj[i].x;
+                obj[i].x = txMouseX() - 30 ;
+                obj[i].x2 = obj[i].x + width ;
+                int high = obj[i].y2 - obj[i].y;
+                obj[i].y = txMouseY() - 30 ;
+                obj[i].y2 = obj[i].y + high ;
+            }
+
+            if (!(txMouseButtons() & 1) && obj[i].clicked)
+            {
+                obj[i].clicked = false;
+            }
+        }
+
+        if(GetAsyncKeyState(VK_LEFT))
+        {
+         CURRENT_X++;
+
+        }
+
+
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
         txTextOut(200,700, "Конструктор деревни");
