@@ -49,8 +49,11 @@ int main()
     houseVariants[11] ={ 1010, 100, 1130, 300, txLoadImage ("Album/Pamatnik/Stalin.bmp"), "",90 , 200, true, "Pamatnik"};
     houseVariants[12] ={ 1010, 300, 1180, 500, txLoadImage ("Album/Pamatnik/Lenin.bmp"), "",148 ,292, true, "Pamatnik"};
 
-    int last_num_obj = 0;
-    MapObject obj[100];
+    HDC arrowLeft = txLoadImage ("Album/Arrows/Left.bmp");
+    HDC arrowRight = txLoadImage ("Album/Arrows/Right.bmp");
+
+    int COUNT_PICTURES = 0;
+    MapObject pictures[100];
 
     Button buttons[4];
     buttons[0] = {  0,0, "Дома", "House"};
@@ -69,20 +72,23 @@ int main()
         txClear();
         txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
 
+        txTransparentBlt(txDC(), 0, 650, 150,150, arrowLeft   ,0,0,TX_WHITE);
+        txTransparentBlt(txDC(), 750, 650, 150,150, arrowRight,0,0,TX_WHITE);
+
         txSetFillColor(TX_TRANSPARENT);
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
         drawVariants (COUNT_HOUSE_VARIANTS, houseVariants, category );
         drawButtons (buttons, 4);
 
-        for (int nomer_picture = 0; nomer_picture < last_num_obj; nomer_picture++)
+        for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
         {
-            obj[nomer_picture].drawMapObject(CURRENT_X);
+            pictures[nomer_picture].drawMapObject(CURRENT_X);
         }
 
-        for (int i = 0 ; i < last_num_obj;i++)
+        for (int i = 0 ; i < COUNT_PICTURES;i++)
         {
-            if (obj[i].Click())
+            if (pictures[i].Click())
             {
                 nomer_kartinki = i;
             }
@@ -90,23 +96,23 @@ int main()
 
         if(GetAsyncKeyState(VK_LEFT)&& nomer_kartinki>=0)
         {
-            obj[nomer_kartinki].x-=5;
-            obj[nomer_kartinki].x2-=5;
+            pictures[nomer_kartinki].x-=5;
+            pictures[nomer_kartinki].x2-=5;
         }
         if(GetAsyncKeyState(VK_RIGHT)&& nomer_kartinki>=0)
         {
-            obj[nomer_kartinki].x+=5;
-            obj[nomer_kartinki].x2+=5;
+            pictures[nomer_kartinki].x+=5;
+            pictures[nomer_kartinki].x2+=5;
         }
         if(GetAsyncKeyState(VK_UP)&& nomer_kartinki>=0)
         {
-            obj[nomer_kartinki].y-=5;
-            obj[nomer_kartinki].y2-=5;
+            pictures[nomer_kartinki].y-=5;
+            pictures[nomer_kartinki].y2-=5;
         }
         if(GetAsyncKeyState(VK_DOWN)&& nomer_kartinki>=0)
         {
-            obj[nomer_kartinki].y+=5;
-            obj[nomer_kartinki].y2+=5;
+            pictures[nomer_kartinki].y+=5;
+            pictures[nomer_kartinki].y2+=5;
         }
 
 
@@ -149,37 +155,37 @@ int main()
                     true,
                     ""
                 };
-                obj[last_num_obj] = tmp;
-                last_num_obj++;
+                pictures[COUNT_PICTURES] = tmp;
+                COUNT_PICTURES++;
                 txSleep(200);
             }
         }
 
 
-        for (int i = 0; i < last_num_obj; i++)
+        for (int i = 0; i < COUNT_PICTURES; i++)
         {
-            if (obj[i].Click())
+            if (pictures[i].Click())
             {
-                for (int k = 0; k < last_num_obj; k++)
+                for (int k = 0; k < COUNT_PICTURES; k++)
                 {
-                    obj[k].clicked = false;
+                    pictures[k].clicked = false;
                 }
-                obj[i].clicked = true;
+                pictures[i].clicked = true;
             }
 
-            if ((txMouseButtons() & 1) && obj[i].clicked)
+            if ((txMouseButtons() & 1) && pictures[i].clicked)
             {
-                int width = obj[i].x2 - obj[i].x;
-                obj[i].x = txMouseX() - 30 ;
-                obj[i].x2 = obj[i].x + width ;
-                int high = obj[i].y2 - obj[i].y;
-                obj[i].y = txMouseY() - 30 ;
-                obj[i].y2 = obj[i].y + high ;
+                int width = pictures[i].x2 - pictures[i].x;
+                pictures[i].x = txMouseX() - width /2 ;
+                pictures[i].x2 = pictures[i].x + width ;
+                int high = pictures[i].y2 - pictures[i].y;
+                pictures[i].y = txMouseY() - high / 2 ;
+                pictures[i].y2 = pictures[i].y + high ;
             }
 
-            if (!(txMouseButtons() & 1) && obj[i].clicked)
+            if (!(txMouseButtons() & 1) && pictures[i].clicked)
             {
-                obj[i].clicked = false;
+                pictures[i].clicked = false;
             }
         }
 
