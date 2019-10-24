@@ -70,8 +70,8 @@ int main()
         txSetFillColor(TX_WHITE);
         txClear();
         txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
-        txTransparentBlt(txDC(), 0, 650, 150,150, arrowLeft   ,0,0,TX_WHITE);
-        txTransparentBlt(txDC(), 750, 650, 150,150, arrowRight,0,0,TX_WHITE);
+        TransparentBlt(txDC(), 0, 650, txGetExtentX(), txGetExtentY(), arrowLeft);
+        tTransparentBlt(txDC(), 750, 650, txGetExtentX(), txGetExtentY(), arrowRight);
 
 
         txSetFillColor(TX_TRANSPARENT);
