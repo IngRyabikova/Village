@@ -51,6 +51,7 @@ int main()
     HDC background = txLoadImage("Album/Background.bmp");
 
     int CURRENT_X = 0;
+    const int WIDTH_MENU = 200;
 
 
     const int COUNT_HOUSE_VARIANTS = 13;
@@ -77,22 +78,22 @@ int main()
         houseVariants[i].width = get_widht (houseVariants[i].adress);
         houseVariants[i].hight= get_height (houseVariants[i].adress) ;
     }
-      
+
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
 
     Button buttons[4];
-    buttons[0] = {  0,0, "Г„Г®Г¬Г ", "House"};
-    buttons[1] = {160,0, "Г‹ГѕГ¤ГЁ","People" };
-    buttons[2] = {320,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ","Animals"};
-    buttons[3] = {480,0, "ГЏГ Г¬ГїГІГ­ГЁГЄГЁ", "Pamatnik"};
+    buttons[0] = {  0,0, "Дома", "House"};
+    buttons[1] = {160,0, "Люди","People" };
+    buttons[2] = {320,0, "Животные","Animals"};
+    buttons[3] = {480,0, "Памятники", "Pamatnik"};
 
     char *category = "";
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
 
-    MapObject arrowLeft  = {   0,   650, 150, 800, "Album/Arrows/Left.bmp"};
-    MapObject arrowRight = { 750,   650, 900, 800, "Album/Arrows/Right.bmp"};
+    MapObject arrowLeft  = {   0,   700,  100, 800, "Album/Arrows/Left.bmp"};
+    MapObject arrowRight = { 900,   700, 1000, 800, "Album/Arrows/Right.bmp"};
     arrowLeft.visible = true;
     arrowLeft.picture = txLoadImage (arrowLeft.adress.c_str());
     arrowLeft.width = get_widht (arrowLeft.adress);
@@ -127,7 +128,7 @@ int main()
         }
         // black menu
         txSetFillColor(TX_BLACK);
-        txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
+        txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
         drawVariants (COUNT_HOUSE_VARIANTS, houseVariants, category );
 
@@ -153,7 +154,7 @@ int main()
         //Click on variant
         for (int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
         {
-            if (houseVariants[i].Click(CURRENT_X) &&
+            if (houseVariants[i].Click(0) &&
                 category == houseVariants[i].category)
             {
                 int rand_x = rand() % 844;
@@ -168,7 +169,8 @@ int main()
                     houseVariants[i].picture,
                     houseVariants[i].width,
                     houseVariants[i].hight,
-                   ""
+                    "",
+                    true
                 };
 
                 pictures[COUNT_PICTURES] = tmp;
@@ -206,19 +208,18 @@ int main()
         }
 
         //Camera moving
-        if(arrowRight.Click())
+        if (arrowRight.Click(0))
         {
-         CURRENT_X -= 10;
+            CURRENT_X -= 10;
         }
-        if(arrowLeft.Click())
+        else if (arrowLeft.Click(0))
         {
-         CURRENT_X += 10;
-
+            CURRENT_X += 10;
         }
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
+        txTextOut(200,700, "Конструктор деревни");
 
         txSleep(10);
         txEnd();
