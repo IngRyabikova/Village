@@ -2,6 +2,48 @@
 #include "TXLib.h"
 #include "button.cpp"
 #include "mapoject.cpp"
+
+int get_height  (string adress)
+
+{
+
+  unsigned char info[54];
+
+  FILE*f = fopen (adress.c_str() , "r");
+
+  fread (info, sizeof (unsigned char), 54, f);
+
+  int height =* (int*) &info[22];
+
+
+
+  return height;
+
+}
+
+
+
+int get_widht  (string adress)
+
+{
+
+  unsigned char info[54];
+
+  FILE*f = fopen (adress.c_str() , "r");
+
+  fread (info, sizeof (unsigned char), 54, f);
+
+  int widht =* (int*) &info[18];
+
+
+
+  return widht;
+
+}
+
+
+
+
 void drawButtons (Button buttons[], int count)
 {
       for (int nomer_knopki = 0; nomer_knopki < count; nomer_knopki++)
@@ -35,22 +77,30 @@ int main()
 
     const int COUNT_HOUSE_VARIANTS = 13;
     MapObject houseVariants[COUNT_HOUSE_VARIANTS];
-    houseVariants[0] = { 1030,   0, 1130, 150, txLoadImage ("Album/House/house2.bmp"), "", 799, 485, true, "House"};
-    houseVariants[1] = { 1010, 200, 1180, 350, txLoadImage ("Album/House/house1.bmp"), "", 500, 366, true, "House"};
-    houseVariants[2] = { 1010, 400, 1200, 600, txLoadImage ("Album/House/house3.bmp"), "", 796, 515, true, "House"};
-    houseVariants[3] = { 1010, 600, 1150, 800, txLoadImage ("Album/House/House4.bmp"), "", 497, 553, true, "House"};;
-    houseVariants[4] = { 1010,   0, 1170, 120, txLoadImage ("Album/Animals/DoG.bmp"), "",185 , 151, true, "Animals"};
-    houseVariants[5] = { 1010, 200, 1130, 400, txLoadImage ("Album/Animals/PetuX.bmp"), "",96 , 136, true, "Animals"};
-    houseVariants[6] = { 1010, 400, 1130, 600, txLoadImage ("Album/Animals/piG.bmp"), "",119 , 95, true, "Animals"};
-    houseVariants[7] = { 1010, 600, 1130, 800, txLoadImage ("Album/Animals/Korova.bmp"), "",400 , 362, true, "Animals"};
-    houseVariants[8] = { 1010,  50, 1170, 270, txLoadImage ("Album/people/man1.bmp"), "",205 , 285, true, "People"};
-    houseVariants[9] = { 1010, 300, 1130, 500, txLoadImage ("Album/people/man2.bmp"), "",174 , 269, true, "People"};
-    houseVariants[10] ={ 1010, 500, 1170, 700, txLoadImage ("Album/people/women.bmp"), "",155 , 377, true, "People"};
-    houseVariants[11] ={ 1010, 100, 1130, 300, txLoadImage ("Album/Pamatnik/Stalin.bmp"), "",90 , 200, true, "Pamatnik"};
-    houseVariants[12] ={ 1010, 300, 1180, 500, txLoadImage ("Album/Pamatnik/Lenin.bmp"), "",148 ,292, true, "Pamatnik"};
+    houseVariants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp", "House"};
+    houseVariants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", "House" };
+    houseVariants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp","House"};
+    houseVariants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp","House"};
+    houseVariants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp","Animals"};
+    houseVariants[5] = { 1010, 200, 1130, 400, "Album/Animals/PetuX.bmp","Animals"};
+    houseVariants[6] = { 1010, 400, 1130, 600, "Album/Animals/piG.bmp","Animals" };
+    houseVariants[7] = { 1010, 600, 1130, 800, "Album/Animals/Korova.bmp","Animals"};
+    houseVariants[8] = { 1010,  50, 1170, 270, "Album/people/man1.bmp","People"};
+    houseVariants[9] = { 1010, 300, 1130, 500, "Album/people/man2.bmp","People" };
+    houseVariants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp","People" };
+    houseVariants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp","Pamatnik" };
+    houseVariants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp","Pamatnik" };
 
-    HDC arrowLeft = txLoadImage ("Album/Arrows/Left.bmp");
-    HDC arrowRight = txLoadImage ("Album/Arrows/Right.bmp");
+    for (int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
+    {
+        houseVariants[i].visible = true;
+        houseVariants[i].text = "";
+        houseVariants[i].picture = txLoadImage (houseVariants[i].adress.c_str());
+        houseVariants[i].width = get_widht (houseVariants[i].adress);
+        houseVariants[i].hight= get_height (houseVariants[i].adress) ;
+    }
+
+
 
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
@@ -61,9 +111,32 @@ int main()
     buttons[2] = {320,0, "Животные","Animals"};
     buttons[3] = {480,0, "Памятники", "Pamatnik"};
 
+    /*int COUNT_PICTURES = 0;
+    MapObject pictures[100];
+     */
+
     char *category = "";
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
+
+    MapObject arrowLeft  = {   0,   650, 150, 800, "Album/Arrows/Left.bmp"};
+    MapObject arrowRight = { 750,   650, 900, 800, "Album/Arrows/Right.bmp"};
+    arrowLeft.visible = true;
+    arrowLeft.picture = txLoadImage (arrowLeft.adress.c_str());
+    arrowLeft.width = get_widht (arrowLeft.adress);
+    arrowLeft.hight= get_height (arrowLeft.adress) ;
+    arrowLeft.text= "";
+
+        arrowRight .visible = true;
+        arrowRight .picture = txLoadImage (arrowRight.adress.c_str());
+        arrowRight .width = get_widht (arrowRight .adress);
+        arrowRight .hight= get_height (arrowRight.adress) ;
+    arrowRight.text= "";
+
+
+
+
+
 
     while (!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -72,8 +145,8 @@ int main()
         txClear();
         txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
 
-        txTransparentBlt(txDC(), 0, 650, 150,150, arrowLeft   ,0,0,TX_WHITE);
-        txTransparentBlt(txDC(), 750, 650, 150,150, arrowRight,0,0,TX_WHITE);
+        arrowLeft.drawMapObject(0);
+        arrowRight.drawMapObject(0);
 
         txSetFillColor(TX_TRANSPARENT);
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
@@ -94,26 +167,7 @@ int main()
             }
          }
 
-        if(GetAsyncKeyState(VK_LEFT)&& nomer_kartinki>=0)
-        {
-            pictures[nomer_kartinki].x-=5;
-            pictures[nomer_kartinki].x2-=5;
-        }
-        if(GetAsyncKeyState(VK_RIGHT)&& nomer_kartinki>=0)
-        {
-            pictures[nomer_kartinki].x+=5;
-            pictures[nomer_kartinki].x2+=5;
-        }
-        if(GetAsyncKeyState(VK_UP)&& nomer_kartinki>=0)
-        {
-            pictures[nomer_kartinki].y-=5;
-            pictures[nomer_kartinki].y2-=5;
-        }
-        if(GetAsyncKeyState(VK_DOWN)&& nomer_kartinki>=0)
-        {
-            pictures[nomer_kartinki].y+=5;
-            pictures[nomer_kartinki].y2+=5;
-        }
+
 
 
         for(int j =0; j <= 3;j++)
@@ -148,13 +202,14 @@ int main()
                     rand_y,
                     rand_x + houseVariants[i].width/3,
                     rand_y + houseVariants[i].hight/3,
+                    houseVariants[i].adress,
+                     "",
                     houseVariants[i].picture,
-                    "",
                     houseVariants[i].width,
                     houseVariants[i].hight,
-                    true,
-                    ""
+                   ""
                 };
+
                 pictures[COUNT_PICTURES] = tmp;
                 COUNT_PICTURES++;
                 txSleep(200);
@@ -189,12 +244,17 @@ int main()
             }
         }
 
-        if(GetAsyncKeyState(VK_LEFT))
+        if(arrowRight.Click())
         {
-         CURRENT_X++;
+         CURRENT_X -= 10;
 
         }
 
+          if(arrowLeft.Click())
+        {
+         CURRENT_X += 10;
+
+        }
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);

@@ -6,12 +6,13 @@ struct MapObject
     int y;
     int x2;
     int y2;
+    string adress;
+    const char* category;
     HDC picture;
-    const char* text;
     int width;
     int hight;
+    const char* text;
     bool visible;
-    const char* category;
     bool clicked;
 
     void drawMapObject(int current_x)
