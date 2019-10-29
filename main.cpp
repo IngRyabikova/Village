@@ -4,44 +4,22 @@
 #include "mapoject.cpp"
 
 int get_height  (string adress)
-
 {
-
   unsigned char info[54];
-
   FILE*f = fopen (adress.c_str() , "r");
-
   fread (info, sizeof (unsigned char), 54, f);
-
   int height =* (int*) &info[22];
-
-
-
   return height;
-
 }
-
-
 
 int get_widht  (string adress)
-
 {
-
   unsigned char info[54];
-
   FILE*f = fopen (adress.c_str() , "r");
-
   fread (info, sizeof (unsigned char), 54, f);
-
   int widht =* (int*) &info[18];
-
-
-
   return widht;
-
 }
-
-
 
 
 void drawButtons (Button buttons[], int count)
@@ -99,21 +77,15 @@ int main()
         houseVariants[i].width = get_widht (houseVariants[i].adress);
         houseVariants[i].hight= get_height (houseVariants[i].adress) ;
     }
-
-
-
+      
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
 
     Button buttons[4];
-    buttons[0] = {  0,0, "Дома", "House"};
-    buttons[1] = {160,0, "Люди","People" };
-    buttons[2] = {320,0, "Животные","Animals"};
-    buttons[3] = {480,0, "Памятники", "Pamatnik"};
-
-    /*int COUNT_PICTURES = 0;
-    MapObject pictures[100];
-     */
+    buttons[0] = {  0,0, "Г„Г®Г¬Г ", "House"};
+    buttons[1] = {160,0, "Г‹ГѕГ¤ГЁ","People" };
+    buttons[2] = {320,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ","Animals"};
+    buttons[3] = {480,0, "ГЏГ Г¬ГїГІГ­ГЁГЄГЁ", "Pamatnik"};
 
     char *category = "";
     int nomer_kartinki = -100;
@@ -127,49 +99,47 @@ int main()
     arrowLeft.hight= get_height (arrowLeft.adress) ;
     arrowLeft.text= "";
 
-        arrowRight .visible = true;
-        arrowRight .picture = txLoadImage (arrowRight.adress.c_str());
-        arrowRight .width = get_widht (arrowRight .adress);
-        arrowRight .hight= get_height (arrowRight.adress) ;
+    arrowRight .visible = true;
+    arrowRight .picture = txLoadImage (arrowRight.adress.c_str());
+    arrowRight .width = get_widht (arrowRight .adress);
+    arrowRight .hight= get_height (arrowRight.adress) ;
     arrowRight.text= "";
-
-
-
-
-
 
     while (!GetAsyncKeyState(VK_ESCAPE))
     {
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
-        txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X, 0, 10000, txGetExtentY(), background);
 
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
 
-        txSetFillColor(TX_TRANSPARENT);
-        txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
+        txSetFillColor(TX_BLACK);
+        txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
-        drawVariants (COUNT_HOUSE_VARIANTS, houseVariants, category );
+
         drawButtons (buttons, 4);
-
+        //draw pictures
         for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
         {
             pictures[nomer_picture].drawMapObject(CURRENT_X);
         }
+        // black menu
+        txSetFillColor(TX_BLACK);
+        txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
+        drawVariants (COUNT_HOUSE_VARIANTS, houseVariants, category );
+
+        //select a picture
         for (int i = 0 ; i < COUNT_PICTURES;i++)
         {
-            if (pictures[i].Click())
+            if (pictures[i].Click(CURRENT_X))
             {
                 nomer_kartinki = i;
             }
-         }
-
-
-
-
+        }
+        //Click on menu button
         for(int j =0; j <= 3;j++)
         {
             if (buttons[j].Click())
@@ -180,19 +150,10 @@ int main()
         }
 
 
-        /*for(int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
-        {
-            if(houseVariants[i].Click() &&
-                category == houseVariants[i].category)
-            {
-                nomer_varianta = i;
-                clicked = true;
-            }
-        } */
-
+        //Click on variant
         for (int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
         {
-            if (houseVariants[i].Click() &&
+            if (houseVariants[i].Click(CURRENT_X) &&
                 category == houseVariants[i].category)
             {
                 int rand_x = rand() % 844;
@@ -216,10 +177,10 @@ int main()
             }
         }
 
-
+        //Click on picture
         for (int i = 0; i < COUNT_PICTURES; i++)
         {
-            if (pictures[i].Click())
+            if (pictures[i].Click(CURRENT_X) && (txMouseX() < txGetExtentX() - 300))
             {
                 for (int k = 0; k < COUNT_PICTURES; k++)
                 {
@@ -230,8 +191,8 @@ int main()
 
             if ((txMouseButtons() & 1) && pictures[i].clicked)
             {
-                int width = pictures[i].x2 - pictures[i].x;
-                pictures[i].x = txMouseX() - width /2 ;
+                int width = pictures[i].x2  - pictures[i].x;
+                pictures[i].x = txMouseX() - CURRENT_X - width /2 ;
                 pictures[i].x2 = pictures[i].x + width ;
                 int high = pictures[i].y2 - pictures[i].y;
                 pictures[i].y = txMouseY() - high / 2 ;
@@ -244,13 +205,12 @@ int main()
             }
         }
 
+        //Camera moving
         if(arrowRight.Click())
         {
          CURRENT_X -= 10;
-
         }
-
-          if(arrowLeft.Click())
+        if(arrowLeft.Click())
         {
          CURRENT_X += 10;
 
@@ -258,7 +218,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Конструктор деревни");
+        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
 
         txSleep(10);
         txEnd();
