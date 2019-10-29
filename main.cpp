@@ -72,8 +72,9 @@ int main()
         txClear();
         txBitBlt(txDC(), 0, 0, txGetExtentX(), txGetExtentY(), background);
 
-        txTransparentBlt(txDC(), 0, 650, 150,150, arrowLeft   ,0,0,TX_WHITE);
-        txTransparentBlt(txDC(), 750, 650, 150,150, arrowRight,0,0,TX_WHITE);
+//Win32::TransparentBlt(txDC(), x + current_x,  y, x2 - x, y2 - y, picture, 0, 0, width, hight, TX_WHITE);
+       Win32::TransparentBlt(txDC(), 0  , 700, 100,100, arrowLeft ,0,0,100,100,TX_WHITE);
+       Win32::TransparentBlt(txDC(), 800, 700, 100,100, arrowRight,0,0,100,100,TX_WHITE);
 
         txSetFillColor(TX_TRANSPARENT);
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
@@ -114,6 +115,16 @@ int main()
             pictures[nomer_kartinki].y+=5;
             pictures[nomer_kartinki].y2+=5;
         }
+
+
+        if(nomer_kartinki >= 0 && GetAsyncKeyState(VK_DELETE))
+           {
+            pictures[nomer_kartinki] = pictures[COUNT_PICTURES - 1];
+            COUNT_PICTURES -= 1 ;
+            nomer_kartinki = - 100 ;
+           }
+
+
 
 
         for(int j =0; j <= 3;j++)
