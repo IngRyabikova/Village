@@ -56,10 +56,10 @@ int main()
     MapObject pictures[100];
 
     Button buttons[4];
-    buttons[0] = {  0,0, "Дома", "House"};
-    buttons[1] = {160,0, "Люди","People" };
-    buttons[2] = {320,0, "Животные","Animals"};
-    buttons[3] = {480,0, "Памятники", "Pamatnik"};
+    buttons[0] = {  0,0, "Г„Г®Г¬Г ", "House"};
+    buttons[1] = {160,0, "Г‹ГѕГ¤ГЁ","People" };
+    buttons[2] = {320,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ","Animals"};
+    buttons[3] = {480,0, "ГЏГ Г¬ГїГІГ­ГЁГЄГЁ", "Pamatnik"};
 
     char *category = "";
     int nomer_kartinki = -100;
@@ -72,8 +72,8 @@ int main()
         txClear();
         txBitBlt(txDC(), CURRENT_X, 0, 10000, txGetExtentY(), background);
 
-        txTransparentBlt(txDC(), 0, 650, 150,150, arrowLeft   ,0,0,TX_WHITE);
-        txTransparentBlt(txDC(), 750, 650, 150,150, arrowRight,0,0,TX_WHITE);
+        Win32::TransparentBlt(txDC(), 0  , 700, 100,100, arrowLeft ,0,0,100,100,TX_WHITE);
+        Win32::TransparentBlt(txDC(), 800, 700, 100,100, arrowRight,0,0,100,100,TX_WHITE);
 
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
@@ -85,7 +85,7 @@ int main()
         {
             pictures[nomer_picture].drawMapObject(CURRENT_X);
         }
-         // black menu
+        // black menu
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - 300, 0, txGetExtentX(), txGetExtentY());
 
@@ -98,8 +98,8 @@ int main()
             {
                 nomer_kartinki = i;
             }
-         }
-
+        }
+      
         //Click on menu button
         for(int j =0; j <= 3;j++)
         {
@@ -179,7 +179,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Конструктор деревни");
+        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
 
         txSleep(10);
         txEnd();
