@@ -23,11 +23,11 @@ struct MapObject
         }
     }
 
-    bool Click()
+    bool Click(int current_x)
     {
         if (txMouseButtons() == 1 &&
-                txMouseX() > x &&   //äîëæíà áûòü ñîòêà
-                txMouseX() < x2 &&   //äîëæíà áûòü ñîòêà
+                txMouseX() > x + current_x &&   //äîëæíà áûòü ñîòêà
+                txMouseX() < x2 + current_x &&   //äîëæíà áûòü ñîòêà
                 txMouseY() > y    &&   //äîëæåí áûòü íîëü
                 txMouseY() < y2 )         //äîëæíî áûòü 70
         {
