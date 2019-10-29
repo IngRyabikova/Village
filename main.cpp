@@ -54,29 +54,29 @@ int main()
     const int WIDTH_MENU = 200;
 
 
-    const int COUNT_HOUSE_VARIANTS = 13;
-    MapObject houseVariants[COUNT_HOUSE_VARIANTS];
-    houseVariants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp", "House"};
-    houseVariants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", "House" };
-    houseVariants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp","House"};
-    houseVariants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp","House"};
-    houseVariants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp","Animals"};
-    houseVariants[5] = { 1010, 200, 1130, 400, "Album/Animals/PetuX.bmp","Animals"};
-    houseVariants[6] = { 1010, 400, 1130, 600, "Album/Animals/piG.bmp","Animals" };
-    houseVariants[7] = { 1010, 600, 1130, 800, "Album/Animals/Korova.bmp","Animals"};
-    houseVariants[8] = { 1010,  50, 1170, 270, "Album/people/man1.bmp","People"};
-    houseVariants[9] = { 1010, 300, 1130, 500, "Album/people/man2.bmp","People" };
-    houseVariants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp","People" };
-    houseVariants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp","Pamatnik" };
-    houseVariants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp","Pamatnik" };
+    const int COUNT_VARIANTS = 13;
+    MapObject variants[COUNT_VARIANTS];
+    variants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp", "House"};
+    variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", "House" };
+    variants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp","House"};
+    variants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp","House"};
+    variants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp","Animals"};
+    variants[5] = { 1010, 200, 1130, 400, "Album/Animals/PetuX.bmp","Animals"};
+    variants[6] = { 1010, 400, 1130, 600, "Album/Animals/piG.bmp","Animals" };
+    variants[7] = { 1010, 600, 1130, 800, "Album/Animals/Korova.bmp","Animals"};
+    variants[8] = { 1010,  50, 1170, 270, "Album/people/man1.bmp","People"};
+    variants[9] = { 1010, 300, 1130, 500, "Album/people/man2.bmp","People" };
+    variants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp","People" };
+    variants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp","Pamatnik" };
+    variants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp","Pamatnik" };
 
-    for (int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
+    for (int i = 0; i < COUNT_VARIANTS; i++)
     {
-        houseVariants[i].visible = true;
-        houseVariants[i].text = "";
-        houseVariants[i].picture = txLoadImage (houseVariants[i].adress.c_str());
-        houseVariants[i].width = get_widht (houseVariants[i].adress);
-        houseVariants[i].hight= get_height (houseVariants[i].adress) ;
+        variants[i].visible = true;
+        variants[i].text = "";
+        variants[i].picture = txLoadImage (variants[i].adress.c_str());
+        variants[i].width = get_widht (variants[i].adress);
+        variants[i].hight= get_height (variants[i].adress) ;
     }
 
     int COUNT_PICTURES = 0;
@@ -88,7 +88,7 @@ int main()
     buttons[2] = {320,0, "Животные","Animals"};
     buttons[3] = {480,0, "Памятники", "Pamatnik"};
 
-    char *category = "";
+    char *selected_category = "";
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
 
@@ -97,13 +97,13 @@ int main()
     arrowLeft.visible = true;
     arrowLeft.picture = txLoadImage (arrowLeft.adress.c_str());
     arrowLeft.width = get_widht (arrowLeft.adress);
-    arrowLeft.hight= get_height (arrowLeft.adress) ;
+    arrowLeft.hight= get_height (arrowLeft.adress);
     arrowLeft.text= "";
 
-    arrowRight .visible = true;
-    arrowRight .picture = txLoadImage (arrowRight.adress.c_str());
-    arrowRight .width = get_widht (arrowRight .adress);
-    arrowRight .hight= get_height (arrowRight.adress) ;
+    arrowRight.visible = true;
+    arrowRight.picture = txLoadImage (arrowRight.adress.c_str());
+    arrowRight.width = get_widht (arrowRight .adress);
+    arrowRight.hight= get_height (arrowRight.adress);
     arrowRight.text= "";
 
     while (!GetAsyncKeyState(VK_ESCAPE))
@@ -130,7 +130,7 @@ int main()
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
-        drawVariants (COUNT_HOUSE_VARIANTS, houseVariants, category );
+        drawVariants (COUNT_VARIANTS, variants, selected_category );
 
         //select a picture
         for (int i = 0 ; i < COUNT_PICTURES;i++)
@@ -145,30 +145,30 @@ int main()
         {
             if (buttons[j].Click())
             {
-                category = buttons[j].category;
+                selected_category = buttons[j].category;
                 txSleep(200);
             }
         }
 
 
         //Click on variant
-        for (int i = 0; i < COUNT_HOUSE_VARIANTS; i++)
+        for (int i = 0; i < COUNT_VARIANTS; i++)
         {
-            if (houseVariants[i].Click(0) &&
-                category == houseVariants[i].category)
+            if (variants[i].Click(0) &&
+                selected_category == variants[i].category)
             {
-                int rand_x = rand() % 844;
-                int rand_y = 63 + rand() % 732;
+                int new_x = rand() % 844;
+                int new_y = 63 + rand() % 732;
                 MapObject tmp = {
-                    rand_x,
-                    rand_y,
-                    rand_x + houseVariants[i].width/3,
-                    rand_y + houseVariants[i].hight/3,
-                    houseVariants[i].adress,
+                    new_x,
+                    new_y,
+                    new_x + variants[i].width/3,
+                    new_y + variants[i].hight/3,
+                    variants[i].adress,
                      "",
-                    houseVariants[i].picture,
-                    houseVariants[i].width,
-                    houseVariants[i].hight,
+                    variants[i].picture,
+                    variants[i].width,
+                    variants[i].hight,
                     "",
                     true
                 };
@@ -225,8 +225,8 @@ int main()
         txEnd();
     }
 
-    for (int i = 0; i < COUNT_HOUSE_VARIANTS; i++) {
-        txDeleteDC(houseVariants[i].picture);
+    for (int i = 0; i < COUNT_VARIANTS; i++) {
+        txDeleteDC(variants[i].picture);
     }
     txDeleteDC(background);
 
