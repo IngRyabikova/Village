@@ -180,31 +180,38 @@ int main()
         }
 
         //Click on picture
-        for (int i = 0; i < COUNT_PICTURES; i++)
+        //for (int nomer_kartinki = 0; nomer_kartinki < COUNT_PICTURES; nomer_kartinki++)
         {
-            if (pictures[i].Click(CURRENT_X) && (txMouseX() < txGetExtentX() - 300))
+            if (pictures[nomer_kartinki].Click(CURRENT_X) && (txMouseX() < txGetExtentX() - 300))
             {
                 for (int k = 0; k < COUNT_PICTURES; k++)
                 {
                     pictures[k].clicked = false;
                 }
-                pictures[i].clicked = true;
+                pictures[nomer_kartinki].clicked = true;
             }
 
-            if ((txMouseButtons() & 1) && pictures[i].clicked)
+            if ((txMouseButtons() & 1) && pictures[nomer_kartinki].clicked)
             {
-                int width = pictures[i].x2  - pictures[i].x;
-                pictures[i].x = txMouseX() - CURRENT_X - width /2 ;
-                pictures[i].x2 = pictures[i].x + width ;
-                int high = pictures[i].y2 - pictures[i].y;
-                pictures[i].y = txMouseY() - high / 2 ;
-                pictures[i].y2 = pictures[i].y + high ;
+                int width = pictures[nomer_kartinki].x2  - pictures[nomer_kartinki].x;
+                pictures[nomer_kartinki].x = txMouseX() - CURRENT_X - width /2 ;
+                pictures[nomer_kartinki].x2 = pictures[nomer_kartinki].x + width ;
+                int high = pictures[nomer_kartinki].y2 - pictures[nomer_kartinki].y;
+                pictures[nomer_kartinki].y = txMouseY() - high / 2 ;
+                pictures[nomer_kartinki].y2 = pictures[nomer_kartinki].y + high ;
             }
 
-            if (!(txMouseButtons() & 1) && pictures[i].clicked)
+            if (!(txMouseButtons() & 1) && pictures[nomer_kartinki].clicked)
             {
-                pictures[i].clicked = false;
+                pictures[nomer_kartinki].clicked = false;
             }
+        }
+
+        if(nomer_kartinki >= 0 && GetAsyncKeyState(VK_DELETE))
+        {
+            pictures[nomer_kartinki] = pictures[COUNT_PICTURES - 1];
+            COUNT_PICTURES -= 1 ;
+            nomer_kartinki = - 100 ;
         }
 
         //Camera moving
