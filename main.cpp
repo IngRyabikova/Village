@@ -54,7 +54,7 @@ int main()
     const int WIDTH_MENU = 200;
 
 
-    const int COUNT_VARIANTS = 13;
+    const int COUNT_VARIANTS = 14;
     MapObject variants[COUNT_VARIANTS];
     variants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp", "House"};
     variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", "House" };
@@ -69,7 +69,7 @@ int main()
     variants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp","People" };
     variants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp","Pamatnik" };
     variants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp","Pamatnik" };
-
+    variants[13] ={ 1010, 300, 1180, 500, "Album/House/school.bmp","Zdanie" };
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
         variants[i].visible = true;
@@ -82,12 +82,12 @@ int main()
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
 
-    Button buttons[4];
+    Button buttons[5];
     buttons[0] = {  0,0, "Дома", "House"};
     buttons[1] = {160,0, "Люди","People" };
     buttons[2] = {320,0, "Животные","Animals"};
     buttons[3] = {480,0, "Памятники", "Pamatnik"};
-
+    buttons[4] = {570,0, "Здания", "Zdanie"};
     char *selected_category = "";
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
@@ -120,7 +120,7 @@ int main()
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
 
-        drawButtons (buttons, 4);
+        drawButtons (buttons, 5);
         //draw pictures
         for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
         {
@@ -141,7 +141,7 @@ int main()
             }
         }
         //Click on menu button
-        for(int j =0; j <= 3;j++)
+        for(int j =0; j < 5;j++)
         {
             if (buttons[j].Click())
             {
