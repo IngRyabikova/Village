@@ -83,11 +83,11 @@ int main()
     MapObject pictures[100];
 
     Button buttons[5];
-    buttons[0] = {  0,0, "Г„Г®Г¬Г ", "House"};
-    buttons[1] = {160,0, "Г‹ГѕГ¤ГЁ","People" };
-    buttons[2] = {320,0, "Г†ГЁГўГ®ГІГ­Г»ГҐ","Animals"};
-    buttons[3] = {480,0, "ГЏГ Г¬ГїГІГ­ГЁГЄГЁ", "Pamatnik"};
-    buttons[4] = {570,0, "Г‡Г¤Г Г­ГЁГї", "Zdanie"};
+    buttons[0] = {  0,0, "Дома", "House"};
+    buttons[1] = {160,0, "Люди","People" };
+    buttons[2] = {320,0, "Животные","Animals"};
+    buttons[3] = {480,0, "Памятники", "Pamatnik"};
+    buttons[4] = {640,0, "Здания", "Zdanie"};
 
     char *selected_category = "";
     int nomer_kartinki = -100;
@@ -158,8 +158,8 @@ int main()
             if (variants[i].Click(0) &&
                 selected_category == variants[i].category)
             {
-                int new_x = -CURRENT_X + (rand() % 844);
-                int new_y = 63 + rand() % 732;
+                int new_x = -CURRENT_X + random(0,844);
+                int new_y = 63 + random(0,732);
                 MapObject tmp = {
                     new_x,
                     new_y,
@@ -205,7 +205,8 @@ int main()
             pictures[nomer_kartinki].clicked = false;
         }
 
-        if(nomer_kartinki >= 0 && GetAsyncKeyState(VK_DELETE))
+        //Deleting picture
+        if (nomer_kartinki >= 0 && GetAsyncKeyState(VK_DELETE))
         {
             pictures[nomer_kartinki] = pictures[COUNT_PICTURES - 1];
             COUNT_PICTURES -= 1 ;
@@ -224,7 +225,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г¤ГҐГ°ГҐГўГ­ГЁ");
+        txTextOut(200,700, "Конструктор деревни");
 
         txSleep(10);
         txEnd();
