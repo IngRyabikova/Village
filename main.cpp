@@ -72,6 +72,9 @@ int main()
 
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
+    string str = variants[i].adress;
+    int fpos = str.find("/");
+    int spos = str.find("/", fpos + 1);
         variants[i].visible = true;
         variants[i].text = "";
         variants[i].picture = txLoadImage (variants[i].adress.c_str());
