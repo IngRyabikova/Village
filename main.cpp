@@ -41,6 +41,39 @@ void drawVariants (int count, MapObject houseVariants[], char * category )
     }
 }
 
+int selectPics(int COUNT_PICTURES, MapObject pictures[], int CURRENT_X, int nomer_kartinki)
+{
+    for (int i = 0 ; i < COUNT_PICTURES;i++)
+    {
+        if (pictures[i].Click(CURRENT_X))
+        {
+            nomer_kartinki = i;
+        }
+    }
+
+    return nomer_kartinki;
+}
+ char* selectCateg(char* selected_category ,Button buttons[])
+ {
+
+  for(int j =0; j < 5;j++)
+        {
+            if (buttons[j].Click())
+            {
+                selected_category = buttons[j].category;
+                txSleep(200);
+            }
+        }
+        return selected_category;
+ }
+
+ void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
+ {
+    for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
+        {
+            pictures[nomer_picture].drawMapObject(CURRENT_X);
+        }
+ }
 int main()
 {
     txCreateWindow(1200,800);
@@ -55,26 +88,27 @@ int main()
 
     const int COUNT_VARIANTS = 14;
     MapObject variants[COUNT_VARIANTS];
-    variants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp", "House"};
-    variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", "House" };
-    variants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp","House"};
-    variants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp","House"};
-    variants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp","Animals"};
-    variants[5] = { 1010, 200, 1130, 400, "Album/Animals/PetuX.bmp","Animals"};
-    variants[6] = { 1010, 400, 1130, 600, "Album/Animals/piG.bmp","Animals" };
-    variants[7] = { 1010, 600, 1130, 800, "Album/Animals/Korova.bmp","Animals"};
-    variants[8] = { 1010,  50, 1170, 270, "Album/people/man1.bmp","People"};
-    variants[9] = { 1010, 300, 1130, 500, "Album/people/man2.bmp","People" };
-    variants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp","People" };
-    variants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp","Pamatnik" };
-    variants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp","Pamatnik" };
-    variants[13] ={ 1010, 300, 1180, 500, "Album/House/school.bmp","Zdanie" };
+    variants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp"};
+    variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", };
+    variants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp"};
+    variants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp"};
+    variants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp"};
+    variants[5] = { 1010, 200, 1130, 400, "Album/Animals/PetuX.bmp"};
+    variants[6] = { 1010, 400, 1130, 600, "Album/Animals/piG.bmp" };
+    variants[7] = { 1010, 600, 1130, 800, "Album/Animals/Korova.bmp"};
+    variants[8] = { 1010,  50, 1170, 270, "Album/people/man1.bmp"};
+    variants[9] = { 1010, 300, 1130, 500, "Album/people/man2.bmp" };
+    variants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp"};
+    variants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp" };
+    variants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp" };
+    variants[13] ={ 1010, 300, 1180, 500, "Album/Zdanie/school.bmp" };
 
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
-    string str = variants[i].adress;
-    int fpos = str.find("/");
-    int spos = str.find("/", fpos + 1);
+        string str = variants[i].adress;
+        int fpos = str.find("/");
+        int spos = str.find("/", fpos + 1);
+        variants[i].category = str.substr(fpos + 1, spos - fpos -1);
         variants[i].visible = true;
         variants[i].text = "";
         variants[i].picture = txLoadImage (variants[i].adress.c_str());
@@ -87,7 +121,7 @@ int main()
 
     Button buttons[5];
     buttons[0] = {  0,0, "Дома", "House"};
-    buttons[1] = {160,0, "Люди","People" };
+    buttons[1] = {160,0, "Люди","people" };
     buttons[2] = {320,0, "Животные","Animals"};
     buttons[3] = {480,0, "Памятники", "Pamatnik"};
     buttons[4] = {640,0, "Здания", "Zdanie"};
@@ -115,8 +149,9 @@ int main()
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
-        txBitBlt(txDC(), CURRENT_X, 0, 10000, txGetExtentY(), background);
-
+        txBitBlt(txDC(), CURRENT_X, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X - 5632, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X - 5632 * 2, 0, 5632, txGetExtentY(), background);
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
 
@@ -126,10 +161,7 @@ int main()
 
         drawButtons (buttons, 5);
         //draw pictures
-        for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
-        {
-            pictures[nomer_picture].drawMapObject(CURRENT_X);
-        }
+       drawfromCurrentX(pictures, COUNT_PICTURES,CURRENT_X);
         // black menu
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
@@ -137,49 +169,39 @@ int main()
         drawVariants (COUNT_VARIANTS, variants, selected_category );
 
         //select a picture
-        for (int i = 0 ; i < COUNT_PICTURES;i++)
-        {
-            if (pictures[i].Click(CURRENT_X))
-            {
-                nomer_kartinki = i;
-            }
-        }
-        //Click on menu button
-        for(int j =0; j < 5;j++)
-        {
-            if (buttons[j].Click())
-            {
-                selected_category = buttons[j].category;
-                txSleep(200);
-            }
-        }
+        nomer_kartinki = selectPics(COUNT_PICTURES, pictures, CURRENT_X, nomer_kartinki);
 
+        //Click on menu button
+        selected_category = selectCateg( selected_category , buttons);
 
         //Click on variant
-        for (int i = 0; i < COUNT_VARIANTS; i++)
+        if (!(txMouseButtons() == 1 && pictures[nomer_kartinki].clicked))
         {
-            if (variants[i].Click(0) &&
-                selected_category == variants[i].category)
+            for (int i = 0; i < COUNT_VARIANTS; i++)
             {
-                int new_x = -CURRENT_X + random(0,844);
-                int new_y = 63 + random(0,732);
-                MapObject tmp = {
-                    new_x,
-                    new_y,
-                    new_x + variants[i].width/3,
-                    new_y + variants[i].hight/3,
-                    variants[i].adress,
-                     "",
-                    variants[i].picture,
-                    variants[i].width,
-                    variants[i].hight,
-                    "",
-                    true
-                };
+                if (variants[i].Click(0) &&
+                    selected_category == variants[i].category)
+                {
+                    int new_x = -CURRENT_X + random(0,844);
+                    int new_y = 63 + random(0,732);
+                    MapObject tmp = {
+                        new_x,
+                        new_y,
+                        new_x + variants[i].width/3,
+                        new_y + variants[i].hight/3,
+                        variants[i].adress,
+                         "",
+                        variants[i].picture,
+                        variants[i].width,
+                        variants[i].hight,
+                        "",
+                        true
+                    };
 
-                pictures[COUNT_PICTURES] = tmp;
-                COUNT_PICTURES++;
-                txSleep(200);
+                    pictures[COUNT_PICTURES] = tmp;
+                    COUNT_PICTURES++;
+                    txSleep(200);
+                }
             }
         }
 
