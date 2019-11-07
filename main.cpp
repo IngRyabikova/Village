@@ -85,12 +85,13 @@ int main()
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
 
-    Button buttons[5];
+    Button buttons[6];
     buttons[0] = {  0,0, "Дома", "House"};
     buttons[1] = {160,0, "Люди","People" };
     buttons[2] = {320,0, "Животные","Animals"};
     buttons[3] = {480,0, "Памятники", "Pamatnik"};
     buttons[4] = {640,0, "Здания", "Zdanie"};
+    buttons[5] = {740,0, "Справка" };
 
     char *selected_category = "";
     int nomer_kartinki = -100;
@@ -120,11 +121,41 @@ int main()
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
 
+        if( txMouseButtons() == 1)
+        {
+            txSleep(200);
+            bool stop = false;
+            while (stop == false)
+            {
+                txRectangle (100, 100,500,500);
+                txDrawText(100, 100,500,500,
+                    "Приветствую в\n"
+                    " справке");
+
+                if (txMouseButtons() == 1 &&
+                    txMouseX() > 100 &&
+                    txMouseX() < 500 &&
+                    txMouseY() > 100    &&
+                    txMouseY() < 500)
+                {
+                    stop = true;;
+
+                }
+
+
+                txSleep(10);
+
+            }
+
+        }
+
+
+
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
 
-        drawButtons (buttons, 5);
+        drawButtons (buttons, 6);
         //draw pictures
         for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
         {
