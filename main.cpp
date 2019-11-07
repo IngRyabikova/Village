@@ -115,7 +115,13 @@ int main()
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
-        txBitBlt(txDC(), CURRENT_X, 0, 10000, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X      , 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X -5632, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X -5632*2, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X -5632*3, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X -5632*4, 0, 5632, txGetExtentY(), background);
+
+
 
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
@@ -219,11 +225,11 @@ int main()
         //Camera moving
         if (arrowRight.Click(0))
         {
-            CURRENT_X -= 10;
+            CURRENT_X -= 1000;
         }
         else if (arrowLeft.Click(0))
         {
-            CURRENT_X += 10;
+            CURRENT_X += 1000;
         }
 
         txSetColor(TX_BLACK);
