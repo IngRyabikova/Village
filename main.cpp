@@ -41,6 +41,39 @@ void drawVariants (int count, MapObject houseVariants[], char * category )
     }
 }
 
+int selectPics(int COUNT_PICTURES, MapObject pictures[], int CURRENT_X, int nomer_kartinki)
+{
+    for (int i = 0 ; i < COUNT_PICTURES;i++)
+    {
+        if (pictures[i].Click(CURRENT_X))
+        {
+            nomer_kartinki = i;
+        }
+    }
+
+    return nomer_kartinki;
+}
+
+char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
+{
+  for(int j =0; j < COUNT_BTN;j++)
+        {
+            if (buttons[j].Click())
+            {
+                selected_category = buttons[j].category;
+                txSleep(200);
+            }
+        }
+        return selected_category;
+ }
+
+ void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
+ {
+    for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
+        {
+            pictures[nomer_picture].drawMapObject(CURRENT_X);
+        }
+ }
 int main()
 {
     txCreateWindow(1200,800);
@@ -54,26 +87,27 @@ int main()
 
     const int COUNT_VARIANTS = 14;
     MapObject variants[COUNT_VARIANTS];
-    variants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp", "House"};
-    variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", "House" };
-    variants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp","House"};
-    variants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp","House"};
-    variants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp","Animals"};
-    variants[5] = { 1010, 200, 1130, 400, "Album/Animals/PetuX.bmp","Animals"};
-    variants[6] = { 1010, 400, 1130, 600, "Album/Animals/piG.bmp","Animals" };
-    variants[7] = { 1010, 600, 1130, 800, "Album/Animals/Korova.bmp","Animals"};
-    variants[8] = { 1010,  50, 1170, 270, "Album/people/man1.bmp","People"};
-    variants[9] = { 1010, 300, 1130, 500, "Album/people/man2.bmp","People" };
-    variants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp","People" };
-    variants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp","Pamatnik" };
-    variants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp","Pamatnik" };
-    variants[13] ={ 1010, 300, 1180, 500, "Album/House/school.bmp","Zdanie" };
+    variants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp"};
+    variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", };
+    variants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp"};
+    variants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp"};
+    variants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp"};
+    variants[5] = { 1010, 200, 1130, 400, "Album/Animals/PetuX.bmp"};
+    variants[6] = { 1010, 400, 1130, 600, "Album/Animals/piG.bmp" };
+    variants[7] = { 1010, 600, 1130, 800, "Album/Animals/Korova.bmp"};
+    variants[8] = { 1010,  50, 1170, 270, "Album/people/man1.bmp"};
+    variants[9] = { 1010, 300, 1130, 500, "Album/people/man2.bmp" };
+    variants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp"};
+    variants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp" };
+    variants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp" };
+    variants[13] ={ 1010, 300, 1180, 500, "Album/Zdanie/school.bmp" };
 
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
-    string str = variants[i].adress;
-    int fpos = str.find("/");
-    int spos = str.find("/", fpos + 1);
+        string str = variants[i].adress;
+        int fpos = str.find("/");
+        int spos = str.find("/", fpos + 1);
+        variants[i].category = str.substr(fpos + 1, spos - fpos -1);
         variants[i].visible = true;
         variants[i].text = "";
         variants[i].picture = txLoadImage (variants[i].adress.c_str());
@@ -84,15 +118,16 @@ int main()
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
 
-    const int COUNT_BTN = 7;
+    const int COUNT_BTN = 8;
     Button buttons[COUNT_BTN];
-    buttons[0] = {  0,0, "Äîìà", "House"};
-    buttons[1] = {160,0, "Ëþäè","People" };
-    buttons[2] = {320,0, "Æèâîòíûå","Animals"};
-    buttons[3] = {480,0, "Ïàìÿòíèêè", "Pamatnik"};
-    buttons[4] = {640,0, "Çäàíèÿ", "Zdanie"};
+    buttons[0] = {  0,0, "Ã„Ã®Ã¬Ã ", "House"};
+    buttons[1] = {160,0, "Ã‹Ã¾Ã¤Ã¨","people" };
+    buttons[2] = {320,0, "Ã†Ã¨Ã¢Ã®Ã²Ã­Ã»Ã¥","Animals"};
+    buttons[3] = {480,0, "ÃÃ Ã¬Ã¿Ã²Ã­Ã¨ÃªÃ¨", "Pamatnik"};
+    buttons[4] = {640,0, "Ã‡Ã¤Ã Ã­Ã¨Ã¿", "Zdanie"};
     buttons[5] = {725,0, "On"};
     buttons[6] = {800,0, "Off"};
+    buttons[7] = {850,0, "?"};
 
     char *selected_category = "";
     int nomer_kartinki = -100;
@@ -116,12 +151,12 @@ int main()
 
     while (!GetAsyncKeyState(VK_ESCAPE))
     {
-
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
-        txBitBlt(txDC(), CURRENT_X, 0, 10000, txGetExtentY(), background);
-
+        txBitBlt(txDC(), CURRENT_X, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X - 5632, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X - 5632 * 2, 0, 5632, txGetExtentY(), background);
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
 
@@ -131,10 +166,7 @@ int main()
 
         drawButtons (buttons, COUNT_BTN);
         //draw pictures
-        for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
-        {
-            pictures[nomer_picture].drawMapObject(CURRENT_X);
-        }
+       drawfromCurrentX(pictures, COUNT_PICTURES,CURRENT_X);
         // black menu
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
@@ -142,58 +174,71 @@ int main()
         drawVariants (COUNT_VARIANTS, variants, selected_category );
 
         //select a picture
-        for (int i = 0 ; i < COUNT_PICTURES;i++)
-        {
-            if (pictures[i].Click(CURRENT_X))
-            {
-                nomer_kartinki = i;
-            }
-        }
+        nomer_kartinki = selectPics(COUNT_PICTURES, pictures, CURRENT_X, nomer_kartinki);
+
         //Click on menu button
-        for(int j =0; j < COUNT_BTN - 2;j++)
-        {
-            if (buttons[j].Click())
-            {
-                selected_category = buttons[j].category;
-                txSleep(200);
-            }
-        }
+        selected_category = selectCateg(selected_category , buttons, COUNT_BTN - 3);
 
         if (buttons[5].Click())
         {
             txPlaySound("Music\\somebody.wav");
         }
-
-        if (buttons[6].Click())
+        else if (buttons[6].Click())
         {
             txPlaySound(NULL);
         }
+        else if (buttons[7].Click())
+        {
+            txSleep(200);
+            bool stop = false;
+            while (stop == false)
+            {
+                txRectangle (100, 100,500,500);
+                txDrawText(100, 100,500,500,
+                    "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½\n"
+                    " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+
+                if (txMouseButtons() == 1 &&
+                    txMouseX() > 100 &&
+                    txMouseX() < 500 &&
+                    txMouseY() > 100 &&
+                    txMouseY() < 500)
+                {
+                    stop = true;
+                }
+
+                txSleep(10);
+            }
+        }
 
         //Click on variant
-        for (int i = 0; i < COUNT_VARIANTS; i++)
+        if (!(txMouseButtons() == 1 && pictures[nomer_kartinki].clicked))
         {
-            if (variants[i].Click(0) &&
-                selected_category == variants[i].category)
+            for (int i = 0; i < COUNT_VARIANTS; i++)
             {
-                int new_x = -CURRENT_X + random(0,844);
-                int new_y = 63 + random(0,732);
-                MapObject tmp = {
-                    new_x,
-                    new_y,
-                    new_x + variants[i].width/3,
-                    new_y + variants[i].hight/3,
-                    variants[i].adress,
-                     "",
-                    variants[i].picture,
-                    variants[i].width,
-                    variants[i].hight,
-                    "",
-                    true
-                };
+                if (variants[i].Click(0) &&
+                    selected_category == variants[i].category)
+                {
+                    int new_x = -CURRENT_X + random(0,844);
+                    int new_y = 63 + random(0,732);
+                    MapObject tmp = {
+                        new_x,
+                        new_y,
+                        new_x + variants[i].width/3,
+                        new_y + variants[i].hight/3,
+                        variants[i].adress,
+                         "",
+                        variants[i].picture,
+                        variants[i].width,
+                        variants[i].hight,
+                        "",
+                        true
+                    };
 
-                pictures[COUNT_PICTURES] = tmp;
-                COUNT_PICTURES++;
-                txSleep(200);
+                    pictures[COUNT_PICTURES] = tmp;
+                    COUNT_PICTURES++;
+                    txSleep(200);
+                }
             }
         }
 
@@ -242,7 +287,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Êîíñòðóêòîð äåðåâíè");
+        txTextOut(200,700, "ÃŠÃ®Ã­Ã±Ã²Ã°Ã³ÃªÃ²Ã®Ã° Ã¤Ã¥Ã°Ã¥Ã¢Ã­Ã¨");
 
         txSleep(10);
         txEnd();

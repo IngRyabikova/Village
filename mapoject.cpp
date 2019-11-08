@@ -7,7 +7,7 @@ struct MapObject
     int x2;
     int y2;
     string adress;
-    const char* category;
+    string category;
     HDC picture;
     int width;
     int hight;
