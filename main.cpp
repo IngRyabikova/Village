@@ -45,7 +45,6 @@ int main()
 {
     txCreateWindow(1200,800);
     txDisableAutoPause();
-    txPlaySound("Music\\somebody.wav",SND_LOOP);
 
     HDC background = txLoadImage("Album/Background.bmp");
 
@@ -85,12 +84,15 @@ int main()
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
 
-    Button buttons[5];
+    const int COUNT_BTN = 7;
+    Button buttons[COUNT_BTN];
     buttons[0] = {  0,0, "Дома", "House"};
     buttons[1] = {160,0, "Люди","People" };
     buttons[2] = {320,0, "Животные","Animals"};
     buttons[3] = {480,0, "Памятники", "Pamatnik"};
     buttons[4] = {640,0, "Здания", "Zdanie"};
+    buttons[5] = {725,0, "On"};
+    buttons[6] = {800,0, "Off"};
 
     char *selected_category = "";
     int nomer_kartinki = -100;
@@ -110,8 +112,11 @@ int main()
     arrowRight.hight= get_height (arrowRight.adress);
     arrowRight.text= "";
 
+
+
     while (!GetAsyncKeyState(VK_ESCAPE))
     {
+
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
@@ -124,7 +129,7 @@ int main()
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
 
-        drawButtons (buttons, 5);
+        drawButtons (buttons, COUNT_BTN);
         //draw pictures
         for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
         {
@@ -145,7 +150,7 @@ int main()
             }
         }
         //Click on menu button
-        for(int j =0; j < 5;j++)
+        for(int j =0; j < COUNT_BTN - 2;j++)
         {
             if (buttons[j].Click())
             {
@@ -154,6 +159,15 @@ int main()
             }
         }
 
+        if (buttons[5].Click())
+        {
+            txPlaySound("Music\\somebody.wav");
+        }
+
+        if (buttons[6].Click())
+        {
+            txPlaySound(NULL);
+        }
 
         //Click on variant
         for (int i = 0; i < COUNT_VARIANTS; i++)
