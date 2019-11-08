@@ -56,24 +56,25 @@ int selectPics(int COUNT_PICTURES, MapObject pictures[], int CURRENT_X, int nome
 
 char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
 {
-  for(int j =0; j < COUNT_BTN;j++)
-        {
-            if (buttons[j].Click())
-            {
-                selected_category = buttons[j].category;
-                txSleep(200);
-            }
-        }
-        return selected_category;
- }
+	for(int j =0; j < COUNT_BTN;j++)
+	{
+		if (buttons[j].Click())
+		{
+			selected_category = buttons[j].category;
+			txSleep(200);
+		}
+	}
+	return selected_category;
+}
 
- void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
- {
+void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
+{
     for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
-        {
-            pictures[nomer_picture].drawMapObject(CURRENT_X);
-        }
- }
+	{
+		pictures[nomer_picture].drawMapObject(CURRENT_X);
+	}
+}
+
 int main()
 {
     txCreateWindow(1200,800);
@@ -100,7 +101,7 @@ int main()
     variants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp"};
     variants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp" };
     variants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp" };
-    variants[13] ={ 1010, 300, 1180, 500, "Album/Zdanie/school.bmp" };
+    variants[13] ={ 1010, 300, 1180, 500, "Album/building/school.bmp" };
 
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
@@ -120,11 +121,11 @@ int main()
 
     const int COUNT_BTN = 8;
     Button buttons[COUNT_BTN];
-    buttons[0] = {  0,0, "Ã„Ã®Ã¬Ã ", "House"};
-    buttons[1] = {160,0, "Ã‹Ã¾Ã¤Ã¨","people" };
-    buttons[2] = {320,0, "Ã†Ã¨Ã¢Ã®Ã²Ã­Ã»Ã¥","Animals"};
-    buttons[3] = {480,0, "ÃÃ Ã¬Ã¿Ã²Ã­Ã¨ÃªÃ¨", "Pamatnik"};
-    buttons[4] = {640,0, "Ã‡Ã¤Ã Ã­Ã¨Ã¿", "Zdanie"};
+    buttons[0] = {  0,0, "Äîìà", "House"};
+    buttons[1] = {160,0, "Ëþäè","people" };
+    buttons[2] = {320,0, "Æèâîòíûå","Animals"};
+    buttons[3] = {480,0, "Ïàìÿòíèêè", "Pamatnik"};
+    buttons[4] = {640,0, "Çäàíèÿ", "building"};
     buttons[5] = {725,0, "On"};
     buttons[6] = {800,0, "Off"};
     buttons[7] = {850,0, "?"};
@@ -154,11 +155,17 @@ int main()
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
-        txBitBlt(txDC(), CURRENT_X, 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X - 5632, 0, 5632, txGetExtentY(), background);
         txBitBlt(txDC(), CURRENT_X - 5632 * 2, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X - 5632 * 1, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X           , 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X + 5632 * 1, 0, 5632, txGetExtentY(), background);
+        txBitBlt(txDC(), CURRENT_X + 5632 * 2, 0, 5632, txGetExtentY(), background);
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
+
+        txSetColor(TX_BLACK);
+        txSelectFont("Comic Sans MS", 60);
+        txTextOut(200,700, "Êîíñòðóêòîð äåðåâíè");
 
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
@@ -166,7 +173,7 @@ int main()
 
         drawButtons (buttons, COUNT_BTN);
         //draw pictures
-       drawfromCurrentX(pictures, COUNT_PICTURES,CURRENT_X);
+		drawfromCurrentX(pictures, COUNT_PICTURES,CURRENT_X);
         // black menu
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
@@ -193,10 +200,12 @@ int main()
             bool stop = false;
             while (stop == false)
             {
+            	txSetFillColor(TX_WHITE);
+            	txSetColor(TX_BLACK);
                 txRectangle (100, 100,500,500);
                 txDrawText(100, 100,500,500,
-                    "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½\n"
-                    " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                    "Ïðèâåòñòâóþ â\n"
+                    " ñïðàâêå");
 
                 if (txMouseButtons() == 1 &&
                     txMouseX() > 100 &&
@@ -284,10 +293,6 @@ int main()
         {
             CURRENT_X += 10;
         }
-
-        txSetColor(TX_BLACK);
-        txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "ÃŠÃ®Ã­Ã±Ã²Ã°Ã³ÃªÃ²Ã®Ã° Ã¤Ã¥Ã°Ã¥Ã¢Ã­Ã¨");
 
         txSleep(10);
         txEnd();
