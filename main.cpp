@@ -53,10 +53,10 @@ int selectPics(int COUNT_PICTURES, MapObject pictures[], int CURRENT_X, int nome
 
     return nomer_kartinki;
 }
- char* selectCateg(char* selected_category ,Button buttons[])
- {
 
-  for(int j =0; j < 5;j++)
+char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
+{
+  for(int j =0; j < COUNT_BTN;j++)
         {
             if (buttons[j].Click())
             {
@@ -78,7 +78,6 @@ int main()
 {
     txCreateWindow(1200,800);
     txDisableAutoPause();
-    txPlaySound("Music\\somebody.wav",SND_LOOP);
 
     HDC background = txLoadImage("Album/Background.bmp");
 
@@ -119,12 +118,16 @@ int main()
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
 
-    Button buttons[5];
-    buttons[0] = {  0,0, "Äîìà", "House"};
-    buttons[1] = {160,0, "Ëþäè","people" };
-    buttons[2] = {320,0, "Æèâîòíûå","Animals"};
-    buttons[3] = {480,0, "Ïàìÿòíèêè", "Pamatnik"};
-    buttons[4] = {640,0, "Çäàíèÿ", "Zdanie"};
+    const int COUNT_BTN = 8;
+    Button buttons[COUNT_BTN];
+    buttons[0] = {  0,0, "Ã„Ã®Ã¬Ã ", "House"};
+    buttons[1] = {160,0, "Ã‹Ã¾Ã¤Ã¨","people" };
+    buttons[2] = {320,0, "Ã†Ã¨Ã¢Ã®Ã²Ã­Ã»Ã¥","Animals"};
+    buttons[3] = {480,0, "ÃÃ Ã¬Ã¿Ã²Ã­Ã¨ÃªÃ¨", "Pamatnik"};
+    buttons[4] = {640,0, "Ã‡Ã¤Ã Ã­Ã¨Ã¿", "Zdanie"};
+    buttons[5] = {725,0, "On"};
+    buttons[6] = {800,0, "Off"};
+    buttons[7] = {850,0, "?"};
 
     char *selected_category = "";
     int nomer_kartinki = -100;
@@ -144,6 +147,8 @@ int main()
     arrowRight.hight= get_height (arrowRight.adress);
     arrowRight.text= "";
 
+
+
     while (!GetAsyncKeyState(VK_ESCAPE))
     {
         txBegin();
@@ -159,7 +164,7 @@ int main()
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
 
-        drawButtons (buttons, 5);
+        drawButtons (buttons, COUNT_BTN);
         //draw pictures
        drawfromCurrentX(pictures, COUNT_PICTURES,CURRENT_X);
         // black menu
@@ -172,7 +177,39 @@ int main()
         nomer_kartinki = selectPics(COUNT_PICTURES, pictures, CURRENT_X, nomer_kartinki);
 
         //Click on menu button
-        selected_category = selectCateg( selected_category , buttons);
+        selected_category = selectCateg(selected_category , buttons, COUNT_BTN - 3);
+
+        if (buttons[5].Click())
+        {
+            txPlaySound("Music\\somebody.wav");
+        }
+        else if (buttons[6].Click())
+        {
+            txPlaySound(NULL);
+        }
+        else if (buttons[7].Click())
+        {
+            txSleep(200);
+            bool stop = false;
+            while (stop == false)
+            {
+                txRectangle (100, 100,500,500);
+                txDrawText(100, 100,500,500,
+                    "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½\n"
+                    " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+
+                if (txMouseButtons() == 1 &&
+                    txMouseX() > 100 &&
+                    txMouseX() < 500 &&
+                    txMouseY() > 100 &&
+                    txMouseY() < 500)
+                {
+                    stop = true;
+                }
+
+                txSleep(10);
+            }
+        }
 
         //Click on variant
         if (!(txMouseButtons() == 1 && pictures[nomer_kartinki].clicked))
@@ -250,7 +287,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Êîíñòðóêòîð äåðåâíè");
+        txTextOut(200,700, "ÃŠÃ®Ã­Ã±Ã²Ã°Ã³ÃªÃ²Ã®Ã° Ã¤Ã¥Ã°Ã¥Ã¢Ã­Ã¨");
 
         txSleep(10);
         txEnd();
