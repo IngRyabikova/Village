@@ -194,9 +194,9 @@ int main()
         {
             txPlaySound(NULL);
         }
+
         else if (buttons[7].Click())
         {
-            txSleep(200);
             bool stop = false;
             while (stop == false)
             {
@@ -205,7 +205,14 @@ int main()
                 txRectangle (100, 100,500,500);
                 txDrawText(100, 100,500,500,
                     "Приветствую в\n"
-                    " справке");
+                    " справке\n"
+                    " \n"
+                    " Программа позволяет создать деревню\n"
+                    " \n"
+                    " \n"
+                    " \n"
+                    " Разработчики:\n"
+                    "Никита, Илья, Ярослав, Иван");
 
                 if (txMouseButtons() == 1 &&
                     txMouseX() > 100 &&
