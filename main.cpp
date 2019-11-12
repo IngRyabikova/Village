@@ -2,6 +2,10 @@
 #include "TXLib.h"
 #include "button.cpp"
 #include "mapoject.cpp"
+#include <fstream>
+#include <string>
+
+using namespace std;
 
 int get_height  (string adress)
 {
@@ -76,7 +80,15 @@ void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
 }
 
 int main()
-{
+{   string stroka_width;
+    string stroka2_width;
+    string stroka3_width;
+    ifstream file("C:\\Users\\Public\\Documents\\text.txt");
+    getline(file,stroka_width);
+    getline(file,stroka2_width);
+    getline(file,stroka3_width);
+    file.close();
+
     txCreateWindow(1200,800);
     txDisableAutoPause();
 
@@ -88,8 +100,8 @@ int main()
 
     const int COUNT_VARIANTS = 14;
     MapObject variants[COUNT_VARIANTS];
-    variants[0] = { 1030,   0, 1130, 150,"Album/House/house2.bmp"};
-    variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp", };
+    variants[0] = {atoi( stroka3_width.c_str()),   0, 1130, 150,stroka_width};
+    variants[1] = { 1010, 200, 1180, 350,stroka2_width };
     variants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp"};
     variants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp"};
     variants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp"};
