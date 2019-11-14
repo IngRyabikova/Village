@@ -80,15 +80,7 @@ void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
 }
 
 int main()
-{   string stroka_width;
-    string stroka2_width;
-    string stroka3_width;
-    ifstream file("C:\\Users\\Public\\Documents\\text.txt");
-    getline(file,stroka_width);
-    getline(file,stroka2_width);
-    getline(file,stroka3_width);
-    file.close();
-
+{
     txCreateWindow(1200,800);
     txDisableAutoPause();
 
@@ -100,8 +92,8 @@ int main()
 
     const int COUNT_VARIANTS = 14;
     MapObject variants[COUNT_VARIANTS];
-    variants[0] = {atoi( stroka3_width.c_str()),   0, 1130, 150,stroka_width};
-    variants[1] = { 1010, 200, 1180, 350,stroka2_width };
+    variants[0] = { 1010,   0, 1130, 150,"Album/House/house2.bmp"};
+    variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp" };
     variants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp"};
     variants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp"};
     variants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp"};
@@ -130,6 +122,39 @@ int main()
 
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
+
+    string stroka_x;
+    string stroka_y;
+    string stroka_adress;
+    ifstream file("text.txt");
+
+    while (file.good())
+    {
+        getline(file,stroka_x);
+        getline(file,stroka_y);
+        getline(file,stroka_adress);
+
+
+        pictures[COUNT_PICTURES].x = atoi(stroka_x.c_str());
+        pictures[COUNT_PICTURES].y = atoi(stroka_y.c_str());
+        pictures[COUNT_PICTURES].adress = stroka_adress;
+
+        pictures[COUNT_PICTURES].width = get_widht (pictures[COUNT_PICTURES].adress);
+        pictures[COUNT_PICTURES].hight= get_height (pictures[COUNT_PICTURES].adress) ;
+        pictures[COUNT_PICTURES].x2 = pictures[COUNT_PICTURES].x + pictures[COUNT_PICTURES].width /3;
+        pictures[COUNT_PICTURES].y2 = pictures[COUNT_PICTURES].y + pictures[COUNT_PICTURES].hight /3;
+        pictures[COUNT_PICTURES].visible = true;
+        pictures[COUNT_PICTURES].text = "";
+        pictures[COUNT_PICTURES].picture = txLoadImage ( pictures[COUNT_PICTURES].adress.c_str());
+
+
+
+
+
+        COUNT_PICTURES++;
+    }
+
+    file.close();
 
     const int COUNT_BTN = 8;
     Button buttons[COUNT_BTN];
@@ -321,6 +346,18 @@ int main()
         txDeleteDC(variants[i].picture);
     }
     txDeleteDC(background);
+
+
+    ofstream file1("text1.txt");
+
+    for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
+	{
+        file1 << pictures[nomer_picture].x << endl;
+        file1 << pictures[nomer_picture].y << endl;
+        file1 << pictures[nomer_picture].adress << endl;
+	}
+
+    file1.close();
 
     return 0;
 }
