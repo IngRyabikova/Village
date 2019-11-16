@@ -92,23 +92,26 @@ int main()
 
     const int COUNT_VARIANTS = 14;
     MapObject variants[COUNT_VARIANTS];
-    variants[0] = { 1010,   0, 1130, 150,"Album/House/house2.bmp"};
-    variants[1] = { 1010, 200, 1180, 350,"Album/House/house1.bmp" };
-    variants[2] = { 1010, 400, 1200, 600,"Album/House/house3.bmp"};
-    variants[3] = { 1010, 600, 1150, 800, "Album/House/House4.bmp"};
-    variants[4] = { 1010,   0, 1170, 120, "Album/Animals/DoG.bmp"};
-    variants[5] = { 1010, 200, 1130, 400, "Album/Animals/PetuX.bmp"};
-    variants[6] = { 1010, 400, 1130, 600, "Album/Animals/piG.bmp" };
-    variants[7] = { 1010, 600, 1130, 800, "Album/Animals/Korova.bmp"};
-    variants[8] = { 1010,  50, 1170, 270, "Album/people/man1.bmp"};
-    variants[9] = { 1010, 300, 1130, 500, "Album/people/man2.bmp" };
-    variants[10] ={ 1010, 500, 1170, 700, "Album/people/women.bmp"};
-    variants[11] ={ 1010, 100, 1130, 300, "Album/Pamatnik/Stalin.bmp" };
-    variants[12] ={ 1010, 300, 1180, 500, "Album/Pamatnik/Lenin.bmp" };
-    variants[13] ={ 1010, 300, 1180, 500, "Album/building/school.bmp" };
+    variants[0] = {   0, "Album/House/house2.bmp"};
+    variants[1] = { 200, "Album/House/house1.bmp" };
+    variants[2] = { 400, "Album/House/house3.bmp"};
+    variants[3] = { 600, "Album/House/House4.bmp"};
+    variants[4] = {   0, "Album/Animals/DoG.bmp"};
+    variants[5] = { 200, "Album/Animals/PetuX.bmp"};
+    variants[6] = { 400, "Album/Animals/piG.bmp" };
+    variants[7] = { 600, "Album/Animals/Korova.bmp"};
+    variants[8] = {  50, "Album/people/man1.bmp"};
+    variants[9] = { 300, "Album/people/man2.bmp" };
+    variants[10] ={ 500, "Album/people/women.bmp"};
+    variants[11] ={ 100, "Album/Pamatnik/Stalin.bmp" };
+    variants[12] ={ 300, "Album/Pamatnik/Lenin.bmp" };
+    variants[13] ={ 300, "Album/building/school.bmp" };
 
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
+        variants[i].x = 1010;
+        variants[i].x2 = 1150;
+        variants[i].y2 = variants[i].y + 100;
         string str = variants[i].adress;
         int fpos = str.find("/");
         int spos = str.find("/", fpos + 1);
@@ -171,8 +174,8 @@ int main()
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
 
-    MapObject arrowLeft  = {   0,   700,  100, 800, "Album/Arrows/Left.bmp"};
-    MapObject arrowRight = { 900,   700, 1000, 800, "Album/Arrows/Right.bmp"};
+    MapObject arrowLeft  = { 700, "Album/Arrows/Left.bmp",    0,  100, 800};
+    MapObject arrowRight = { 700, "Album/Arrows/Right.bmp", 900, 1000, 800};
     arrowLeft.visible = true;
     arrowLeft.picture = txLoadImage (arrowLeft.adress.c_str());
     arrowLeft.width = get_widht (arrowLeft.adress);
@@ -275,12 +278,12 @@ int main()
                     int new_x = -CURRENT_X + random(0,844);
                     int new_y = 63 + random(0,732);
                     MapObject tmp = {
-                        new_x,
                         new_y,
+                        variants[i].adress,
+                        new_x,
                         new_x + variants[i].width/3,
                         new_y + variants[i].hight/3,
-                        variants[i].adress,
-                         "",
+                        "",
                         variants[i].picture,
                         variants[i].width,
                         variants[i].hight,
