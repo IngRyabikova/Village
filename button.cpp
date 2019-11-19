@@ -35,4 +35,10 @@ struct Button
 
 };
 
-
+void drawButtons (Button buttons[], int count)
+{
+    for (int nomer_knopki = 0; nomer_knopki < count; nomer_knopki++)
+    {
+        buttons[nomer_knopki].drawButton();
+    }
+}
