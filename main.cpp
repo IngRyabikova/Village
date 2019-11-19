@@ -89,33 +89,53 @@ int main()
     int CURRENT_X = 0;
     const int WIDTH_MENU = 200;
 
+    const int COUNT_BTN = 8;
+    Button buttons[COUNT_BTN];
+    buttons[0] = {  0,0, "Дома", "House"};
+    buttons[1] = {160,0, "Люди","people" };
+    buttons[2] = {320,0, "Животные","Animals"};
+    buttons[3] = {480,0, "Памятники", "Pamatnik"};
+    buttons[4] = {640,0, "Здания", "building"};
+    buttons[5] = {725,0, "On",""};
+    buttons[6] = {800,0, "Off",""};
+    buttons[7] = {850,0, "?",""};
 
     const int COUNT_VARIANTS = 14;
     MapObject variants[COUNT_VARIANTS];
-    variants[0] = {   0, "Album/House/house2.bmp"};
-    variants[1] = { 200, "Album/House/house1.bmp" };
-    variants[2] = { 400, "Album/House/house3.bmp"};
-    variants[3] = { 600, "Album/House/House4.bmp"};
-    variants[4] = {   0, "Album/Animals/DoG.bmp"};
-    variants[5] = { 200, "Album/Animals/PetuX.bmp"};
-    variants[6] = { 400, "Album/Animals/piG.bmp" };
-    variants[7] = { 600, "Album/Animals/Korova.bmp"};
-    variants[8] = {  50, "Album/people/man1.bmp"};
-    variants[9] = { 300, "Album/people/man2.bmp" };
-    variants[10] ={ 500, "Album/people/women.bmp"};
-    variants[11] ={ 100, "Album/Pamatnik/Stalin.bmp" };
-    variants[12] ={ 300, "Album/Pamatnik/Lenin.bmp" };
-    variants[13] ={ 300, "Album/building/school.bmp" };
+    variants[0] = { "Album/House/house2.bmp"};
+    variants[1] = { "Album/House/house1.bmp" };
+    variants[2] = { "Album/House/house3.bmp"};
+    variants[3] = { "Album/House/House4.bmp"};
+    variants[4] = { "Album/Animals/DoG.bmp"};
+    variants[5] = { "Album/Animals/PetuX.bmp"};
+    variants[6] = { "Album/Animals/piG.bmp" };
+    variants[7] = { "Album/Animals/Korova.bmp"};
+    variants[8] = { "Album/people/man1.bmp"};
+    variants[9] = { "Album/people/man2.bmp" };
+    variants[10] ={ "Album/people/women.bmp"};
+    variants[11] ={ "Album/Pamatnik/Stalin.bmp" };
+    variants[12] ={ "Album/Pamatnik/Lenin.bmp" };
+    variants[13] ={ "Album/building/school.bmp" };
 
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
         variants[i].x = 1010;
         variants[i].x2 = 1150;
-        variants[i].y2 = variants[i].y + 100;
         string str = variants[i].adress;
         int fpos = str.find("/");
         int spos = str.find("/", fpos + 1);
         variants[i].category = str.substr(fpos + 1, spos - fpos -1);
+
+        for (int k = 0; k < COUNT_BTN; k++)
+        {
+            if (buttons[k].category == variants[i].category)
+            {
+                variants[i].y = buttons[k].countPics * 200;
+                buttons[k].countPics = buttons[k].countPics + 1;
+            }
+        }
+
+        variants[i].y2 = variants[i].y + 100;
         variants[i].visible = true;
         variants[i].text = "";
         variants[i].picture = txLoadImage (variants[i].adress.c_str());
@@ -159,23 +179,13 @@ int main()
 
     file.close();
 
-    const int COUNT_BTN = 8;
-    Button buttons[COUNT_BTN];
-    buttons[0] = {  0,0, "Дома", "House"};
-    buttons[1] = {160,0, "Люди","people" };
-    buttons[2] = {320,0, "Животные","Animals"};
-    buttons[3] = {480,0, "Памятники", "Pamatnik"};
-    buttons[4] = {640,0, "Здания", "building"};
-    buttons[5] = {725,0, "On"};
-    buttons[6] = {800,0, "Off"};
-    buttons[7] = {850,0, "?"};
 
     char *selected_category = "";
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
 
-    MapObject arrowLeft  = { 700, "Album/Arrows/Left.bmp",    0,  100, 800};
-    MapObject arrowRight = { 700, "Album/Arrows/Right.bmp", 900, 1000, 800};
+    MapObject arrowLeft  = { "Album/Arrows/Left.bmp",    0, 700,  100, 800};
+    MapObject arrowRight = { "Album/Arrows/Right.bmp", 900, 700, 1000, 800};
     arrowLeft.visible = true;
     arrowLeft.picture = txLoadImage (arrowLeft.adress.c_str());
     arrowLeft.width = get_widht (arrowLeft.adress);
@@ -278,9 +288,9 @@ int main()
                     int new_x = -CURRENT_X + random(0,844);
                     int new_y = 63 + random(0,732);
                     MapObject tmp = {
-                        new_y,
                         variants[i].adress,
                         new_x,
+                        new_y,
                         new_x + variants[i].width/3,
                         new_y + variants[i].hight/3,
                         "",
