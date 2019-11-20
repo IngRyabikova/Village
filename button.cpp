@@ -9,6 +9,7 @@ struct Button
     const char* text;
     char* category;
     bool visible;
+    int countPics;
 
     void drawButton()
     {
