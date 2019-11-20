@@ -7,6 +7,14 @@
 
 using namespace std;
 
+void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC background)
+{
+    for (int i = 0; i < COUNT_VARIANTS; i++) {
+        txDeleteDC(variants[i].picture);
+    }
+    txDeleteDC(background);
+}
+
 int get_height  (string adress)
 {
   char info[54];
@@ -25,14 +33,6 @@ int get_widht  (string adress)
   return widht;
 }
 
-
-void drawButtons (Button buttons[], int count)
-{
-    for (int nomer_knopki = 0; nomer_knopki < count; nomer_knopki++)
-    {
-        buttons[nomer_knopki].drawButton();
-    }
-}
 
 void drawVariants (int count, MapObject houseVariants[], char * category )
 {
@@ -252,13 +252,17 @@ int main()
             {
             	txSetFillColor(TX_WHITE);
             	txSetColor(TX_BLACK);
-                txRectangle (100, 100,500,500);
+                txRectangle (100, 100,600,600);
                 txDrawText(100, 100,500,500,
-                    "Приветствую в\n"
-                    " справке\n"
+                    "Приветствую в справке\n"
                     " \n"
-                    " Программа позволяет создать деревню\n"
+                    " Программа позволяет создать деревню твоей мечты            \n"
                     " \n"
+                    " Используй кнопки ! \n"
+                    " Каждая из них открывает свое окно \n"
+                    " \n"
+                    " \n Если хочешь включить музыку - нажми on"
+                    " \n Надоело ? Off  !"
                     " \n"
                     " \n"
                     " Разработчики:\n"
@@ -355,10 +359,7 @@ int main()
         txEnd();
     }
 
-    for (int i = 0; i < COUNT_VARIANTS; i++) {
-        txDeleteDC(variants[i].picture);
-    }
-    txDeleteDC(background);
+    DeleteAllPictures(COUNT_VARIANTS, variants, background);
 
 
     ofstream file1("text1.txt");
