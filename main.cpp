@@ -4,7 +4,8 @@
 #include "mapoject.cpp"
 #include <fstream>
 #include <string>
-
+#include <iostream>
+#include <dirent.h>
 using namespace std;
 
 void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC background)
@@ -79,6 +80,27 @@ void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
 	}
 }
 
+int readPics(string adress, MapObject variants[], int COUNT_VARIANTS)
+{
+
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (adress.c_str())) != NULL) {
+      /* print all the files and directories within directory */
+      while ((ent = readdir (dir)) != NULL) {
+      if ((string)ent->d_name != ".")
+      if ((string)ent->d_name != "..")
+      {
+        variants[COUNT_VARIANTS] ={adress + (string)ent->d_name};
+        COUNT_VARIANTS = COUNT_VARIANTS + 1;
+        }
+      }
+      closedir (dir);
+    }
+
+    return COUNT_VARIANTS;
+}
+
 int main()
 {
     txCreateWindow(1200,800);
@@ -100,22 +122,19 @@ int main()
     buttons[6] = {800,0, "Off",""};
     buttons[7] = {850,0, "?",""};
 
-    const int COUNT_VARIANTS = 14;
-    MapObject variants[COUNT_VARIANTS];
-    variants[0] = { "Album/House/house2.bmp"};
-    variants[1] = { "Album/House/house1.bmp" };
-    variants[2] = { "Album/House/house3.bmp"};
-    variants[3] = { "Album/House/House4.bmp"};
-    variants[4] = { "Album/Animals/DoG.bmp"};
-    variants[5] = { "Album/Animals/PetuX.bmp"};
-    variants[6] = { "Album/Animals/piG.bmp" };
-    variants[7] = { "Album/Animals/Korova.bmp"};
-    variants[8] = { "Album/people/man1.bmp"};
-    variants[9] = { "Album/people/man2.bmp" };
-    variants[10] ={ "Album/people/women.bmp"};
-    variants[11] ={ "Album/Pamatnik/Stalin.bmp" };
-    variants[12] ={ "Album/Pamatnik/Lenin.bmp" };
-    variants[13] ={ "Album/building/school.bmp" };
+    int COUNT_VARIANTS = 0;
+    MapObject variants[1000];
+
+
+    COUNT_VARIANTS = readPics("Album/building/", variants, COUNT_VARIANTS);
+    COUNT_VARIANTS = readPics("Album/Pamatnik/", variants, COUNT_VARIANTS);
+    COUNT_VARIANTS = readPics("Album/people/", variants, COUNT_VARIANTS);
+    COUNT_VARIANTS = readPics("Album/Animals/", variants, COUNT_VARIANTS);
+    COUNT_VARIANTS = readPics("Album/House/", variants, COUNT_VARIANTS);
+
+
+
+
 
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
