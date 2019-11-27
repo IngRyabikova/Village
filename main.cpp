@@ -6,7 +6,37 @@
 #include <string>
 #include <iostream>
 #include <dirent.h>
+#include <Windows.h>
+#include <string>
 using namespace std;
+
+string selectFile(HWND hWnd, bool save)
+{
+	const int SIZE = 100;
+	char nameFile[SIZE];
+	OPENFILENAMEA ofn;
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = hWnd;
+	ofn.lpstrFile = nameFile;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = SIZE;
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.lpstrInitialDir = NULL;
+	ofn.Flags = OFN_CREATEPROMPT;
+    ofn.lpstrFilter = ("Text\0*.TXT\0");
+
+	if (save)
+	{
+        GetSaveFileNameA(&ofn);
+	}
+	else
+	{
+        GetOpenFileNameA(&ofn);
+	}
+	return nameFile;
+}
 
 void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC background)
 {
@@ -168,7 +198,9 @@ int main()
     string stroka_x;
     string stroka_y;
     string stroka_adress;
-    ifstream file("text.txt");
+
+    string newNameFile = selectFile(txWindow(), false);
+    ifstream file(newNameFile);
 
     while (file.good())
     {
@@ -381,7 +413,9 @@ int main()
     DeleteAllPictures(COUNT_VARIANTS, variants, background);
 
 
-    ofstream file1("text1.txt");
+
+    newNameFile = selectFile(txWindow(), true);
+    ofstream file1(newNameFile);
 
     for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
 	{
@@ -389,6 +423,7 @@ int main()
         file1 << pictures[nomer_picture].y << endl;
         file1 << pictures[nomer_picture].adress << endl;
 	}
+
 
     file1.close();
 
