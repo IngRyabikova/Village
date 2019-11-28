@@ -169,7 +169,6 @@ int main()
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
         variants[i].x = 1010;
-        variants[i].x2 = 1150;
         string str = variants[i].adress;
         int fpos = str.find("/");
         int spos = str.find("/", fpos + 1);
@@ -184,12 +183,32 @@ int main()
             }
         }
 
-        variants[i].y2 = variants[i].y + 100;
+
         variants[i].visible = true;
         variants[i].text = "";
         variants[i].picture = txLoadImage (variants[i].adress.c_str());
         variants[i].width = get_widht (variants[i].adress);
         variants[i].hight= get_height (variants[i].adress) ;
+
+
+        if (variants[i].width > 1.3* variants[i].hight)
+        {
+            variants[i].x2 = variants[i].x + 140;
+            variants[i].y2 = variants[i].y + 100;
+        }
+
+        else if (1.3 * variants[i].width < variants[i].hight)
+        {
+            variants[i].x2 = variants[i].x + 90;
+            variants[i].y2 = variants[i].y + 140;
+        }
+
+        else
+        {
+            variants[i].x2 = variants[i].x + 100;
+            variants[i].y2 = variants[i].y + 100;
+        }
+
     }
 
     int COUNT_PICTURES = 0;
@@ -345,7 +364,7 @@ int main()
                     selected_category == variants[i].category)
                 {
                     int new_x = -CURRENT_X + random(0,844);
-                    int new_y = 63 + random(0,732);
+                    int new_y = 600 ;
                     MapObject tmp = {
                         variants[i].adress,
                         new_x,
