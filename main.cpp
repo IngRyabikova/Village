@@ -542,13 +542,28 @@ int main()
             CURRENT_X += 10;
         }
 
+        if (nomer_kartinki >= 0 && GetAsyncKeyState(VK_OEM_MINUS) &&
+            pictures[nomer_kartinki].x2 - pictures[nomer_kartinki].x > 30)
+           {
+             pictures[nomer_kartinki].x2 = pictures[nomer_kartinki].x +
+             (pictures[nomer_kartinki].x2-pictures[nomer_kartinki].x)*0.97;
+             pictures[nomer_kartinki].y2 = pictures[nomer_kartinki].y +
+             (pictures[nomer_kartinki].y2-pictures[nomer_kartinki].y)*0.97;
+           }
+        if (nomer_kartinki >= 0 && GetAsyncKeyState(VK_OEM_PLUS))
+           {
+            pictures[nomer_kartinki].x2 = pictures[nomer_kartinki].x +
+             (pictures[nomer_kartinki].x2-pictures[nomer_kartinki].x)*1.03;
+            pictures[nomer_kartinki].y2 = pictures[nomer_kartinki].y +
+             (pictures[nomer_kartinki].y2-pictures[nomer_kartinki].y)*1.03;
+           }
+
+
         txSleep(10);
         txEnd();
     }
 
     DeleteAllPictures(COUNT_VARIANTS, variants, background);
-
-
 
     ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
     newNameFile = selectFile(txWindow(), true);
