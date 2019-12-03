@@ -38,7 +38,7 @@ string selectFile(HWND hWnd, bool save)
 	return nameFile;
 }
 
-void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC background)
+void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC background )
 {
     for (int i = 0; i < COUNT_VARIANTS; i++) {
         txDeleteDC(variants[i].picture);
@@ -509,7 +509,7 @@ int main()
             pictures[nomer_kartinki].clicked = true;
         }
 
-        if ((txMouseButtons() & 1) && pictures[nomer_kartinki].clicked)
+        if ((txMouseButtons() & 1) && pictures[nomer_kartinki].clicked && txMouseY() > 60)
         {
             int width = pictures[nomer_kartinki].x2  - pictures[nomer_kartinki].x;
             pictures[nomer_kartinki].x = txMouseX() - CURRENT_X - width /2 ;
@@ -546,10 +546,10 @@ int main()
         txEnd();
     }
 
-    DeleteAllPictures(COUNT_VARIANTS, variants, background);
-
-
-
+    DeleteAllPictures(COUNT_VARIANTS, variants, background );
+    DeleteAllPictures(COUNT_VARIANTS, pictures, background );
+    txDeleteDC (arrowLeft.picture);
+    txDeleteDC (arrowLeft.picture);
     ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
     newNameFile = selectFile(txWindow(), true);
     ofstream file1(newNameFile);
