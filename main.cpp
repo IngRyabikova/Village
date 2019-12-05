@@ -46,6 +46,9 @@ void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC backg
     txDeleteDC(background);
 }
 
+/*!
+настройки высоты
+*/
 int get_height  (string adress)
 {
   char info[54];
@@ -54,7 +57,9 @@ int get_height  (string adress)
   int height =* (int*) &info[22];
   return height;
 }
-
+/*!
+ настройки ширины
+*/
 int get_widht  (string adress)
 {
   char info[54];

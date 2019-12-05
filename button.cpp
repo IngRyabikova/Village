@@ -1,7 +1,8 @@
 #include "TXLib.h"
 
 int KOLICH_KNOPOK = 7;
-
+/*!структура
+*/
 struct Button
 {
     int x;
@@ -10,16 +11,19 @@ struct Button
     char* category;
     bool visible;
     int countPics;
-
+ /*! рисует кнопки
+ */
     void drawButton()
     {
         txSetColor(TX_BLACK, 3);
         txSelectFont("Comic Sans MS", 25);
         txDrawText(x,y, x + (txGetExtentX() - 300) / KOLICH_KNOPOK, y + 70, text) ;
     }
-
+/*! управление мышью
+*/
     bool Click()
-    {
+    {    /*!цикл
+    */
         if (txMouseButtons() == 1 &&
                 txMouseX() > x &&   //должна быть сотка
                 txMouseX() < x + 100 &&   //должна быть сотка
@@ -35,7 +39,8 @@ struct Button
     }
 
 };
-
+  /*!рисует кнопки
+  */
 void drawButtons (Button buttons[], int count)
 {
     for (int nomer_knopki = 0; nomer_knopki < count; nomer_knopki++)
