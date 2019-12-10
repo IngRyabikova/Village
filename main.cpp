@@ -193,6 +193,9 @@ int main()
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
         drawVariants (COUNT_VARIANTS, variants, selected_category );
+        txSetColor(TX_WHITE);
+        txSelectFont("Comic Sans MS", 26);
+        txTextOut(1000,700, "Выберите че-нить");
 
         //select a picture
         nomer_kartinki = selectPics(COUNT_PICTURES, pictures, CURRENT_X, nomer_kartinki);
@@ -275,10 +278,6 @@ int main()
                 pictures[COUNT_PICTURES].visible = true;
                 pictures[COUNT_PICTURES].text = "";
                 pictures[COUNT_PICTURES].picture = txLoadImage ( pictures[COUNT_PICTURES].adress.c_str());
-
-
-
-
 
                 COUNT_PICTURES++;
             }
@@ -370,6 +369,7 @@ int main()
             pictures[nomer_kartinki].clicked = true;
         }
 
+        //Выбранная картинка движется за мышкой
         if ((txMouseButtons() & 1) && pictures[nomer_kartinki].clicked && txMouseY() > 60)
         {
             int width = pictures[nomer_kartinki].x2  - pictures[nomer_kartinki].x;
@@ -380,6 +380,7 @@ int main()
             pictures[nomer_kartinki].y2 = pictures[nomer_kartinki].y + high ;
         }
 
+        //при отпускании мышки сбрасывается выбор картинки
         if (!(txMouseButtons() & 1) && pictures[nomer_kartinki].clicked)
         {
             pictures[nomer_kartinki].clicked = false;

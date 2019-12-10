@@ -1,5 +1,5 @@
-200
-400
+42
+511
 Album/House/house2.bmp
 700
 400
