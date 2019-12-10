@@ -11,35 +11,6 @@
 #include <string>
 using namespace std;
 
-string selectFile(HWND hWnd, bool save)
-{
-	const int SIZE = 100;
-	char nameFile[SIZE];
-	OPENFILENAMEA ofn;
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = hWnd;
-	ofn.lpstrFile = nameFile;
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = SIZE;
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL;
-	ofn.lpstrInitialDir = NULL;
-	ofn.Flags = OFN_CREATEPROMPT;
-    ofn.lpstrFilter = ("Text\0*.TXT\0");
-
-	if (save)
-	{
-        GetSaveFileNameA(&ofn);
-	}
-	else
-	{
-        GetOpenFileNameA(&ofn);
-	}
-	return nameFile;
-}
-
-
 char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
 {
 	for(int j =0; j < COUNT_BTN;j++)
@@ -199,11 +170,10 @@ int main()
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
-        txBitBlt(txDC(), CURRENT_X - 5632 * 2, 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X - 5632 * 1, 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X           , 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X + 5632 * 1, 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X + 5632 * 2, 0, 5632, txGetExtentY(), background);
+        for (int nomer = -2; nomer <= 2; nomer = nomer + 1)
+        {
+            txBitBlt(txDC(), CURRENT_X + 5632 * nomer, 0, 5632, txGetExtentY(), background);
+        }
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
 
@@ -314,26 +284,31 @@ int main()
             }
 
             file.close();
-
-
         }
         else if (buttons[10].Click())
         {
             string newNameFile = selectFile(txWindow(), true);
             ofstream file1(newNameFile);
 
-                for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
-                {
-                    file1 << pictures[nomer_picture].x << endl;
-                    file1 << pictures[nomer_picture].y << endl;
-                    file1 << pictures[nomer_picture].adress << endl;
-                }
+            for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
+            {
+                file1 << pictures[nomer_picture].x << endl;
+                file1 << pictures[nomer_picture].y << endl;
+                file1 << pictures[nomer_picture].adress << endl;
+            }
 
-                    file1.close();
-       }
+            file1.close();
+        }
         else if(buttons[8].Click())
         {
-        txPlaySound("Music\\somebody.wav");
+            txPlaySound("Music\\somebody.wav");
+        }
+
+        if (GetAsyncKeyState(VK_SNAPSHOT))
+        {
+            ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
+            txMessageBox("Сохранено в 1.bmp");
+        }
 
         //Click on variant
         if (!(txMouseButtons() == 1 && pictures[nomer_kartinki].clicked))
@@ -453,11 +428,6 @@ int main()
     DeleteAllPictures(COUNT_VARIANTS, pictures, background );
     txDeleteDC (arrowLeft.picture);
     txDeleteDC (arrowLeft.picture);
-
-    ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
-
-
-
 
     return 0;
 }

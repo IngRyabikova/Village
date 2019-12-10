@@ -24,6 +24,34 @@ int get_widht  (string adress)
 }
 
 
+string selectFile(HWND hWnd, bool save)
+{
+	const int SIZE = 100;
+	char nameFile[SIZE];
+	OPENFILENAMEA ofn;
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = hWnd;
+	ofn.lpstrFile = nameFile;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = SIZE;
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.lpstrInitialDir = NULL;
+	ofn.Flags = OFN_CREATEPROMPT;
+    ofn.lpstrFilter = ("Text\0*.TXT\0");
+
+	if (save)
+	{
+        GetSaveFileNameA(&ofn);
+	}
+	else
+	{
+        GetOpenFileNameA(&ofn);
+	}
+	return nameFile;
+}
+
 
 inline int GetFilePointer(HANDLE FileHandle){
     return SetFilePointer(FileHandle, 0, 0, FILE_CURRENT);
