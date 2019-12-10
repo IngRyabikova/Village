@@ -259,16 +259,18 @@ int main()
     int CURRENT_X = 0;
     const int WIDTH_MENU = 200;
 
-    const int COUNT_BTN = 8;
+    const int COUNT_BTN = 10;
     Button buttons[COUNT_BTN];
-    buttons[0] = {  0,0, "Дома", "House"};
-    buttons[1] = {160,0, "Люди","people" };
-    buttons[2] = {320,0, "Животные","Animals"};
-    buttons[3] = {480,0, "Памятники", "Pamatnik"};
-    buttons[4] = {640,0, "Здания", "building"};
-    buttons[5] = {725,0, "On",""};
-    buttons[6] = {800,0, "Off",""};
-    buttons[7] = {850,0, "?",""};
+    buttons[0] = {0,0, "Дома", "House"};
+    buttons[1] = {100,0, "Люди","people" };
+    buttons[2] = {200,0, "Животные","Animals"};
+    buttons[3] = {320,0, "Памятники", "Pamatnik"};
+    buttons[4] = {440,0, "Здания", "building"};
+    buttons[5] = {550,0, "On",""};
+    buttons[6] = {600,0, "Off",""};
+    buttons[7] = {680,0, "?",""};
+    buttons[8] = {750,0, "сохранить", ""};
+    buttons[9] = {850,0, "загрузить", ""};
 
     int COUNT_VARIANTS = 0;
     MapObject variants[1000];
@@ -393,11 +395,11 @@ int main()
         txBegin();
         txSetFillColor(TX_WHITE);
         txClear();
-        txBitBlt(txDC(), CURRENT_X - 5632 * 2, 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X - 5632 * 1, 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X           , 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X + 5632 * 1, 0, 5632, txGetExtentY(), background);
-        txBitBlt(txDC(), CURRENT_X + 5632 * 2, 0, 5632, txGetExtentY(), background);
+        for (int nomer = -2; nomer <= 2; nomer = nomer + 1)
+        {
+            txBitBlt(txDC(), CURRENT_X + 5632 * nomer, 0, 5632, txGetExtentY(), background);
+        }
+
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
 
@@ -471,6 +473,12 @@ int main()
 
                 txSleep(10);
             }
+        }
+
+        if (GetAsyncKeyState(VK_SNAPSHOT))
+        {
+        ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
+        txMessageBox("сохранено в 1.bmp");
         }
 
         //Click on variant
@@ -573,7 +581,7 @@ int main()
     txDeleteDC (arrowLeft.picture);
     txDeleteDC (arrowLeft.picture);
 
-    ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
+
     newNameFile = selectFile(txWindow(), true);
     ofstream file1(newNameFile);
 

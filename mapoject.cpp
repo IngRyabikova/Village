@@ -47,10 +47,10 @@ struct MapObject
     }
 
     bool Click(int current_x) /*!
-    {                         \
+                             \
                                ������ ����
                                */
-
+    {
         if (txMouseButtons() == 1 &&
                 txMouseX() > x + current_x &&   //äîëæíà áûòü ñîòêà
                 txMouseX() < x2 + current_x &&   //äîëæíà áûòü ñîòêà
