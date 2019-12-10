@@ -50,6 +50,7 @@ struct MapObject
     {                         \
                                äåëàåò êëèê
                                */
+    {
 
         if (txMouseButtons() == 1 &&
                 txMouseX() > x + current_x &&   //Ã¤Ã®Ã«Ã¦Ã­Ã  Ã¡Ã»Ã²Ã¼ Ã±Ã®Ã²ÃªÃ 
@@ -65,4 +66,41 @@ struct MapObject
         }
     }
 };
+
+void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC background )
+{
+    for (int i = 0; i < COUNT_VARIANTS; i++) {
+        txDeleteDC(variants[i].picture);
+    }
+    txDeleteDC(background);
+}
+
+
+void drawVariants (int count, MapObject houseVariants[], char * category )
+{
+    for (int nomer_kartinki = 0; nomer_kartinki < count ; nomer_kartinki ++)
+    {
+        if (category == houseVariants[nomer_kartinki].category)
+        {
+            houseVariants[nomer_kartinki].drawMapObject(0);
+        }
+    }
+}
+
+
+int selectPics(int COUNT_PICTURES, MapObject pictures[], int CURRENT_X, int nomer_kartinki)
+{
+    for (int i = 0 ; i < COUNT_PICTURES;i++)
+    {
+        if (pictures[i].Click(CURRENT_X))
+        {
+            nomer_kartinki = i;
+        }
+    }
+
+    return nomer_kartinki;
+}
+
+
+
 
