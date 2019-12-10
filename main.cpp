@@ -259,17 +259,19 @@ int main()
     int CURRENT_X = 0;
     const int WIDTH_MENU = 200;
 
-    const int COUNT_BTN = 8;
+    const int COUNT_BTN = 11;
     Button buttons[COUNT_BTN];
     buttons[0] = {  0,0, "Дома", "House"};
-    buttons[1] = {160,0, "Люди","people" };
-    buttons[2] = {320,0, "Животные","Animals"};
-    buttons[3] = {480,0, "Памятники", "Pamatnik"};
-    buttons[4] = {640,0, "Здания", "building"};
-    buttons[5] = {725,0, "On",""};
-    buttons[6] = {800,0, "Off",""};
-    buttons[7] = {850,0, "?",""};
-
+    buttons[1] = {100,0, "Люди","people" };
+    buttons[2] = {200,0, "Животные","Animals"};
+    buttons[3] = {300,0, "Памятники", "Pamatnik"};
+    buttons[4] = {400,0, "Здания", "building"};
+    buttons[5] = {450,0, "On",""};
+    buttons[6] = {500,0, "Off",""};
+    buttons[7] = {550,0, "?",""};
+    buttons[8] = {650,0, "Включить в \nслучае \nсмерти Ленина",""} ;
+    buttons[9] = {750,0, "Загрузить",""};
+    buttons[10] = {850,0, "Сохранение",""};
     int COUNT_VARIANTS = 0;
     MapObject variants[1000];
 
@@ -331,42 +333,6 @@ int main()
 
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
-
-    string stroka_x;
-    string stroka_y;
-    string stroka_adress;
-
-    string newNameFile = selectFile(txWindow(), false);
-    ifstream file(newNameFile);
-
-    while (file.good())
-    {
-        getline(file,stroka_x);
-        getline(file,stroka_y);
-        getline(file,stroka_adress);
-
-
-        pictures[COUNT_PICTURES].x = atoi(stroka_x.c_str());
-        pictures[COUNT_PICTURES].y = atoi(stroka_y.c_str());
-        pictures[COUNT_PICTURES].adress = stroka_adress;
-
-        pictures[COUNT_PICTURES].width = get_widht (pictures[COUNT_PICTURES].adress);
-        pictures[COUNT_PICTURES].hight= get_height (pictures[COUNT_PICTURES].adress) ;
-        pictures[COUNT_PICTURES].x2 = pictures[COUNT_PICTURES].x + pictures[COUNT_PICTURES].width /3;
-        pictures[COUNT_PICTURES].y2 = pictures[COUNT_PICTURES].y + pictures[COUNT_PICTURES].hight /3;
-        pictures[COUNT_PICTURES].visible = true;
-        pictures[COUNT_PICTURES].text = "";
-        pictures[COUNT_PICTURES].picture = txLoadImage ( pictures[COUNT_PICTURES].adress.c_str());
-
-
-
-
-
-        COUNT_PICTURES++;
-    }
-
-    file.close();
-
 
     char *selected_category = "";
     int nomer_kartinki = -100;
@@ -472,6 +438,62 @@ int main()
                 txSleep(10);
             }
         }
+        else if (buttons[9].Click())
+        {
+            string stroka_x;
+            string stroka_y;
+            string stroka_adress;
+
+            string newNameFile = selectFile(txWindow(), false);
+            ifstream file(newNameFile);
+
+            while (file.good())
+            {
+                getline(file,stroka_x);
+                getline(file,stroka_y);
+                getline(file,stroka_adress);
+
+
+                pictures[COUNT_PICTURES].x = atoi(stroka_x.c_str());
+                pictures[COUNT_PICTURES].y = atoi(stroka_y.c_str());
+                pictures[COUNT_PICTURES].adress = stroka_adress;
+
+                pictures[COUNT_PICTURES].width = get_widht (pictures[COUNT_PICTURES].adress);
+                pictures[COUNT_PICTURES].hight= get_height (pictures[COUNT_PICTURES].adress) ;
+                pictures[COUNT_PICTURES].x2 = pictures[COUNT_PICTURES].x + pictures[COUNT_PICTURES].width /3;
+                pictures[COUNT_PICTURES].y2 = pictures[COUNT_PICTURES].y + pictures[COUNT_PICTURES].hight /3;
+                pictures[COUNT_PICTURES].visible = true;
+                pictures[COUNT_PICTURES].text = "";
+                pictures[COUNT_PICTURES].picture = txLoadImage ( pictures[COUNT_PICTURES].adress.c_str());
+
+
+
+
+
+                COUNT_PICTURES++;
+            }
+
+            file.close();
+
+
+        }
+        else if (buttons[10].Click())
+        {
+            string newNameFile = selectFile(txWindow(), true);
+            ofstream file1(newNameFile);
+
+                for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
+                {
+                    file1 << pictures[nomer_picture].x << endl;
+                    file1 << pictures[nomer_picture].y << endl;
+                    file1 << pictures[nomer_picture].adress << endl;
+                }
+
+                    file1.close();
+       }
+        else if(buttons[8].Click())
+        {
+        txPlaySound("Music\\somebody.wav");
 
         //Click on variant
         if (!(txMouseButtons() == 1 && pictures[nomer_kartinki].clicked))
@@ -489,7 +511,7 @@ int main()
                         new_y,
                         new_x + variants[i].width/3,
                         new_y + variants[i].hight/3,
-                        "",
+                        variants[i].category,
                         variants[i].picture,
                         variants[i].width,
                         variants[i].hight,
@@ -502,6 +524,25 @@ int main()
                     txSleep(200);
                 }
             }
+        }
+
+        if(nomer_kartinki >= 0   &&GetAsyncKeyState('R') )
+        {
+            string category = pictures[nomer_kartinki].category;
+            string adress = pictures[nomer_kartinki].adress;
+            int categorySt = adress.find(category);
+            int categorySz = category.size();
+
+            adress = adress.replace(categorySt, categorySz, category + "z");
+            if(adress.find("zz") < adress.size())
+            {
+                adress = adress.replace(adress.find("zz"), 2, "");
+            }
+
+            pictures[nomer_kartinki].adress = adress;
+
+            pictures[nomer_kartinki].picture = txLoadImage(adress.c_str());
+            txSleep(100);
         }
 
         //Click on picture
@@ -574,18 +615,9 @@ int main()
     txDeleteDC (arrowLeft.picture);
 
     ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
-    newNameFile = selectFile(txWindow(), true);
-    ofstream file1(newNameFile);
-
-    for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
-    {
-        file1 << pictures[nomer_picture].x << endl;
-        file1 << pictures[nomer_picture].y << endl;
-        file1 << pictures[nomer_picture].adress << endl;
-    }
 
 
-    file1.close();
+
 
     return 0;
 }
