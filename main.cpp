@@ -473,6 +473,8 @@ int main()
             }
         }
 
+
+
         //Click on variant
         if (!(txMouseButtons() == 1 && pictures[nomer_kartinki].clicked))
         {
@@ -502,6 +504,23 @@ int main()
                     txSleep(200);
                 }
             }
+        }
+          if(nomer_kartinki >= 0   &&GetAsyncKeyState('R') )
+        {
+        string category = pictures[nomer_kartinki].category;
+        string adress = pictures[nomer_kartinki].adress;
+        int categorySt = adress.find(category);
+        int categorySz = category.size();
+
+        adress = adress.replace(categorySt, categorySz, category + "z");
+        if(adress.find("zz") < adress.size())
+        {
+         adress = adress.replace(adress.find("zz"), 2, "");
+        }
+        pictures[nomer_kartinki].adress = adress;
+
+        pictures[nomer_kartinki]. picture = txLoadImage(adress.c_str());
+        txSleep(100);
         }
 
         //Click on picture
