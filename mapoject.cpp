@@ -2,17 +2,17 @@
 
 struct MapObject
 {
-    ///адрес файла с картинкой
+    ///Г Г¤Г°ГҐГ± ГґГ Г©Г«Г  Г± ГЄГ Г°ГІГЁГ­ГЄГ®Г©
     string adress;
-    ///левая граница картинки
+    ///Г«ГҐГўГ Гї ГЈГ°Г Г­ГЁГ¶Г  ГЄГ Г°ГІГЁГ­ГЄГЁ
     int x;
-    ///верхняя граница картинки
+    ///ГўГҐГ°ГµГ­ГїГї ГЈГ°Г Г­ГЁГ¶Г  ГЄГ Г°ГІГЁГ­ГЄГЁ
     int y;
-    ///правая граница картинки
+    ///ГЇГ°Г ГўГ Гї ГЈГ°Г Г­ГЁГ¶Г  ГЄГ Г°ГІГЁГ­ГЄГЁ
     int x2;
     /*!
     \
-    правое граница карты
+    ГЇГ°Г ГўГ®ГҐ ГЈГ°Г Г­ГЁГ¶Г  ГЄГ Г°ГІГ»
      */
     int y2;
     /*!
@@ -32,10 +32,10 @@ struct MapObject
     bool clicked;
 
     /*!
-    \ ваня привет я илон маск
+    \ ГўГ Г­Гї ГЇГ°ГЁГўГҐГІ Гї ГЁГ«Г®Г­ Г¬Г Г±ГЄ
 
-       Спасибо ваня что купил мне этот Reno logan чёрного цвета 20 века
-       P.S привет с марса
+       Г‘ГЇГ Г±ГЁГЎГ® ГўГ Г­Гї Г·ГІГ® ГЄГіГЇГЁГ« Г¬Г­ГҐ ГЅГІГ®ГІ Reno logan Г·ВёГ°Г­Г®ГЈГ® Г¶ГўГҐГІГ  20 ГўГҐГЄГ 
+       P.S ГЇГ°ГЁГўГҐГІ Г± Г¬Г Г°Г±Г 
      */
     void drawMapObject(int current_x)
     {
@@ -48,14 +48,14 @@ struct MapObject
 
     bool Click(int current_x) /*!
                              \
-                               делает клик
+                               Г¤ГҐГ«Г ГҐГІ ГЄГ«ГЁГЄ
                                */
     {
         if (txMouseButtons() == 1 &&
-                txMouseX() > x + current_x &&   //Г¤Г®Г«Г¦Г­Г  ГЎГ»ГІГј Г±Г®ГІГЄГ 
-                txMouseX() < x2 + current_x &&   //Г¤Г®Г«Г¦Г­Г  ГЎГ»ГІГј Г±Г®ГІГЄГ 
-                txMouseY() > y    &&   //Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Г­Г®Г«Гј
-                txMouseY() < y2 )         //Г¤Г®Г«Г¦Г­Г® ГЎГ»ГІГј 70
+                txMouseX() > x + current_x &&   //ГѓВ¤ГѓВ®ГѓВ«ГѓВ¦ГѓВ­ГѓВ  ГѓВЎГѓВ»ГѓВІГѓВј ГѓВ±ГѓВ®ГѓВІГѓВЄГѓВ 
+                txMouseX() < x2 + current_x &&   //ГѓВ¤ГѓВ®ГѓВ«ГѓВ¦ГѓВ­ГѓВ  ГѓВЎГѓВ»ГѓВІГѓВј ГѓВ±ГѓВ®ГѓВІГѓВЄГѓВ 
+                txMouseY() > y    &&   //ГѓВ¤ГѓВ®ГѓВ«ГѓВ¦ГѓВҐГѓВ­ ГѓВЎГѓВ»ГѓВІГѓВј ГѓВ­ГѓВ®ГѓВ«ГѓВј
+                txMouseY() < y2 )         //ГѓВ¤ГѓВ®ГѓВ«ГѓВ¦ГѓВ­ГѓВ® ГѓВЎГѓВ»ГѓВІГѓВј 70
         {
             return true;
         }
@@ -66,3 +66,36 @@ struct MapObject
     }
 };
 
+void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC background )
+{
+    for (int i = 0; i < COUNT_VARIANTS; i++) {
+        txDeleteDC(variants[i].picture);
+    }
+    txDeleteDC(background);
+}
+
+
+void drawVariants (int count, MapObject houseVariants[], char * category )
+{
+    for (int nomer_kartinki = 0; nomer_kartinki < count ; nomer_kartinki ++)
+    {
+        if (category == houseVariants[nomer_kartinki].category)
+        {
+            houseVariants[nomer_kartinki].drawMapObject(0);
+        }
+    }
+}
+
+
+int selectPics(int COUNT_PICTURES, MapObject pictures[], int CURRENT_X, int nomer_kartinki)
+{
+    for (int i = 0 ; i < COUNT_PICTURES;i++)
+    {
+        if (pictures[i].Click(CURRENT_X))
+        {
+            nomer_kartinki = i;
+        }
+    }
+
+    return nomer_kartinki;
+}

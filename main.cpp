@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include "TXLib.h"
 #include "button.cpp"
+#include "file.cpp"
 #include "mapoject.cpp"
 #include <fstream>
 #include <string>
@@ -38,61 +39,6 @@ string selectFile(HWND hWnd, bool save)
 	return nameFile;
 }
 
-void DeleteAllPictures(const int COUNT_VARIANTS, MapObject variants[], HDC background )
-{
-    for (int i = 0; i < COUNT_VARIANTS; i++) {
-        txDeleteDC(variants[i].picture);
-    }
-    txDeleteDC(background);
-}
-
-/*!
-íàñòðîéêè âûñîòû
-*/
-int get_height  (string adress)
-{
-  char info[54];
-  FILE*f = fopen (adress.c_str() , "r");
-  fread (info, sizeof (char), 54, f);
-  int height =* (int*) &info[22];
-  return height;
-}
-/*!
- íàñòðîéêè øèðèíû
-*/
-int get_widht  (string adress)
-{
-  char info[54];
-  FILE*f = fopen (adress.c_str() , "r");
-  fread (info, sizeof (char), 54, f);
-  int widht =* (int*) &info[18];
-  return widht;
-}
-
-
-void drawVariants (int count, MapObject houseVariants[], char * category )
-{
-    for (int nomer_kartinki = 0; nomer_kartinki < count ; nomer_kartinki ++)
-    {
-        if (category == houseVariants[nomer_kartinki].category)
-        {
-            houseVariants[nomer_kartinki].drawMapObject(0);
-        }
-    }
-}
-
-int selectPics(int COUNT_PICTURES, MapObject pictures[], int CURRENT_X, int nomer_kartinki)
-{
-    for (int i = 0 ; i < COUNT_PICTURES;i++)
-    {
-        if (pictures[i].Click(CURRENT_X))
-        {
-            nomer_kartinki = i;
-        }
-    }
-
-    return nomer_kartinki;
-}
 
 char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
 {
@@ -107,6 +53,7 @@ char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
 	return selected_category;
 }
 
+
 void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
 {
     for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
@@ -114,6 +61,7 @@ void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
 		pictures[nomer_picture].drawMapObject(CURRENT_X);
 	}
 }
+
 
 int readPics(string adress, MapObject variants[], int COUNT_VARIANTS)
 {
@@ -137,116 +85,6 @@ int readPics(string adress, MapObject variants[], int COUNT_VARIANTS)
 }
 
 
-inline int GetFilePointer(HANDLE FileHandle){
-    return SetFilePointer(FileHandle, 0, 0, FILE_CURRENT);
-}
-
-bool SaveBMPFile(char *filename, HBITMAP bitmap, HDC bitmapDC, int width, int height){
-    bool Success=0;
-    HBITMAP OffscrBmp=NULL;
-    HDC OffscrDC=NULL;
-    LPBITMAPINFO lpbi=NULL;
-    LPVOID lpvBits=NULL;
-    HANDLE BmpFile=INVALID_HANDLE_VALUE;
-    BITMAPFILEHEADER bmfh;
-    if ((OffscrBmp = Win32::CreateCompatibleBitmap(bitmapDC, width, height)) == NULL)
-        return 0;
-    if ((OffscrDC = Win32::CreateCompatibleDC(bitmapDC)) == NULL)
-        return 0;
-    HBITMAP OldBmp = (HBITMAP)Win32::SelectObject(OffscrDC, OffscrBmp);
-    Win32::BitBlt(OffscrDC, 0, 0, width, height, bitmapDC, 0, 0, SRCCOPY);
-    if ((lpbi = (LPBITMAPINFO)(new char[sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD)])) == NULL)
-        return 0;
-    ZeroMemory(&lpbi->bmiHeader, sizeof(BITMAPINFOHEADER));
-    lpbi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    Win32::SelectObject(OffscrDC, OldBmp);
-    if (!Win32::GetDIBits(OffscrDC, OffscrBmp, 0, height, NULL, lpbi, DIB_RGB_COLORS))
-        return 0;
-    if ((lpvBits = new char[lpbi->bmiHeader.biSizeImage]) == NULL)
-        return 0;
-    if (!Win32::GetDIBits(OffscrDC, OffscrBmp, 0, height, lpvBits, lpbi, DIB_RGB_COLORS))
-        return 0;
-    if ((BmpFile = CreateFileA(filename,
-                        GENERIC_WRITE,
-                        0, NULL,
-                        CREATE_ALWAYS,
-                        FILE_ATTRIBUTE_NORMAL,
-                        NULL)) == INVALID_HANDLE_VALUE)
-        return 0;
-    DWORD Written;
-    bmfh.bfType = 19778;
-    bmfh.bfReserved1 = bmfh.bfReserved2 = 0;
-    if (!WriteFile(BmpFile, &bmfh, sizeof(bmfh), &Written, NULL))
-        return 0;
-    if (Written < sizeof(bmfh))
-        return 0;
-    if (!WriteFile(BmpFile, &lpbi->bmiHeader, sizeof(BITMAPINFOHEADER), &Written, NULL))
-        return 0;
-    if (Written < sizeof(BITMAPINFOHEADER))
-        return 0;
-    int PalEntries;
-    if (lpbi->bmiHeader.biCompression == BI_BITFIELDS)
-        PalEntries = 3;
-    else PalEntries = (lpbi->bmiHeader.biBitCount <= 8) ?
-                      (int)(1 << lpbi->bmiHeader.biBitCount) : 0;
-    if(lpbi->bmiHeader.biClrUsed)
-    PalEntries = lpbi->bmiHeader.biClrUsed;
-    if(PalEntries){
-    if (!WriteFile(BmpFile, &lpbi->bmiColors, PalEntries * sizeof(RGBQUAD), &Written, NULL))
-        return 0;
-        if (Written < PalEntries * sizeof(RGBQUAD))
-            return 0;
-    }
-    bmfh.bfOffBits = GetFilePointer(BmpFile);
-    if (!WriteFile(BmpFile, lpvBits, lpbi->bmiHeader.biSizeImage, &Written, NULL))
-        return 0;
-    if (Written < lpbi->bmiHeader.biSizeImage)
-        return 0;
-    bmfh.bfSize = GetFilePointer(BmpFile);
-    SetFilePointer(BmpFile, 0, 0, FILE_BEGIN);
-    if (!WriteFile(BmpFile, &bmfh, sizeof(bmfh), &Written, NULL))
-        return 0;
-    if (Written < sizeof(bmfh))
-        return 0;
-
-
-    CloseHandle (BmpFile);
-
-    delete [] (char*)lpvBits;
-    delete [] lpbi;
-
-    Win32:: DeleteDC (OffscrDC);
-    Win32::DeleteObject (OffscrBmp);
-
-
-    return 1;
-}
-
-bool ScreenCapture(int x, int y, int width, int height, char *filename, HWND hwnd){
-
-
-    HDC hDC= GetDC(hwnd);
-    HDC hDc = Win32::CreateCompatibleDC(hDC);
-
-
-    HBITMAP hBmp = Win32::CreateCompatibleBitmap(hDC, width, height);
-
-
-    HGDIOBJ old= Win32::SelectObject(hDc, hBmp);
-    Win32::BitBlt(hDc, 0, 0, width, height, hDC, x, y, SRCCOPY);
-
-    bool ret = SaveBMPFile(filename, hBmp, hDc, width, height);
-
-
-    Win32::SelectObject(hDc, old);
-
-    Win32::DeleteObject(hBmp);
-
-    Win32::DeleteDC (hDc);
-    ReleaseDC (hwnd, hDC);
-
-    return ret;
-}
 
 int main()
 {
@@ -259,19 +97,19 @@ int main()
     int CURRENT_X = 0;
     const int WIDTH_MENU = 200;
 
-    const int COUNT_BTN = 10;
+    const int COUNT_BTN = 11;
     Button buttons[COUNT_BTN];
-    buttons[0] = {0,0, "Äîìà", "House"};
-    buttons[1] = {100,0, "Ëþäè","people" };
-    buttons[2] = {200,0, "Æèâîòíûå","Animals"};
-    buttons[3] = {320,0, "Ïàìÿòíèêè", "Pamatnik"};
-    buttons[4] = {440,0, "Çäàíèÿ", "building"};
-    buttons[5] = {550,0, "On",""};
-    buttons[6] = {600,0, "Off",""};
-    buttons[7] = {680,0, "?",""};
-    buttons[8] = {750,0, "ñîõðàíèòü", ""};
-    buttons[9] = {850,0, "çàãðóçèòü", ""};
-
+    buttons[0] = {  0,0, "Ã„Ã®Ã¬Ã ", "House"};
+    buttons[1] = {100,0, "Ã‹Ã¾Ã¤Ã¨","people" };
+    buttons[2] = {200,0, "Ã†Ã¨Ã¢Ã®Ã²Ã­Ã»Ã¥","Animals"};
+    buttons[3] = {300,0, "ÃÃ Ã¬Ã¿Ã²Ã­Ã¨ÃªÃ¨", "Pamatnik"};
+    buttons[4] = {400,0, "Ã‡Ã¤Ã Ã­Ã¨Ã¿", "building"};
+    buttons[5] = {450,0, "On",""};
+    buttons[6] = {500,0, "Off",""};
+    buttons[7] = {550,0, "?",""};
+    buttons[8] = {650,0, "Ã‚ÃªÃ«Ã¾Ã·Ã¨Ã²Ã¼ Ã¢ \nÃ±Ã«Ã³Ã·Ã Ã¥ \nÃ±Ã¬Ã¥Ã°Ã²Ã¨ Ã‹Ã¥Ã­Ã¨Ã­Ã ",""} ;
+    buttons[9] = {750,0, "Ã‡Ã Ã£Ã°Ã³Ã§Ã¨Ã²Ã¼",""};
+    buttons[10] = {850,0, "Ã‘Ã®ÃµÃ°Ã Ã­Ã¥Ã­Ã¨Ã¥",""};
     int COUNT_VARIANTS = 0;
     MapObject variants[1000];
 
@@ -288,7 +126,6 @@ int main()
 
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
-        variants[i].x = 1010;
         string str = variants[i].adress;
         int fpos = str.find("/");
         int spos = str.find("/", fpos + 1);
@@ -313,18 +150,21 @@ int main()
 
         if (variants[i].width > 1.3* variants[i].hight)
         {
+            variants[i].x = 1010;
             variants[i].x2 = variants[i].x + 140;
             variants[i].y2 = variants[i].y + 100;
         }
 
         else if (1.3 * variants[i].width < variants[i].hight)
         {
+            variants[i].x = 1110;
             variants[i].x2 = variants[i].x + 90;
             variants[i].y2 = variants[i].y + 140;
         }
 
         else
         {
+            variants[i].x = 1010;
             variants[i].x2 = variants[i].x + 100;
             variants[i].y2 = variants[i].y + 100;
         }
@@ -333,42 +173,6 @@ int main()
 
     int COUNT_PICTURES = 0;
     MapObject pictures[100];
-
-    string stroka_x;
-    string stroka_y;
-    string stroka_adress;
-
-    string newNameFile = selectFile(txWindow(), false);
-    ifstream file(newNameFile);
-
-    while (file.good())
-    {
-        getline(file,stroka_x);
-        getline(file,stroka_y);
-        getline(file,stroka_adress);
-
-
-        pictures[COUNT_PICTURES].x = atoi(stroka_x.c_str());
-        pictures[COUNT_PICTURES].y = atoi(stroka_y.c_str());
-        pictures[COUNT_PICTURES].adress = stroka_adress;
-
-        pictures[COUNT_PICTURES].width = get_widht (pictures[COUNT_PICTURES].adress);
-        pictures[COUNT_PICTURES].hight= get_height (pictures[COUNT_PICTURES].adress) ;
-        pictures[COUNT_PICTURES].x2 = pictures[COUNT_PICTURES].x + pictures[COUNT_PICTURES].width /3;
-        pictures[COUNT_PICTURES].y2 = pictures[COUNT_PICTURES].y + pictures[COUNT_PICTURES].hight /3;
-        pictures[COUNT_PICTURES].visible = true;
-        pictures[COUNT_PICTURES].text = "";
-        pictures[COUNT_PICTURES].picture = txLoadImage ( pictures[COUNT_PICTURES].adress.c_str());
-
-
-
-
-
-        COUNT_PICTURES++;
-    }
-
-    file.close();
-
 
     char *selected_category = "";
     int nomer_kartinki = -100;
@@ -405,7 +209,7 @@ int main()
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "Êîíñòðóêòîð äåðåâíè");
+        txTextOut(200,700, "ÃŠÃ®Ã­Ã±Ã²Ã°Ã³ÃªÃ²Ã®Ã° Ã¤Ã¥Ã°Ã¥Ã¢Ã­Ã¨");
 
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
@@ -445,22 +249,22 @@ int main()
                 txRectangle (0, 0,1200,800);
                 txSelectFont("Arial", 30);
                 txDrawText(0, 0,1200,800,
-                    "Ïðèâåòñòâóþ â ñïðàâêå\n"
+                    "ÃÃ°Ã¨Ã¢Ã¥Ã²Ã±Ã²Ã¢Ã³Ã¾ Ã¢ Ã±Ã¯Ã°Ã Ã¢ÃªÃ¥\n"
                     " \n"
-                    " Ïîçäðîâëÿþ ! Âû èìååòå ÷åñòü óçðåòü íàøó ïðîãðàììó ïî ñîçäàíèþ äåðåâíè ñâîåé ìå÷òû.  "
-                    " \n   Òóò ñáóäóòñÿ âñå òâîè ñàìûå ñêðûòûå æåëàíèÿ. Ïîñìîòðè , ñâåðõó åñòü âêëàäêè îòêðîé ëþáóþ è òû óâèäåøü ÷óäî ,"
-                    " \n  êàðòèíêè ñïðàâà ìîãóò ïîÿâëÿòñÿ è íà ãëàâàíîì ýêðàíå. Ïîëå äëÿ ïîñòðîåê ðåàëüíî áîëüøîå ! Ìû ïðîâåðÿëè è ýòî áûëî äîëãî."
-                    " \n    È òàê , åñëè ïîñëå âñåãî ýòîãî âû íå çíàåòå êàê ðàáîòàåò íàø êîíñòðóêòîð, òî èìåííî äëÿ òåáÿ , ìîé òóïîâàòûé äðóã ìû íàïèñàëè Ñïðàâêó"
-                    " \n    , êñòàòè ñåé÷àñ òû ñìîòðèøü ïðÿìî â íå¸."
-                    " \n    1 - ó íàñ åñòü óäàëåíèå , âûáåðè ïðåäìåò êîòîðûé õî÷åøü ÓÍÈ×ÒÎÆÈÒÜ íàæìè Delete"
-                    " \n    2 - íà On è Off òû ìîæåøü âêëþ÷àòü è âûêëþ÷àòü ìóçûêó"
-                    " \n    3 - âûáåðè îò äîìà äî çäàíèÿ è ïåðåíåñè îáúåêò íà ýêðàí"
-                    " \n   Ôóíêöèè áóäóò äîïîëíÿòñÿ è ýòà òàáëèöà òîæå...\n"
+                    " ÃÃ®Ã§Ã¤Ã°Ã®Ã¢Ã«Ã¿Ã¾ ! Ã‚Ã» Ã¨Ã¬Ã¥Ã¥Ã²Ã¥ Ã·Ã¥Ã±Ã²Ã¼ Ã³Ã§Ã°Ã¥Ã²Ã¼ Ã­Ã Ã¸Ã³ Ã¯Ã°Ã®Ã£Ã°Ã Ã¬Ã¬Ã³ Ã¯Ã® Ã±Ã®Ã§Ã¤Ã Ã­Ã¨Ã¾ Ã¤Ã¥Ã°Ã¥Ã¢Ã­Ã¨ Ã±Ã¢Ã®Ã¥Ã© Ã¬Ã¥Ã·Ã²Ã».  "
+                    " \n   Ã’Ã³Ã² Ã±Ã¡Ã³Ã¤Ã³Ã²Ã±Ã¿ Ã¢Ã±Ã¥ Ã²Ã¢Ã®Ã¨ Ã±Ã Ã¬Ã»Ã¥ Ã±ÃªÃ°Ã»Ã²Ã»Ã¥ Ã¦Ã¥Ã«Ã Ã­Ã¨Ã¿. ÃÃ®Ã±Ã¬Ã®Ã²Ã°Ã¨ , Ã±Ã¢Ã¥Ã°ÃµÃ³ Ã¥Ã±Ã²Ã¼ Ã¢ÃªÃ«Ã Ã¤ÃªÃ¨ Ã®Ã²ÃªÃ°Ã®Ã© Ã«Ã¾Ã¡Ã³Ã¾ Ã¨ Ã²Ã» Ã³Ã¢Ã¨Ã¤Ã¥Ã¸Ã¼ Ã·Ã³Ã¤Ã® ,"
+                    " \n  ÃªÃ Ã°Ã²Ã¨Ã­ÃªÃ¨ Ã±Ã¯Ã°Ã Ã¢Ã  Ã¬Ã®Ã£Ã³Ã² Ã¯Ã®Ã¿Ã¢Ã«Ã¿Ã²Ã±Ã¿ Ã¨ Ã­Ã  Ã£Ã«Ã Ã¢Ã Ã­Ã®Ã¬ Ã½ÃªÃ°Ã Ã­Ã¥. ÃÃ®Ã«Ã¥ Ã¤Ã«Ã¿ Ã¯Ã®Ã±Ã²Ã°Ã®Ã¥Ãª Ã°Ã¥Ã Ã«Ã¼Ã­Ã® Ã¡Ã®Ã«Ã¼Ã¸Ã®Ã¥ ! ÃŒÃ» Ã¯Ã°Ã®Ã¢Ã¥Ã°Ã¿Ã«Ã¨ Ã¨ Ã½Ã²Ã® Ã¡Ã»Ã«Ã® Ã¤Ã®Ã«Ã£Ã®."
+                    " \n    Ãˆ Ã²Ã Ãª , Ã¥Ã±Ã«Ã¨ Ã¯Ã®Ã±Ã«Ã¥ Ã¢Ã±Ã¥Ã£Ã® Ã½Ã²Ã®Ã£Ã® Ã¢Ã» Ã­Ã¥ Ã§Ã­Ã Ã¥Ã²Ã¥ ÃªÃ Ãª Ã°Ã Ã¡Ã®Ã²Ã Ã¥Ã² Ã­Ã Ã¸ ÃªÃ®Ã­Ã±Ã²Ã°Ã³ÃªÃ²Ã®Ã°, Ã²Ã® Ã¨Ã¬Ã¥Ã­Ã­Ã® Ã¤Ã«Ã¿ Ã²Ã¥Ã¡Ã¿ , Ã¬Ã®Ã© Ã²Ã³Ã¯Ã®Ã¢Ã Ã²Ã»Ã© Ã¤Ã°Ã³Ã£ Ã¬Ã» Ã­Ã Ã¯Ã¨Ã±Ã Ã«Ã¨ Ã‘Ã¯Ã°Ã Ã¢ÃªÃ³"
+                    " \n    , ÃªÃ±Ã²Ã Ã²Ã¨ Ã±Ã¥Ã©Ã·Ã Ã± Ã²Ã» Ã±Ã¬Ã®Ã²Ã°Ã¨Ã¸Ã¼ Ã¯Ã°Ã¿Ã¬Ã® Ã¢ Ã­Ã¥Â¸."
+                    " \n    1 - Ã³ Ã­Ã Ã± Ã¥Ã±Ã²Ã¼ Ã³Ã¤Ã Ã«Ã¥Ã­Ã¨Ã¥ , Ã¢Ã»Ã¡Ã¥Ã°Ã¨ Ã¯Ã°Ã¥Ã¤Ã¬Ã¥Ã² ÃªÃ®Ã²Ã®Ã°Ã»Ã© ÃµÃ®Ã·Ã¥Ã¸Ã¼ Ã“ÃÃˆÃ—Ã’ÃŽÃ†ÃˆÃ’Ãœ Ã­Ã Ã¦Ã¬Ã¨ Delete"
+                    " \n    2 - Ã­Ã  On Ã¨ Off Ã²Ã» Ã¬Ã®Ã¦Ã¥Ã¸Ã¼ Ã¢ÃªÃ«Ã¾Ã·Ã Ã²Ã¼ Ã¨ Ã¢Ã»ÃªÃ«Ã¾Ã·Ã Ã²Ã¼ Ã¬Ã³Ã§Ã»ÃªÃ³"
+                    " \n    3 - Ã¢Ã»Ã¡Ã¥Ã°Ã¨ Ã®Ã² Ã¤Ã®Ã¬Ã  Ã¤Ã® Ã§Ã¤Ã Ã­Ã¨Ã¿ Ã¨ Ã¯Ã¥Ã°Ã¥Ã­Ã¥Ã±Ã¨ Ã®Ã¡ÃºÃ¥ÃªÃ² Ã­Ã  Ã½ÃªÃ°Ã Ã­"
+                    " \n   Ã”Ã³Ã­ÃªÃ¶Ã¨Ã¨ Ã¡Ã³Ã¤Ã³Ã² Ã¤Ã®Ã¯Ã®Ã«Ã­Ã¿Ã²Ã±Ã¿ Ã¨ Ã½Ã²Ã  Ã²Ã Ã¡Ã«Ã¨Ã¶Ã  Ã²Ã®Ã¦Ã¥...\n"
                     " \n"
-                    " \n ×òîá çàêðûòü íàæìèòå íà ëþáóþ òî÷êó >>"
+                    " \n Ã—Ã²Ã®Ã¡ Ã§Ã ÃªÃ°Ã»Ã²Ã¼ Ã­Ã Ã¦Ã¬Ã¨Ã²Ã¥ Ã­Ã  Ã«Ã¾Ã¡Ã³Ã¾ Ã²Ã®Ã·ÃªÃ³ >>"
                     " \n"
-                    " Ðàçðàáîò÷èêè:\n"
-                    "Íèêèòà, Èëüÿ, ßðîñëàâ, Èâàí");
+                    " ÃÃ Ã§Ã°Ã Ã¡Ã®Ã²Ã·Ã¨ÃªÃ¨:\n"
+                    "ÃÃ¨ÃªÃ¨Ã²Ã , ÃˆÃ«Ã¼Ã¿, ÃŸÃ°Ã®Ã±Ã«Ã Ã¢, ÃˆÃ¢Ã Ã­");
 
                 if (txMouseButtons() == 1 &&
                     txMouseX() > 0 &&
@@ -474,11 +278,67 @@ int main()
                 txSleep(10);
             }
         }
+        else if (buttons[9].Click())
+        {
+            string stroka_x;
+            string stroka_y;
+            string stroka_adress;
+
+            string newNameFile = selectFile(txWindow(), false);
+            ifstream file(newNameFile);
+
+            while (file.good())
+            {
+                getline(file,stroka_x);
+                getline(file,stroka_y);
+                getline(file,stroka_adress);
+
+
+                pictures[COUNT_PICTURES].x = atoi(stroka_x.c_str());
+                pictures[COUNT_PICTURES].y = atoi(stroka_y.c_str());
+                pictures[COUNT_PICTURES].adress = stroka_adress;
+
+                pictures[COUNT_PICTURES].width = get_widht (pictures[COUNT_PICTURES].adress);
+                pictures[COUNT_PICTURES].hight= get_height (pictures[COUNT_PICTURES].adress) ;
+                pictures[COUNT_PICTURES].x2 = pictures[COUNT_PICTURES].x + pictures[COUNT_PICTURES].width /3;
+                pictures[COUNT_PICTURES].y2 = pictures[COUNT_PICTURES].y + pictures[COUNT_PICTURES].hight /3;
+                pictures[COUNT_PICTURES].visible = true;
+                pictures[COUNT_PICTURES].text = "";
+                pictures[COUNT_PICTURES].picture = txLoadImage ( pictures[COUNT_PICTURES].adress.c_str());
+
+
+
+
+
+                COUNT_PICTURES++;
+            }
+
+            file.close();
+
+
+        }
+        else if (buttons[10].Click())
+        {
+            string newNameFile = selectFile(txWindow(), true);
+            ofstream file1(newNameFile);
+
+                for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
+                {
+                    file1 << pictures[nomer_picture].x << endl;
+                    file1 << pictures[nomer_picture].y << endl;
+                    file1 << pictures[nomer_picture].adress << endl;
+                }
+
+                    file1.close();
+       }
+        else if(buttons[8].Click())
+        {
+        txPlaySound("Music\\somebody.wav");
 
         if (GetAsyncKeyState(VK_SNAPSHOT))
         {
         ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
-        txMessageBox("ñîõðàíåíî â 1.bmp");
+        txMessageBox("Ã±Ã®ÃµÃ°Ã Ã­Ã¥Ã­Ã® Ã¢ 1.bmp");
         }
 
         //Click on variant
@@ -497,7 +357,7 @@ int main()
                         new_y,
                         new_x + variants[i].width/3,
                         new_y + variants[i].hight/3,
-                        "",
+                        variants[i].category,
                         variants[i].picture,
                         variants[i].width,
                         variants[i].hight,
@@ -510,6 +370,25 @@ int main()
                     txSleep(200);
                 }
             }
+        }
+
+        if(nomer_kartinki >= 0   &&GetAsyncKeyState('R') )
+        {
+            string category = pictures[nomer_kartinki].category;
+            string adress = pictures[nomer_kartinki].adress;
+            int categorySt = adress.find(category);
+            int categorySz = category.size();
+
+            adress = adress.replace(categorySt, categorySz, category + "z");
+            if(adress.find("zz") < adress.size())
+            {
+                adress = adress.replace(adress.find("zz"), 2, "");
+            }
+
+            pictures[nomer_kartinki].adress = adress;
+
+            pictures[nomer_kartinki].picture = txLoadImage(adress.c_str());
+            txSleep(100);
         }
 
         //Click on picture
@@ -580,20 +459,6 @@ int main()
     DeleteAllPictures(COUNT_VARIANTS, pictures, background );
     txDeleteDC (arrowLeft.picture);
     txDeleteDC (arrowLeft.picture);
-
-
-    newNameFile = selectFile(txWindow(), true);
-    ofstream file1(newNameFile);
-
-    for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
-    {
-        file1 << pictures[nomer_picture].x << endl;
-        file1 << pictures[nomer_picture].y << endl;
-        file1 << pictures[nomer_picture].adress << endl;
-    }
-
-
-    file1.close();
 
     return 0;
 }
