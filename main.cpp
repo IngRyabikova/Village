@@ -11,35 +11,6 @@
 #include <string>
 using namespace std;
 
-string selectFile(HWND hWnd, bool save)
-{
-	const int SIZE = 100;
-	char nameFile[SIZE];
-	OPENFILENAMEA ofn;
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = hWnd;
-	ofn.lpstrFile = nameFile;
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = SIZE;
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL;
-	ofn.lpstrInitialDir = NULL;
-	ofn.Flags = OFN_CREATEPROMPT;
-    ofn.lpstrFilter = ("Text\0*.TXT\0");
-
-	if (save)
-	{
-        GetSaveFileNameA(&ofn);
-	}
-	else
-	{
-        GetOpenFileNameA(&ofn);
-	}
-	return nameFile;
-}
-
-
 char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
 {
 	for(int j =0; j < COUNT_BTN;j++)
@@ -99,17 +70,17 @@ int main()
 
     const int COUNT_BTN = 11;
     Button buttons[COUNT_BTN];
-    buttons[0] = {  0,0, "Ã„Ã®Ã¬Ã ", "House"};
-    buttons[1] = {100,0, "Ã‹Ã¾Ã¤Ã¨","people" };
-    buttons[2] = {200,0, "Ã†Ã¨Ã¢Ã®Ã²Ã­Ã»Ã¥","Animals"};
-    buttons[3] = {300,0, "ÃÃ Ã¬Ã¿Ã²Ã­Ã¨ÃªÃ¨", "Pamatnik"};
-    buttons[4] = {400,0, "Ã‡Ã¤Ã Ã­Ã¨Ã¿", "building"};
+    buttons[0] = {  0,0, "Äîìà", "House"};
+    buttons[1] = {100,0, "Ëþäè","people" };
+    buttons[2] = {200,0, "Æèâîòíûå","Animals"};
+    buttons[3] = {300,0, "Ïàìÿòíèêè", "Pamatnik"};
+    buttons[4] = {400,0, "Çäàíèÿ", "building"};
     buttons[5] = {450,0, "On",""};
     buttons[6] = {500,0, "Off",""};
     buttons[7] = {550,0, "?",""};
-    buttons[8] = {650,0, "Ã‚ÃªÃ«Ã¾Ã·Ã¨Ã²Ã¼ Ã¢ \nÃ±Ã«Ã³Ã·Ã Ã¥ \nÃ±Ã¬Ã¥Ã°Ã²Ã¨ Ã‹Ã¥Ã­Ã¨Ã­Ã ",""} ;
-    buttons[9] = {750,0, "Ã‡Ã Ã£Ã°Ã³Ã§Ã¨Ã²Ã¼",""};
-    buttons[10] = {850,0, "Ã‘Ã®ÃµÃ°Ã Ã­Ã¥Ã­Ã¨Ã¥",""};
+    buttons[8] = {650,0, "Âêëþ÷èòü â \nñëó÷àå \nñìåðòè Ëåíèíà",""} ;
+    buttons[9] = {750,0, "Çàãðóçèòü",""};
+    buttons[10] = {850,0, "Ñîõðàíåíèå",""};
     int COUNT_VARIANTS = 0;
     MapObject variants[1000];
 
@@ -203,13 +174,12 @@ int main()
         {
             txBitBlt(txDC(), CURRENT_X + 5632 * nomer, 0, 5632, txGetExtentY(), background);
         }
-
         arrowLeft.drawMapObject(0);
         arrowRight.drawMapObject(0);
 
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
-        txTextOut(200,700, "ÃŠÃ®Ã­Ã±Ã²Ã°Ã³ÃªÃ²Ã®Ã° Ã¤Ã¥Ã°Ã¥Ã¢Ã­Ã¨");
+        txTextOut(200,700, "Êîíñòðóêòîð äåðåâíè");
 
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
@@ -249,22 +219,22 @@ int main()
                 txRectangle (0, 0,1200,800);
                 txSelectFont("Arial", 30);
                 txDrawText(0, 0,1200,800,
-                    "ÃÃ°Ã¨Ã¢Ã¥Ã²Ã±Ã²Ã¢Ã³Ã¾ Ã¢ Ã±Ã¯Ã°Ã Ã¢ÃªÃ¥\n"
+                    "Ïðèâåòñòâóþ â ñïðàâêå\n"
                     " \n"
-                    " ÃÃ®Ã§Ã¤Ã°Ã®Ã¢Ã«Ã¿Ã¾ ! Ã‚Ã» Ã¨Ã¬Ã¥Ã¥Ã²Ã¥ Ã·Ã¥Ã±Ã²Ã¼ Ã³Ã§Ã°Ã¥Ã²Ã¼ Ã­Ã Ã¸Ã³ Ã¯Ã°Ã®Ã£Ã°Ã Ã¬Ã¬Ã³ Ã¯Ã® Ã±Ã®Ã§Ã¤Ã Ã­Ã¨Ã¾ Ã¤Ã¥Ã°Ã¥Ã¢Ã­Ã¨ Ã±Ã¢Ã®Ã¥Ã© Ã¬Ã¥Ã·Ã²Ã».  "
-                    " \n   Ã’Ã³Ã² Ã±Ã¡Ã³Ã¤Ã³Ã²Ã±Ã¿ Ã¢Ã±Ã¥ Ã²Ã¢Ã®Ã¨ Ã±Ã Ã¬Ã»Ã¥ Ã±ÃªÃ°Ã»Ã²Ã»Ã¥ Ã¦Ã¥Ã«Ã Ã­Ã¨Ã¿. ÃÃ®Ã±Ã¬Ã®Ã²Ã°Ã¨ , Ã±Ã¢Ã¥Ã°ÃµÃ³ Ã¥Ã±Ã²Ã¼ Ã¢ÃªÃ«Ã Ã¤ÃªÃ¨ Ã®Ã²ÃªÃ°Ã®Ã© Ã«Ã¾Ã¡Ã³Ã¾ Ã¨ Ã²Ã» Ã³Ã¢Ã¨Ã¤Ã¥Ã¸Ã¼ Ã·Ã³Ã¤Ã® ,"
-                    " \n  ÃªÃ Ã°Ã²Ã¨Ã­ÃªÃ¨ Ã±Ã¯Ã°Ã Ã¢Ã  Ã¬Ã®Ã£Ã³Ã² Ã¯Ã®Ã¿Ã¢Ã«Ã¿Ã²Ã±Ã¿ Ã¨ Ã­Ã  Ã£Ã«Ã Ã¢Ã Ã­Ã®Ã¬ Ã½ÃªÃ°Ã Ã­Ã¥. ÃÃ®Ã«Ã¥ Ã¤Ã«Ã¿ Ã¯Ã®Ã±Ã²Ã°Ã®Ã¥Ãª Ã°Ã¥Ã Ã«Ã¼Ã­Ã® Ã¡Ã®Ã«Ã¼Ã¸Ã®Ã¥ ! ÃŒÃ» Ã¯Ã°Ã®Ã¢Ã¥Ã°Ã¿Ã«Ã¨ Ã¨ Ã½Ã²Ã® Ã¡Ã»Ã«Ã® Ã¤Ã®Ã«Ã£Ã®."
-                    " \n    Ãˆ Ã²Ã Ãª , Ã¥Ã±Ã«Ã¨ Ã¯Ã®Ã±Ã«Ã¥ Ã¢Ã±Ã¥Ã£Ã® Ã½Ã²Ã®Ã£Ã® Ã¢Ã» Ã­Ã¥ Ã§Ã­Ã Ã¥Ã²Ã¥ ÃªÃ Ãª Ã°Ã Ã¡Ã®Ã²Ã Ã¥Ã² Ã­Ã Ã¸ ÃªÃ®Ã­Ã±Ã²Ã°Ã³ÃªÃ²Ã®Ã°, Ã²Ã® Ã¨Ã¬Ã¥Ã­Ã­Ã® Ã¤Ã«Ã¿ Ã²Ã¥Ã¡Ã¿ , Ã¬Ã®Ã© Ã²Ã³Ã¯Ã®Ã¢Ã Ã²Ã»Ã© Ã¤Ã°Ã³Ã£ Ã¬Ã» Ã­Ã Ã¯Ã¨Ã±Ã Ã«Ã¨ Ã‘Ã¯Ã°Ã Ã¢ÃªÃ³"
-                    " \n    , ÃªÃ±Ã²Ã Ã²Ã¨ Ã±Ã¥Ã©Ã·Ã Ã± Ã²Ã» Ã±Ã¬Ã®Ã²Ã°Ã¨Ã¸Ã¼ Ã¯Ã°Ã¿Ã¬Ã® Ã¢ Ã­Ã¥Â¸."
-                    " \n    1 - Ã³ Ã­Ã Ã± Ã¥Ã±Ã²Ã¼ Ã³Ã¤Ã Ã«Ã¥Ã­Ã¨Ã¥ , Ã¢Ã»Ã¡Ã¥Ã°Ã¨ Ã¯Ã°Ã¥Ã¤Ã¬Ã¥Ã² ÃªÃ®Ã²Ã®Ã°Ã»Ã© ÃµÃ®Ã·Ã¥Ã¸Ã¼ Ã“ÃÃˆÃ—Ã’ÃŽÃ†ÃˆÃ’Ãœ Ã­Ã Ã¦Ã¬Ã¨ Delete"
-                    " \n    2 - Ã­Ã  On Ã¨ Off Ã²Ã» Ã¬Ã®Ã¦Ã¥Ã¸Ã¼ Ã¢ÃªÃ«Ã¾Ã·Ã Ã²Ã¼ Ã¨ Ã¢Ã»ÃªÃ«Ã¾Ã·Ã Ã²Ã¼ Ã¬Ã³Ã§Ã»ÃªÃ³"
-                    " \n    3 - Ã¢Ã»Ã¡Ã¥Ã°Ã¨ Ã®Ã² Ã¤Ã®Ã¬Ã  Ã¤Ã® Ã§Ã¤Ã Ã­Ã¨Ã¿ Ã¨ Ã¯Ã¥Ã°Ã¥Ã­Ã¥Ã±Ã¨ Ã®Ã¡ÃºÃ¥ÃªÃ² Ã­Ã  Ã½ÃªÃ°Ã Ã­"
-                    " \n   Ã”Ã³Ã­ÃªÃ¶Ã¨Ã¨ Ã¡Ã³Ã¤Ã³Ã² Ã¤Ã®Ã¯Ã®Ã«Ã­Ã¿Ã²Ã±Ã¿ Ã¨ Ã½Ã²Ã  Ã²Ã Ã¡Ã«Ã¨Ã¶Ã  Ã²Ã®Ã¦Ã¥...\n"
+                    " Ïîçäðîâëÿþ ! Âû èìååòå ÷åñòü óçðåòü íàøó ïðîãðàììó ïî ñîçäàíèþ äåðåâíè ñâîåé ìå÷òû.  "
+                    " \n   Òóò ñáóäóòñÿ âñå òâîè ñàìûå ñêðûòûå æåëàíèÿ. Ïîñìîòðè , ñâåðõó åñòü âêëàäêè îòêðîé ëþáóþ è òû óâèäåøü ÷óäî ,"
+                    " \n  êàðòèíêè ñïðàâà ìîãóò ïîÿâëÿòñÿ è íà ãëàâàíîì ýêðàíå. Ïîëå äëÿ ïîñòðîåê ðåàëüíî áîëüøîå ! Ìû ïðîâåðÿëè è ýòî áûëî äîëãî."
+                    " \n    È òàê , åñëè ïîñëå âñåãî ýòîãî âû íå çíàåòå êàê ðàáîòàåò íàø êîíñòðóêòîð, òî èìåííî äëÿ òåáÿ , ìîé òóïîâàòûé äðóã ìû íàïèñàëè Ñïðàâêó"
+                    " \n    , êñòàòè ñåé÷àñ òû ñìîòðèøü ïðÿìî â íå¸."
+                    " \n    1 - ó íàñ åñòü óäàëåíèå , âûáåðè ïðåäìåò êîòîðûé õî÷åøü ÓÍÈ×ÒÎÆÈÒÜ íàæìè Delete"
+                    " \n    2 - íà On è Off òû ìîæåøü âêëþ÷àòü è âûêëþ÷àòü ìóçûêó"
+                    " \n    3 - âûáåðè îò äîìà äî çäàíèÿ è ïåðåíåñè îáúåêò íà ýêðàí"
+                    " \n   Ôóíêöèè áóäóò äîïîëíÿòñÿ è ýòà òàáëèöà òîæå...\n"
                     " \n"
-                    " \n Ã—Ã²Ã®Ã¡ Ã§Ã ÃªÃ°Ã»Ã²Ã¼ Ã­Ã Ã¦Ã¬Ã¨Ã²Ã¥ Ã­Ã  Ã«Ã¾Ã¡Ã³Ã¾ Ã²Ã®Ã·ÃªÃ³ >>"
+                    " \n ×òîá çàêðûòü íàæìèòå íà ëþáóþ òî÷êó >>"
                     " \n"
-                    " ÃÃ Ã§Ã°Ã Ã¡Ã®Ã²Ã·Ã¨ÃªÃ¨:\n"
-                    "ÃÃ¨ÃªÃ¨Ã²Ã , ÃˆÃ«Ã¼Ã¿, ÃŸÃ°Ã®Ã±Ã«Ã Ã¢, ÃˆÃ¢Ã Ã­");
+                    " Ðàçðàáîò÷èêè:\n"
+                    "Íèêèòà, Èëüÿ, ßðîñëàâ, Èâàí");
 
                 if (txMouseButtons() == 1 &&
                     txMouseX() > 0 &&
@@ -314,31 +284,30 @@ int main()
             }
 
             file.close();
-
-
         }
         else if (buttons[10].Click())
         {
             string newNameFile = selectFile(txWindow(), true);
             ofstream file1(newNameFile);
 
-                for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
-                {
-                    file1 << pictures[nomer_picture].x << endl;
-                    file1 << pictures[nomer_picture].y << endl;
-                    file1 << pictures[nomer_picture].adress << endl;
-                }
+            for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
+            {
+                file1 << pictures[nomer_picture].x << endl;
+                file1 << pictures[nomer_picture].y << endl;
+                file1 << pictures[nomer_picture].adress << endl;
+            }
 
-                    file1.close();
-       }
+            file1.close();
+        }
         else if(buttons[8].Click())
         {
-        txPlaySound("Music\\somebody.wav");
+            txPlaySound("Music\\somebody.wav");
+        }
 
         if (GetAsyncKeyState(VK_SNAPSHOT))
         {
-        ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
-        txMessageBox("Ã±Ã®ÃµÃ°Ã Ã­Ã¥Ã­Ã® Ã¢ 1.bmp");
+            ScreenCapture(220, 50, 1230, 984, "1.bmp", NULL);
+            txMessageBox("Ñîõðàíåíî â 1.bmp");
         }
 
         //Click on variant

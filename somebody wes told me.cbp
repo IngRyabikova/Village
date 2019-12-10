@@ -33,6 +33,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="button.cpp" />
+		<Unit filename="file.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="mapoject.cpp" />
 		<Extensions>
