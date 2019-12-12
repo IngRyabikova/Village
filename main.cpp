@@ -71,13 +71,13 @@ int main()
     const int COUNT_BTN = 11;
     Button buttons[COUNT_BTN];
     buttons[0] = {  0,0, "Дома", "House"};
-    buttons[1] = {100,0, "Люди","people" };
-    buttons[2] = {200,0, "Животные","Animals"};
-    buttons[3] = {300,0, "Памятники", "Pamatnik"};
-    buttons[4] = {400,0, "Здания", "building"};
-    buttons[5] = {450,0, "On",""};
+    buttons[1] = {90,0, "Люди","people" };
+    buttons[2] = {180,0, "Животные","Animals"};
+    buttons[3] = {270,0, "Памятники", "Pamatnik"};
+    buttons[4] = {360,0, "Здания", "building"};
+    buttons[5] = {430,0, "On",""};
     buttons[6] = {500,0, "Off",""};
-    buttons[7] = {550,0, "?",""};
+    buttons[7] = {570,0, "?",""};
     buttons[8] = {650,0, "Включить в \nслучае \nсмерти Ленина",""} ;
     buttons[9] = {750,0, "Загрузить",""};
     buttons[10] = {850,0, "Сохранение",""};
@@ -106,7 +106,7 @@ int main()
         {
             if (buttons[k].category == variants[i].category)
             {
-                variants[i].y = buttons[k].countPics * 200;
+                variants[i].y = buttons[k].countPics * 150;
                 buttons[k].countPics = buttons[k].countPics + 1;
             }
         }
@@ -214,6 +214,7 @@ int main()
          //info
         else if (buttons[7].Click())
         {
+            txSleep(500);
             bool stop = false;
             while (stop == false)
             {
@@ -248,7 +249,7 @@ int main()
                     stop = true;
                 }
 
-                txSleep(5000);
+                txSleep(50);
             }
         }        //load old project
         else if (buttons[9].Click())
