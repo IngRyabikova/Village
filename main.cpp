@@ -10,7 +10,7 @@
 #include <Windows.h>
 #include <string>
 using namespace std;
-
+        //selected category
 char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
 {
 	for(int j =0; j < COUNT_BTN;j++)
@@ -24,7 +24,7 @@ char* selectCateg(char* selected_category ,Button buttons[], int COUNT_BTN)
 	return selected_category;
 }
 
-
+               //draw from size of display
 void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
 {
     for (int nomer_picture = 0; nomer_picture < COUNT_PICTURES; nomer_picture++)
@@ -33,7 +33,7 @@ void  drawfromCurrentX(MapObject pictures[], int COUNT_PICTURES,int CURRENT_X)
 	}
 }
 
-
+        //take the coordinates from the file when loading
 int readPics(string adress, MapObject variants[], int COUNT_VARIANTS)
 {
 
@@ -94,7 +94,7 @@ int main()
 
 
 
-
+              //find category name
     for (int i = 0; i < COUNT_VARIANTS; i++)
     {
         string str = variants[i].adress;
@@ -148,7 +148,7 @@ int main()
     char *selected_category = "";
     int nomer_kartinki = -100;
     int nomer_varianta = -100;
-
+           //all about arrows
     MapObject arrowLeft  = { "Album/Arrows/Left.bmp",    0, 700,  100, 800};
     MapObject arrowRight = { "Album/Arrows/Right.bmp", 900, 700, 1000, 800};
     arrowLeft.visible = true;
@@ -180,7 +180,7 @@ int main()
         txSetColor(TX_BLACK);
         txSelectFont("Comic Sans MS", 60);
         txTextOut(200,700, "Конструктор деревни");
-
+                   //right menu
         txSetFillColor(TX_BLACK);
         txRectangle(txGetExtentX() - WIDTH_MENU, 0, txGetExtentX(), txGetExtentY());
 
@@ -202,16 +202,16 @@ int main()
 
         //Click on menu button
         selected_category = selectCateg(selected_category , buttons, COUNT_BTN - 3);
-
+             //Shrek music
         if (buttons[5].Click())
         {
             txPlaySound("Music\\somebody.wav");
-        }
+        }        //off all music
         else if (buttons[6].Click())
         {
             txPlaySound(NULL);
         }
-
+         //info
         else if (buttons[7].Click())
         {
             bool stop = false;
@@ -248,9 +248,9 @@ int main()
                     stop = true;
                 }
 
-                txSleep(10);
+                txSleep(5000);
             }
-        }
+        }        //load old project
         else if (buttons[9].Click())
         {
             string stroka_x;
@@ -283,7 +283,7 @@ int main()
             }
 
             file.close();
-        }
+        }      //save project
         else if (buttons[10].Click())
         {
             string newNameFile = selectFile(txWindow(), true);
@@ -297,10 +297,10 @@ int main()
             }
 
             file1.close();
-        }
+        }       //vkl when lenin was died
         else if(buttons[8].Click())
         {
-            txPlaySound("Music\\somebody.wav");
+            txPlaySound("Music\\gimn.wav");
         }
 
         if (GetAsyncKeyState(VK_SNAPSHOT))
@@ -339,7 +339,7 @@ int main()
                 }
             }
         }
-
+        // zerkalo dly kartinki
         if(nomer_kartinki >= 0   &&GetAsyncKeyState('R') )
         {
             string category = pictures[nomer_kartinki].category;
@@ -403,7 +403,7 @@ int main()
         {
             CURRENT_X += 10;
         }
-
+                      //plus or minus size of selected picture
         if (nomer_kartinki >= 0 && GetAsyncKeyState(VK_OEM_MINUS) &&
             pictures[nomer_kartinki].x2 - pictures[nomer_kartinki].x > 30)
            {
